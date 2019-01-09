@@ -1,0 +1,43 @@
+version: "3.3"
+services:
+
+  clj:
+    image: clj
+    container_name: clj
+    volumes:
+      - ./clj:/opt/code/app
+    build:
+      context: ./clj
+      dockerfile: ./Dockerfile
+    ports:
+      - 35543:35543
+    command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+
+  # lein:
+  #   image: clj-lein
+  #   container_name: clj-lein
+  #   volumes:
+  #     - ./:/opt/code/app
+  #   build:
+  #     context: ./clj-lein
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 35543:35543
+  #     - 4000:4000
+  #     - 5334:4334
+  #     - 8010:8080
+  #   command: tail -f /dev/null
+  #   # command: bash c nrepl_clj
+  #   # environment:
+  #   #   - DISPLAY=10.0.75.1:0.0
+  #   stdin_open: true
+  #   tty: true
+  #   # depends_on:
+  #   #   - base
