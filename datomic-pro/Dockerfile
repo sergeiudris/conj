@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get install -y gpg && \
     apt-get install -y rlwrap && \
     apt-get install -y software-properties-common && \
-    unzip curl
+    apt-get install -y unzip curl
 
 
 RUN apt-get install -y openjdk-11-jdk
@@ -34,5 +34,6 @@ RUN curl -u $(cat /tmp/.credentials) -SL https://my.datomic.com/repo/com/datomic
 
 # RUN mkdir -p /opt/datomic-pro
 WORKDIR $DATOMIC_HOME
+ADD config $DATOMIC_HOME/config
 
-EXPOSE 4334 4335 4336
+EXPOSE 4334 4335 4336 9000
