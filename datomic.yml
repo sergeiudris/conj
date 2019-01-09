@@ -25,11 +25,11 @@ services:
     #   - base
 
 
-  transactor:
+  datomicdb:
     image: datomic-pro
     container_name: transactor
     volumes:
-      - ./.data/transactor:/opt/datomic-pro
+      - "./.data/transactor:/opt/datomic-pro/data"
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
@@ -37,8 +37,8 @@ services:
       - "4336:4336"
       - "4335:4335"
       - "4334:4334"
-    entrypoint: ./bin/transactor
-    command: config/prod-transactor.properties
+    # entrypoint: ./bin/transactor
+    command: ./bin/transactor ./config/dev-transactor.properties
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
@@ -58,8 +58,8 @@ services:
     #   dockerfile: ./Dockerfile
     ports:
       - "9000:9000"
-    entrypoint: ./bin/transactor
-    command: dev datomic:dev://datomicdb:4334
+    # entrypoint: ./bin/console -p 9000
+    command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
@@ -67,7 +67,9 @@ services:
     tty: true
     depends_on:
       - datomic-pro
-      
+      - datomicdb
+    links:
+      - datomicdb:datomicdb 
   # lein:
   #   image: clj-lein
   #   container_name: clj-lein
