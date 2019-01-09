@@ -17,7 +17,7 @@ dc(){
     "$@"
 }
 
-dc_datomic(){
+datomic(){
   # export COMPOSE_CONVERT_WINDOWS_PATHS=1
   docker-compose \
     -f ./datomic.yml \

@@ -1,0 +1,91 @@
+version: "3.3"
+services:
+
+  datomic-pro:
+    image: datomic-pro
+    container_name: datomic-pro
+    # volumes:
+    #   - ./.data/transactor:/opt/datomic-pro
+    build:
+      context: ./datomic-pro
+      dockerfile: ./Dockerfile
+    # ports:
+    #   - "4336:4336"
+    #   - "4335:4335"
+    #   - "4334:4334"
+    #   - "9000:9000"
+    # entrypoint: ./bin/transactor
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+
+
+  transactor:
+    image: datomic-pro
+    container_name: transactor
+    volumes:
+      - ./.data/transactor:/opt/datomic-pro
+    # build:
+    #   context: ./datomic-pro
+    #   dockerfile: ./Dockerfile
+    ports:
+      - "4336:4336"
+      - "4335:4335"
+      - "4334:4334"
+    entrypoint: ./bin/transactor
+    command: config/prod-transactor.properties
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    depends_on:
+      - datomic-pro
+
+  console:
+    image: datomic-pro
+    container_name: console
+    # volumes:
+    #   - ./.data/datomic-pro:/opt/datomic-pro
+    # build:
+    #   context: ./datomic-pro
+    #   dockerfile: ./Dockerfile
+    ports:
+      - "9000:9000"
+    entrypoint: ./bin/transactor
+    command: dev datomic:dev://datomicdb:4334
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    depends_on:
+      - datomic-pro
+      
+  # lein:
+  #   image: clj-lein
+  #   container_name: clj-lein
+  #   volumes:
+  #     - ./:/opt/code/app
+  #   build:
+  #     context: ./clj-lein
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 35543:35543
+  #     - 4000:4000
+  #     - 5334:4334
+  #     - 8010:8080
+  #   command: tail -f /dev/null
+  #   # command: bash c nrepl_clj
+  #   # environment:
+  #   #   - DISPLAY=10.0.75.1:0.0
+  #   stdin_open: true
+  #   tty: true
+  #   # depends_on:
+  #   #   - base
