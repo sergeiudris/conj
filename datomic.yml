@@ -25,7 +25,7 @@ services:
     #   - base
 
 
-  datomicdb:
+  transactor:
     image: datomic-pro
     container_name: transactor
     volumes:
@@ -67,9 +67,9 @@ services:
     tty: true
     depends_on:
       - datomic-pro
-      - datomicdb
+      - transactor
     links:
-      - datomicdb:datomicdb 
+      - transactor:datomicdb 
   # lein:
   #   image: clj-lein
   #   container_name: clj-lein
