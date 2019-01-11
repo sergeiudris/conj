@@ -60,3 +60,5 @@ RUN mkdir -p /opt/code/app
 WORKDIR /opt/code/app
 
 EXPOSE 35543
+EXPOSE 7888
+

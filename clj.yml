@@ -11,6 +11,7 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 35543:35543
+      - 7888:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
