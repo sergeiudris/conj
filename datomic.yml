@@ -15,7 +15,7 @@ services:
     #   - "4334:4334"
     #   - "9000:9000"
     # entrypoint: ./bin/transactor
-    # command: tail -f /dev/null
+    command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
@@ -25,21 +25,23 @@ services:
     #   - base
 
 
-  transactor:
+  datomicdb:
     image: datomic-pro
-    container_name: transactor
+    # image: conj_datomicdb
+    container_name: datomicdb
     volumes:
-      - "./.data/transactor:/opt/datomic-pro/data"
+      - "./.data/datomicdb:/opt/datomic-pro/data"
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
-    ports:
-      - "4336:4336"
-      - "4335:4335"
-      - "4334:4334"
+    # ports:
+    #   - "4336:4336"
+    #   - "4335:4335"
+    #   - "4334:4334"
       # - "9000:9000"
     # entrypoint: ./bin/transactor
     command: ./bin/transactor ./config/dev-transactor.properties
+    # command: config/dev-transactor.properties
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
@@ -57,6 +59,7 @@ services:
 
   console:
     image: datomic-pro
+    # image: conj_console
     container_name: console
     # volumes:
     #   - ./.data/datomic-pro:/opt/datomic-pro
@@ -64,9 +67,10 @@ services:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
     ports:
-      - "9000:9000"
+      - "9001:9000"
     # entrypoint: ./bin/console -p 9000
-    command: ./bin/console -p 9000 dev datomic:dev://transactor:4334
+    command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334
+    # command: dev datomic:dev://datomicdb:4334
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
@@ -75,6 +79,6 @@ services:
     tty: true
     depends_on:
       - datomic-pro
-      - transactor
+      - datomicdb
     links:
-      - transactor 
+      - datomicdb 
