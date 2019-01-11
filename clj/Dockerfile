@@ -25,9 +25,9 @@ RUN apt-get update && \
 
 RUN apt-get install -y openjdk-11-jdk
 
-# RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && \
-#     chmod +x linux-install-1.10.0.411.sh && \
-#     sudo ./linux-install-1.10.0.411.sh
+RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && \
+    chmod +x linux-install-1.10.0.411.sh && \
+    sudo ./linux-install-1.10.0.411.sh
 
 # WORKDIR /tmp
 
