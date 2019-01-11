@@ -24,6 +24,10 @@ datomic(){
     "$@"
 }
 
+ip(){
+  docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'   "$@"
+}
+
 clj(){
   # export COMPOSE_CONVERT_WINDOWS_PATHS=1
   docker-compose \
