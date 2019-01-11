@@ -37,6 +37,7 @@ services:
       - "4336:4336"
       - "4335:4335"
       - "4334:4334"
+      # - "9000:9000"
     # entrypoint: ./bin/transactor
     command: ./bin/transactor ./config/dev-transactor.properties
     # command: tail -f /dev/null
@@ -66,6 +67,7 @@ services:
       - "9000:9000"
     # entrypoint: ./bin/console -p 9000
     command: ./bin/console -p 9000 dev datomic:dev://transactor:4334
+    # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
