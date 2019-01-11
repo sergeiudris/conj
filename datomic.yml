@@ -48,6 +48,12 @@ services:
     depends_on:
       - datomic-pro
 
+  # waiter:
+  #   image: aanand/wait
+  #   links:
+  #     - datomic-pro
+  #     - transactor:datomicdb 
+
   console:
     image: datomic-pro
     container_name: console
@@ -59,7 +65,7 @@ services:
     ports:
       - "9000:9000"
     # entrypoint: ./bin/console -p 9000
-    command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334
+    command: ./bin/console -p 9000 dev datomic:dev://transactor:4334
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
@@ -69,25 +75,4 @@ services:
       - datomic-pro
       - transactor
     links:
-      - transactor:datomicdb 
-  # lein:
-  #   image: clj-lein
-  #   container_name: clj-lein
-  #   volumes:
-  #     - ./:/opt/code/app
-  #   build:
-  #     context: ./clj-lein
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - 35543:35543
-  #     - 4000:4000
-  #     - 5334:4334
-  #     - 8010:8080
-  #   command: tail -f /dev/null
-  #   # command: bash c nrepl_clj
-  #   # environment:
-  #   #   - DISPLAY=10.0.75.1:0.0
-  #   stdin_open: true
-  #   tty: true
-  #   # depends_on:
-  #   #   - base
+      - transactor 
