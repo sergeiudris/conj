@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get install -y gpg && \
     apt-get install -y rlwrap && \
     apt-get install -y software-properties-common && \
-    apt-get install -y unzip curl
+    apt-get install -y unzip curl net-tools lsof
 
 
 RUN apt-get install -y openjdk-11-jdk
