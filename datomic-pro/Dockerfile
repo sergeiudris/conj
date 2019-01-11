@@ -24,7 +24,7 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && 
 # ENV DATOMIC_VERSION 0.9.5561 yes 
 # ENV DATOMIC_VERSION 0.9.5783 no
 # ENV DATOMIC_VERSION 0.9.5703 no
-# ENV DATOMIC_VERSION 0.9.5697 no
+# ENV DATOMIC_VERSION 0.9.5697 no  https://forum.datomic.com/t/important-security-update-0-9-5697/379
 ENV DATOMIC_VERSION 0.9.5661
 
 
