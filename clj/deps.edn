@@ -1,5 +1,8 @@
 {:paths ["core"]
- :deps {clj-time {:mvn/version "0.14.2"}}
+ :deps {
+        clj-time {:mvn/version "0.14.2"}
+        com.datomic/client-pro {:mvn/version "0.8.28"}
+        }
  :aliases {
            :nREPL {:extra-deps {nrepl/nrepl {:mvn/version "0.5.3"}
                                 cider/piggieback {:mvn/version "0.3.10"}
