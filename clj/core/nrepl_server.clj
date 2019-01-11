@@ -10,6 +10,14 @@
 
 (defn hi [] (println "hi"))
 
+(nrepl-server/hi)
+
+(user/hey)
+
+(+)
+
+(defn yay [] (println "yay"))
+
 
 ; (defn -main [] 
 ;   (hi)
@@ -20,4 +28,4 @@
 
 (defn -main []
   (hi)
-  (defonce server (start-server :port 7888)))
+  (defonce server (start-server :bind "0.0.0.0" :port 7888)))
