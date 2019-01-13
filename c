@@ -12,10 +12,20 @@ dc(){
   #   "$@"
 
       docker-compose \
-    -f ./clj.yml \
     -f ./datomic.yml \
     "$@"
 }
+
+up(){
+  dc up -d --build
+  # emacs_up
+}
+
+down(){
+  dc down
+  # emacs_down
+}
+
 
 datomic(){
   # export COMPOSE_CONVERT_WINDOWS_PATHS=1
@@ -74,15 +84,6 @@ st_swarmpit_rm(){
 }
 
 
-up(){
-  dc up -d --build
-  # emacs_up
-}
-
-down(){
-  dc down
-  # emacs_down
-}
 
 prune(){
   down
@@ -97,7 +98,7 @@ prune(){
 
 cljsh(){
   # docker-compose exec -e TERM clojure sh
-  docker-compose -f clj.yml exec clj sh
+  docker-compose -f datomic.yml exec clj sh
 }
 
 clj_lein(){

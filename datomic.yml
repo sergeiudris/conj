@@ -57,10 +57,10 @@ services:
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
-    # ports:
-    #   - "4336:4336"
-    #   - "4335:4335"
-    #   - "4334:4334"
+    ports:
+      - "4336:4336"
+      - "4335:4335"
+      - "4334:4334"
       # - "9000:9000"
     # entrypoint: ./bin/transactor
     command: ./bin/transactor ./config/dev-transactor.properties
@@ -116,10 +116,10 @@ services:
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
-    # ports:
-    #   - "4336:4336"
-    #   - "4335:4335"
-    #   - "4334:4334"
+    ports:
+      - "4436:4336"
+      - "4435:4335"
+      - "4434:4334"
       # - "9000:9000"
     # entrypoint: ./bin/transactor
     command: ./bin/transactor ./config/free-transactor.properties
@@ -134,3 +134,25 @@ services:
       - datomic-free
 
 
+  clj:
+    image: clj
+    container_name: clj
+    volumes:
+      - ./clj:/opt/code/app
+    build:
+      context: ./clj
+      dockerfile: ./Dockerfile
+    ports:
+      - 35543:35543
+      - 7888:7888
+    command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - datomicdb
+      - datomicdbfree
