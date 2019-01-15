@@ -115,3 +115,11 @@
      "John Lennon")
 
 
+; find all the tracks w/ the word always in the title
+
+(d/q '[:find ?title ?artist ?album ?year
+       :in $ % ?search
+       :where
+       (track-search ?search ?track)
+       (track-info ?track ?title ?artist ?album ?year)
+       ] db rules "always")
