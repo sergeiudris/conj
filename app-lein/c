@@ -1,0 +1,16 @@
+#!/bin/bash
+
+repl(){
+  # lein repl :headless :host 0.0.0.0 :port 35543
+  lein repl :start :host 0.0.0.0 :port 35543
+}
+
+conn(){
+  lein repl :connect 0.0.0.0:35543
+}
+
+nrepl_cljs(){
+  clj -R:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"
+}
+
+"$@"
