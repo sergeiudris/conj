@@ -3,7 +3,7 @@ services:
 
   datomic-pro:
     image: datomic-pro
-    container_name: datomic-pro
+    container_name: clj-datomic-pro
     # volumes:
     #   - ./.data/transactor:/opt/datomic-pro
     build:
@@ -26,7 +26,7 @@ services:
 
   datomic-free:
     image: datomic-free
-    container_name: datomic-free
+    container_name: clj-datomic-free
     # volumes:
     #   - ./.data/transactor:/opt/datomic-pro
     build:
@@ -51,7 +51,7 @@ services:
   datomicdb:
     image: datomic-pro
     # image: conj_datomicdb
-    container_name: datomicdb
+    container_name: clj-datomicdb
     volumes:
       - "./.data/datomicdb:/opt/datomic-pro/data"
     # build:
@@ -83,7 +83,7 @@ services:
   console:
     image: datomic-pro
     # image: conj_console
-    container_name: console
+    container_name: clj-console
     # volumes:
     #   - ./.data/datomic-pro:/opt/datomic-pro
     # build:
@@ -110,7 +110,7 @@ services:
   datomicdbfree:
     image: datomic-free
     # image: conj_datomicdb
-    container_name: datomicdbfree
+    container_name: clj-datomicdbfree
     volumes:
       - "./.data/datomicdbfree:/opt/datomic-free/data"
     # build:
@@ -136,7 +136,7 @@ services:
 
   clj:
     image: clj
-    container_name: clj
+    container_name: clj-clj
     volumes:
       - ./clj:/opt/code/app
     build:
@@ -144,6 +144,28 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 35543:35543
+      - 7880:7888
+    command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - datomicdb
+      - datomicdbfree
+
+  app-clj:
+    image: app-clj
+    container_name: clj-app-clj
+    volumes:
+      - ./app-clj:/opt/code/app
+    build:
+      context: ./app-clj
+      dockerfile: ./Dockerfile
+    ports:
       - 7888:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -157,11 +179,55 @@ services:
       - datomicdb
       - datomicdbfree
 
-  datomic-load:
-    image: datomic-load
-    container_name: datomic-load
+  app-pro:
+    image: app-pro
+    container_name: clj-app-pro
+    volumes:
+      - ./app-pro:/opt/code/app
     build:
-      context: ./datomic-load
+      context: ./app-pro
+      dockerfile: ./Dockerfile
+    ports:
+      - 7889:7888
+    command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - datomicdb
+      - datomicdbfree
+
+  app-free:
+    image: app-free
+    container_name: clj-app-free
+    volumes:
+      - ./app-free:/opt/code/app
+    build:
+      context: ./app-free
+      dockerfile: ./Dockerfile
+    ports:
+      - 7899:7888
+    command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - datomicdb
+      - datomicdbfree
+
+  load-mbrainz:
+    image: load-mbrainz
+    container_name: clj-load-mbrainz
+    build:
+      context: ./load-mbrainz
       dockerfile: ./Dockerfile
     command: sh mbrainz.sh ; tail -f /dev/null
     # command: bash c nrepl_clj
@@ -169,9 +235,22 @@ services:
     #   - DISPLAY=10.0.75.1:0.0
     stdin_open: true
     tty: true
-    depends_on:
-      - datomicdb
-      - datomicdbfree
     links:
+      - clj
       - datomicdb
-      - datomicdbfree
+
+  load-codeq:
+    image: load-codeq
+    container_name: clj-load-codeq
+    build:
+      context: ./load-codeq
+      dockerfile: ./Dockerfile
+    command: sh codeq.sh
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    links:
+      - clj
+      - datomicdb
