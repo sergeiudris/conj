@@ -1,7 +1,8 @@
 (ns pro
   (:require [clj-time.core :as t]
+            [nrepl.server :refer [start-server stop-server]]
             [clj-time.format :as f]
-            [datomic_pro/datomic.api :as d]))
+            [datomic.api :as d]))
 
 ; (def cfg {:server-type :peer-server
 ;           :access-key "myaccesskey"
@@ -16,4 +17,7 @@
 (def conn (d/connect db-uri))
 ; (def conn (d/connect client {:db-name "hello"}))
 
-(defn -main [] (println conn))
+
+(defn -main [] 
+  (println conn)
+  (defonce server (start-server :bind "0.0.0.0" :port 7888)))

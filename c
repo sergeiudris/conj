@@ -21,6 +21,12 @@ up(){
   # emacs_up
 }
 
+round(){
+  down
+  up
+  cljsh
+}
+
 down(){
   dc down
   # emacs_down
