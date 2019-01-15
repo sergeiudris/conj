@@ -20,6 +20,11 @@
 (def db (d/db conn))
 
 
+(defn -main [] 
+  (println conn)
+  (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+
+
 (d/q '[:find ?id ?type ?gender
        :in $ ?name
        :where
@@ -32,8 +37,15 @@
      db
      "Janis Joplin")
 
-(defn -main [] 
-  (println conn)
-  (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+;; What are titles of the tracks John Lennon palyed on?
 
+(def qy1 '[:find ?title
+          :in $ ?artist-name
+          :where
+          [?a :artist/name ?artist-name]
+          [?t :track/artists ?a]
+          [?t :track/name ?title]
+          ])
+
+(d/q qy1 db "John Lennon")
 
