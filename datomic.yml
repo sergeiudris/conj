@@ -143,7 +143,7 @@ services:
       context: ./clj
       dockerfile: ./Dockerfile
     ports:
-      - 35543:35543
+      - 35540:35543
       - 7880:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -166,6 +166,7 @@ services:
       context: ./app-clj
       dockerfile: ./Dockerfile
     ports:
+      - 35543:35543
       - 7888:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -188,6 +189,7 @@ services:
       context: ./app-pro
       dockerfile: ./Dockerfile
     ports:
+      - 35544:35543
       - 7889:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -210,6 +212,7 @@ services:
       context: ./app-free
       dockerfile: ./Dockerfile
     ports:
+      - 35545:35543
       - 7899:7888
     command: tail -f /dev/null
     # command: bash c nrepl_clj
