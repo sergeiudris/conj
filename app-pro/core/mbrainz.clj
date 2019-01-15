@@ -130,3 +130,31 @@
        :in $ % [?name ...]
        :where (collab ?aname ?aname2)
        ] db rules ["John Lennon" "Paul McCartney" "George Harrison" "Ringo Starr"])
+
+; who collaborated directly w/ George Harrison , or collaborated w/ one of his collaborators  ?
+
+(d/q '[:find  ?aname2
+       :in $ % ?aname
+       :where (collab-net-2 ?aname ?aname2)] db rules "George Harrison" )
+
+; chain queries
+
+(def result1 (d/q '[:find ?aname2
+       :in $ % [[?aname]]
+       :where (collab ?aname ?aname2)] 
+     db rules [["Diana Ross"]]))
+
+result1
+
+(def query '[:find ?aname2
+             :in $ % [[?aname]]
+             :where (collab ?aname ?aname2)])
+
+(d/q query
+     db
+     rules
+     (d/q query
+          db
+          rules
+          [["Diana Ross"]]))
+
