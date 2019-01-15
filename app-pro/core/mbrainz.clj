@@ -158,3 +158,21 @@ result1
           rules
           [["Diana Ross"]]))
 
+; who covered Bill Withers
+
+(def query '[:find ?aname ?tname
+            :in $ ?artist-name
+            :where
+            [?a :artist/name ?artist-name]
+            [?t :track/artists ?a]
+            [?t :track/name ?tname]
+            [(!= "Outro" ?tname)]
+            [(!= "[outro]" ?tname)]
+            [(!= "Intro" ?tname)]
+            [(!= "[intro]" ?tname)]
+            [?t2 :track/name ?tname]
+            [?t2 :track/artists ?a2]
+            [(!= ?a2 ?a)]
+            [?a2 :artist/name ?aname]] )
+
+(d/q query db "Bill Withers")
