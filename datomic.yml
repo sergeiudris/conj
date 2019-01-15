@@ -78,7 +78,7 @@ services:
   #   image: aanand/wait
   #   links:
   #     - datomic-pro
-  #     - transactor:datomicdb 
+  #     - transactor:datomicdb
 
   console:
     image: datomic-pro
@@ -104,7 +104,7 @@ services:
       - datomic-pro
       - datomicdb
     links:
-      - datomicdb 
+      - datomicdb
 
 
   datomicdbfree:
@@ -242,13 +242,13 @@ services:
       - clj
       - datomicdb
 
-  load-codeq:
-    image: load-codeq
-    container_name: clj-load-codeq
+  load-codeqs:
+    image: load-codeqs
+    container_name: clj-load-codeqs
     build:
-      context: ./load-codeq
+      context: ./load-codeqs
       dockerfile: ./Dockerfile
-    command: sh codeq.sh
+    command: sh load.sh
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
