@@ -64,3 +64,16 @@
      db "John Lennon")
 
 
+(d/q '[:find ?title ?album ?year
+       :in $ ?artist-name
+       :where
+       [?a :artist/name ?artist-name]
+       [?t :track/artists ?a]
+       [?t :track/name ?title]
+       [?m :medium/tracks ?t]
+       [?r :release/media ?m]
+       [?r :release/name ?album]
+       [?r :release/year ?year]
+       [(< ?year 1970)]]
+     
+     db "John Lennon")
