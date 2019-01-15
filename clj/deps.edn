@@ -1,6 +1,7 @@
 {:paths ["core"]
  :deps {clj-time {:mvn/version "0.14.2"}
         com.datomic/client-pro {:mvn/version "0.8.28"}
+        com.datomic/datomic-pro {:mvn/version "0.9.5661"}
        ;  com.datomic/client-pro {:mvn/version "0.8.14"}
        ;  com.datomic/datomic-free  {:mvn/version "0.9.5656"}
        ;  com.datomic/datomic-pro  {:mvn/version "0.9.5661"}
@@ -18,4 +19,13 @@
                                      cider/cider-nrepl {:mvn/version "0.18.0"}
                                      cider/piggieback {:mvn/version "0.3.9"}}
                         :main-opts ["-m" "nrepl.cmdline" "--middleware"
-                                    "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}}}
+                                    "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}}
+ 
+ :mvn/repos {
+       ;       "central" {:url "https://repo1.maven.org/maven2/"}
+             "my.datomic.com" {:url "https://my.datomic.com/repo/"
+              }
+
+;     "clojars" {:url "https://clojars.org/repo/"}
+             }
+ }

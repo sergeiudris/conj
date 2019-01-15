@@ -57,7 +57,11 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && 
 
 
 RUN mkdir -p /opt/code/app
+RUN mkdir -p /root/.m2
 WORKDIR /opt/code/app
+
+ADD ./.m2/settings.xml /root/.m2/
+
 
 EXPOSE 35543
 EXPOSE 7888
