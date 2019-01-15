@@ -3,7 +3,7 @@ services:
 
   datomic-pro:
     image: datomic-pro
-    container_name: clj-datomic-pro
+    container_name: conj-datomic-pro
     # volumes:
     #   - ./.data/transactor:/opt/datomic-pro
     build:
@@ -26,7 +26,7 @@ services:
 
   datomic-free:
     image: datomic-free
-    container_name: clj-datomic-free
+    container_name: conj-datomic-free
     # volumes:
     #   - ./.data/transactor:/opt/datomic-pro
     build:
@@ -51,7 +51,7 @@ services:
   datomicdb:
     image: datomic-pro
     # image: conj_datomicdb
-    container_name: clj-datomicdb
+    container_name: conj-datomicdb
     volumes:
       - "./.data/datomicdb:/opt/datomic-pro/data"
     # build:
@@ -83,7 +83,7 @@ services:
   console:
     image: datomic-pro
     # image: conj_console
-    container_name: clj-console
+    container_name: conj-console
     # volumes:
     #   - ./.data/datomic-pro:/opt/datomic-pro
     # build:
@@ -110,7 +110,7 @@ services:
   datomicdbfree:
     image: datomic-free
     # image: conj_datomicdb
-    container_name: clj-datomicdbfree
+    container_name: conj-datomicdbfree
     volumes:
       - "./.data/datomicdbfree:/opt/datomic-free/data"
     # build:
@@ -136,7 +136,7 @@ services:
 
   clj:
     image: clj
-    container_name: clj-clj
+    container_name: conj-clj
     volumes:
       - ./clj:/opt/code/app
     build:
@@ -159,7 +159,7 @@ services:
 
   app-clj:
     image: app-clj
-    container_name: clj-app-clj
+    container_name: conj-app-clj
     volumes:
       - ./app-clj:/opt/code/app
     build:
@@ -182,7 +182,7 @@ services:
 
   app-pro:
     image: app-pro
-    container_name: clj-app-pro
+    container_name: conj-app-pro
     volumes:
       - ./app-pro:/opt/code/app
     build:
@@ -205,7 +205,7 @@ services:
 
   app-free:
     image: app-free
-    container_name: clj-app-free
+    container_name: conj-app-free
     volumes:
       - ./app-free:/opt/code/app
     build:
@@ -228,7 +228,7 @@ services:
 
   load-mbrainz:
     image: load-mbrainz
-    container_name: clj-load-mbrainz
+    container_name: conj-load-mbrainz
     build:
       context: ./load-mbrainz
       dockerfile: ./Dockerfile
@@ -244,7 +244,7 @@ services:
 
   load-codeqs:
     image: load-codeqs
-    container_name: clj-load-codeqs
+    container_name: conj-load-codeqs
     build:
       context: ./load-codeqs
       dockerfile: ./Dockerfile
