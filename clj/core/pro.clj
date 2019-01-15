@@ -18,6 +18,12 @@
 ; (def conn (d/connect client {:db-name "hello"}))
 
 
+
+
 (defn -main [] 
   (println conn)
   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+
+
+
+@(d/transact conn [{:db/doc "Hello world"}])
