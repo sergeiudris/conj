@@ -90,7 +90,7 @@ services:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
     ports:
-      - "9001:9000"
+      - "9000:9000"
     # entrypoint: ./bin/console -p 9000
     command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334
     # command: dev datomic:dev://datomicdb:4334
@@ -153,6 +153,25 @@ services:
     tty: true
     # depends_on:
     #   - base
+    links:
+      - datomicdb
+      - datomicdbfree
+
+  datomic-load:
+    image: datomic-load
+    container_name: datomic-load
+    build:
+      context: ./datomic-load
+      dockerfile: ./Dockerfile
+    command: sh mbrainz.sh ; tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    depends_on:
+      - datomicdb
+      - datomicdbfree
     links:
       - datomicdb
       - datomicdbfree
