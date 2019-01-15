@@ -123,3 +123,10 @@
        (track-search ?search ?track)
        (track-info ?track ?title ?artist ?album ?year)
        ] db rules "always")
+
+; who collaborated w/ one of the Beatles ?
+
+(d/q '[:find ?aname ?aname2
+       :in $ % [?name ...]
+       :where (collab ?aname ?aname2)
+       ] db rules ["John Lennon" "Paul McCartney" "George Harrison" "Ringo Starr"])
