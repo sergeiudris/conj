@@ -25,6 +25,6 @@
 (#(vector %) 1)
 
 
-; (defn -main []
-;   (println "running learn.functions")
-;   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+(defn -main []
+  (println "running learn.functions")
+  (defonce server (start-server :bind "0.0.0.0" :port 7888)))
