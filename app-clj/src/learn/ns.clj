@@ -9,4 +9,33 @@
 
 (pp/pprint "hello")
 
+; try in repl, not editor
+
+(require '[clojure.set :as cset :refer [union]])
+
+(type cset/union)
+
+cset/union
+
+union
+
+*ns*
+
+(ns myapp.foo.bar)
+
+(in-ns 'user)
+
+(ns-aliases 'myapp.foo.bar)
+
+(def my-favorite-number 42)
+
+my-favorite-number
+
+(ns myapp.baz)
+
+myapp.foo.bar/my-favorite-number
+
+(require '[myapp.foo.bar :as foobar])
+
+foobar/my-favorite-number
 
