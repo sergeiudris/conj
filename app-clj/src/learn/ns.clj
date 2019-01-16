@@ -11,31 +11,60 @@
 
 ; try in repl, not editor
 
-(require '[clojure.set :as cset :refer [union]])
+; (require '[clojure.set :as cset :refer [union]])
 
-(type cset/union)
+; (type cset/union)
 
-cset/union
+; cset/union
 
-union
+; union
 
-*ns*
+; *ns*
 
-(ns myapp.foo.bar)
+; (ns myapp.foo.bar)
+; 
+; (in-ns 'user)
 
-(in-ns 'user)
+; (ns-aliases 'myapp.foo.bar)
 
-(ns-aliases 'myapp.foo.bar)
 
-(def my-favorite-number 42)
 
-my-favorite-number
+; (def my-favorite-number 42)
 
-(ns myapp.baz)
+; my-favorite-number
 
-myapp.foo.bar/my-favorite-number
+; (ns myapp.baz)
 
-(require '[myapp.foo.bar :as foobar])
+; myapp.foo.bar/my-favorite-number
 
-foobar/my-favorite-number
+; (require '[myapp.foo.bar :as foobar])
+
+; foobar/my-favorite-number
+
+
+
+; (in-ns 'myapp.never-created)
+
+; (defn say-hello [x] (println "Hello, " x "!"))
+
+; (clojure.core/refer-clojure)
+
+; (defn say-hello [x] (println "Hello, " x "!"))
+
+; (say-hello "Jane")
+
+
+; example lib
+
+; (ns com.my-company.clojure.examples.my-utils
+;   (:import java.util.Date)
+;   (:use [clojure.string :only (join)])
+;   (:require [clojure.java.io :as jio]))
+
+
+; prefix lists
+
+; (require 'clojure.contrib.def 'clojure.contrib.except 'clojure.contrib.sql)
+; (require '(clojure.contrib def except sql))
+
 
