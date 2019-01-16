@@ -10,3 +10,11 @@
 (defn -main []
   (println "running learn repl")
   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+
+
+(comment
+  
+  (non-existing-fn  1 2 3)
+  (/ 1 0)
+  
+  )
