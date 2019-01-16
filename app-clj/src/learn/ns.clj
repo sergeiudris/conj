@@ -68,3 +68,4 @@
 ; (require '(clojure.contrib def except sql))
 
 
+; (require '[myproject.welcome] :verbose)

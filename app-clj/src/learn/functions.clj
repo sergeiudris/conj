@@ -10,6 +10,7 @@
 
 (greet "q")
 
+3
 ;; equivalent ot (fn [x] (+ 6 x))
 #(+ 6 %)
 
@@ -24,6 +25,6 @@
 (#(vector %) 1)
 
 
-(defn -main []
-  (println "running learn.functions")
-  (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+; (defn -main []
+;   (println "running learn.functions")
+;   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
