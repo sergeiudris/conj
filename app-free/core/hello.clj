@@ -79,19 +79,29 @@ movie-schema
 
 (def db (d/db conn))
 
-(d/transact conn [{:db/id commando-id :movie/genre "future governor"}])
 
 
 (comment
   (get-commando-id)
-  
+
   (d/q all-titles-q db)
 
+  (def commando-id (get-commando-id))
+
+  commando-id
 
   ;;  Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:466) . hello.d
   ;; solution - https://stackoverflow.com/questions/53139065/transacting-api-for-datomic
   (let [commando-id (get-commando-id)]
     (d/transact conn {:tx-data [{:db/id commando-id :movie/genre "future governor"}]}))
+
+
+
+  (d/transact conn [{:db/id commando-id :movie/genre "future governor 2"}])
+
+  (d/q all-data-from-1985 db)
+
+  (def db (d/db conn))
   
   )
 
