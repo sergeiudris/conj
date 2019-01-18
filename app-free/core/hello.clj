@@ -23,6 +23,40 @@
 movie-schema
 
 
+(def db (d/db conn))
+
+(def all-movies-q '[:find ?e
+                    :where [?e :movie/title]])
+
+
+
+(d/q all-movies-q db)
+
+(def all-titles-q '[:find ?movie-title
+                    :where [_ :movie/title ?movie-title]])
+
+(d/q all-titles-q db)
+
+(def titles-from-1985 '[:find ?title
+                        :where [?e :movie/title ?title]
+                        [?e :movie/release-year 1985]])
+
+
+(d/q titles-from-1985 db)
+
+(def all-data-from-1985 '[:find ?title ?year ?genre
+                          :where [?e :movie/title ?title]
+                          [?e :movie/release-year ?year]
+                          [?e :movie/genre ?genre]
+                          [?e :movie/release-year 1985]])
+
+(d/q all-data-from-1985 db)
+
+
+
+
+
+
 ; (def seattle-schema (read-string (slurp "core/seattle-schema.edn")))
 ; (def schema-tx (read-string (slurp "core/seattle-schema.edn")))
 ; @(d/transact conn schema-tx)
