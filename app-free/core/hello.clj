@@ -12,8 +12,23 @@
 (def db (d/db conn))
 
 (def movie-schema (read-string (slurp "core/movie-schema.edn")))
+@(d/transact conn movie-schema)
+
+(def first-movies (read-string (slurp "core/movie-data-0.edn")))
+
+@(d/transact conn first-movies)
+
+
 
 movie-schema
+
+
+; (def seattle-schema (read-string (slurp "core/seattle-schema.edn")))
+; (def schema-tx (read-string (slurp "core/seattle-schema.edn")))
+; @(d/transact conn schema-tx)
+
+
+
 
 (defn -main [] 
   (prn "starting hello")
@@ -38,5 +53,7 @@ movie-schema
   (apropos "source")
   
   (source doc)
+  
+  (doc deref)
   
   )
