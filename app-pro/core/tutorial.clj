@@ -39,12 +39,12 @@
 
 ;Assert/Read/Accumulate/Retract (ARAR) should be pronounced doubled and in a pirate voice "Ar Ar Ar Ar".
 
-(comment 
-  
+(comment
+
   [:db/add "foo" :db/ident :green]
   ; same as
   {:db/indent :green}
-  
+
   (d/transact
    conn
    [{:db/ident :red}
@@ -52,6 +52,66 @@
     {:db/ident :blue}
     {:db/ident :yellow}])
 
+  (doc mapv)
+
+  (doc map-indexed)
+
+  (doc map)
+
+  (defn make-idents
+    [x]
+    (mapv #(hash-map :db/ident %) x))
+
+  (def sizes [:small :medium :large :xlarge])
+
+  (make-idents sizes)
+
+  (def types [:shirts :dress :hat])
+  (def colors [:red :green :blue :yellow])
+
+  (d/transact conn (make-idents sizes))
+  (d/transact conn (make-idents types))
+
+  (def schema-1
+    [{:db/ident :inv/sku
+      :db/valueType :db.type/string
+      :db/unique :db.unique/identity
+      :db/cardinality :db.cardinality/one}
+     {:db/ident :inv/color
+      :db/valueType :db.type/ref
+      :db/cardinality :db.cardinality/one}
+     {:db/ident :inv/size
+      :db/valueType :db.type/ref
+      :db/cardinality :db.cardinality/one}
+     {:db/ident :inv/type
+      :db/valueType :db.type/ref
+      :db/cardinality :db.cardinality/one}])
+
+  (d/transact conn schema-1)
+
+  (def smaple-data
+    (->> (for [color colors size sizes type types]
+           {:inv/color color
+            :inv/size size
+            :inv/type type})
+         (map-indexed
+          (fn [idx map]
+            (assoc map :inv/sku (str "SKU-" idx))))
+         vec))
+
+  sample-data
+
+  (d/transact conn sample-data)
+
+  (def db (d/db conn))
+  
+  [:inv/sku "SKU-42"]
+
+  (d/pull db
+          [{:inv/color [:db/ident]}
+           {:inv/size [:db/ident]}
+           {:inv/type [:db/ident]}]
+          [:inv/sku "SKU-42"])
   
   
   
