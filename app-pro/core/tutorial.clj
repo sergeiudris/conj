@@ -112,7 +112,14 @@
            {:inv/size [:db/ident]}
            {:inv/type [:db/ident]}]
           [:inv/sku "SKU-42"])
+  (d/q '[:find ?e ?sku
+         :where [?e :inv/sku "SKU-42"]
+         [?e :inv/color ?color]
+         [?e2 :inv/color ?color]
+         [?e2 :inv/sku ?sku]] 
+       db)
   
   
+
   
   )
