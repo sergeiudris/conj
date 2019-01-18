@@ -30,3 +30,29 @@
                                 [ethel :likes sushi]])
   
   )
+
+
+; create assert
+; read read
+; update accumulate
+; delete retract
+
+;Assert/Read/Accumulate/Retract (ARAR) should be pronounced doubled and in a pirate voice "Ar Ar Ar Ar".
+
+(comment 
+  
+  [:db/add "foo" :db/ident :green]
+  ; same as
+  {:db/indent :green}
+  
+  (d/transact
+   conn
+   [{:db/ident :red}
+    {:db/ident :green}
+    {:db/ident :blue}
+    {:db/ident :yellow}])
+
+  
+  
+  
+  )
