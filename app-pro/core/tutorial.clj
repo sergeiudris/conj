@@ -15,3 +15,18 @@
   (prn conn)
   (prn db)
   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
+
+(comment
+  
+  (d/q '[:find ?e
+         :where [?e :age 42]] db)
+  
+  (d/q '[:find ?e
+         :where [?e :age 42]] '[[sally :age 21]
+                                [fred :age 42]
+                                [ethel :age 42]
+                                [fred :likes pizza]
+                                [sally :likes opera]
+                                [ethel :likes sushi]])
+  
+  )
