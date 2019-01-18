@@ -97,11 +97,39 @@ movie-schema
 
 
 
-  (d/transact conn [{:db/id commando-id :movie/genre "future governor 2"}])
+  (d/transact conn [{:db/id commando-id :movie/genre "future governor"}])
 
   (d/q all-data-from-1985 db)
 
   (def db (d/db conn))
+  
+  (dir d)
+  
+  (d/basis-t db)
+  
+  (d/next-t db)
+  
+  (def old-db (d/as-of db (d/basis-t db)))
+  
+  (d/q all-data-from-1985 old-db)
+  
+  (d/basis-t old-db)
+  
+  (def older-db (d/as-of db 1021))
+  
+  (d/q all-data-from-1985 older-db)
+  
+  (d/q all-data-from-1985 db)
+  
+  (def hdb (d/history db))
+  
+  (d/q '[:find ?genre
+         :where [?e :movie/title "Commando"]
+         [?e :movie/genre ?genre]]
+       hdb)
+  
+  
+  
   
   )
 
