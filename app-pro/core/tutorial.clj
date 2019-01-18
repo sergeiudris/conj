@@ -1,3 +1,5 @@
+;; https://docs.datomic.com/on-prem/tutorial.html
+
 (ns tutorial 
   (:require [nrepl.server :refer [start-server stop-server]]
             [clojure.repl :refer :all]
