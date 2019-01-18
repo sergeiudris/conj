@@ -53,6 +53,9 @@ movie-schema
 (d/q all-data-from-1985 db)
 
 
+(d/q '[:find ?e
+       :where [?e :movie/title "Commando"]]
+     db)
 
 
 

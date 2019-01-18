@@ -111,8 +111,8 @@ services:
     image: datomic-free
     # image: conj_datomicdb
     container_name: conj-datomicdbfree
-    volumes:
-      - "./.data/datomicdbfree:/opt/datomic-free/data"
+    # volumes:
+    #   - "./.data/datomicdbfree:/opt/datomic-free/data"
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
