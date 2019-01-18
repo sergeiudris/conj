@@ -61,12 +61,12 @@ movie-schema
        :where [?e :movie/title "Commando"]]
      db)
 
-(defn commando-id [] 
+(defn get-commando-id [] 
   (ffirst (d/q '[:find ?e 
                  :where [?e :movie/title "Commando"]]
                (get-db))))
 
-(commando-id)
+(def commando-id (get-commando-id))
 
 ; @(d/transact conn {:tx-data [{:db/id commando-id :movie/genre "future governor"}]})
 
@@ -79,18 +79,23 @@ movie-schema
 
 (def db (d/db conn))
 
+(d/transact conn [{:db/id commando-id :movie/genre "future governor"}])
+
 
 (comment
-  (commando-id)
+  (get-commando-id)
   
   (d/q all-titles-q db)
 
 
   ;;  Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:466) . hello.d
-  (let [commando-id (commando-id)]
+  ;; solution - https://stackoverflow.com/questions/53139065/transacting-api-for-datomic
+  (let [commando-id (get-commando-id)]
     (d/transact conn {:tx-data [{:db/id commando-id :movie/genre "future governor"}]}))
   
   )
+
+
 
 
 ; (def seattle-schema (read-string (slurp "core/seattle-schema.edn")))
