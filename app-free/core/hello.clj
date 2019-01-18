@@ -82,6 +82,9 @@ movie-schema
 
 (comment
   (commando-id)
+  
+  (d/q all-titles-q db)
+
 
   ;;  Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:466) . hello.d
   (let [commando-id (commando-id)]
