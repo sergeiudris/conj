@@ -25,6 +25,10 @@ movie-schema
 
 (def db (d/db conn))
 
+(defn get-db [] (d/db conn))
+
+(get-db)
+
 (def all-movies-q '[:find ?e
                     :where [?e :movie/title]])
 
@@ -57,7 +61,33 @@ movie-schema
        :where [?e :movie/title "Commando"]]
      db)
 
+(defn commando-id [] 
+  (ffirst (d/q '[:find ?e 
+                 :where [?e :movie/title "Commando"]]
+               (get-db))))
 
+(commando-id)
+
+; @(d/transact conn {:tx-data [{:db/id commando-id :movie/genre "future governor"}]})
+
+(def extra-movies [ {:movie/title "The Matrix"
+                     :movie/genre "science fiction"
+                     :movie/release-year 1999}
+                   ])
+
+@(d/transact conn extra-movies)
+
+(def db (d/db conn))
+
+
+(comment
+  (commando-id)
+
+  ;;  Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:466) . hello.d
+  (let [commando-id (commando-id)]
+    (d/transact conn {:tx-data [{:db/id commando-id :movie/genre "future governor"}]}))
+  
+  )
 
 
 ; (def seattle-schema (read-string (slurp "core/seattle-schema.edn")))
@@ -77,20 +107,24 @@ movie-schema
 
 
 (comment
-  
+
   (+)
-  
+
   conn
-  
+
   db
   (doc slurp)
-  
+
   (apropos "source")
-  
+
   (apropos "source")
-  
+
   (source doc)
-  
+
   (doc deref)
+
+  (doc ffirst)
+  
+  (doc first)
   
   )
