@@ -106,7 +106,7 @@
   (d/transact conn sample-data)
 
   (def db (d/db conn))
-  
+
   [:inv/sku "SKU-42"]
 
   (d/pull db
@@ -118,10 +118,10 @@
          :where [?e :inv/sku "SKU-42"]
          [?e :inv/color ?color]
          [?e2 :inv/color ?color]
-         [?e2 :inv/sku ?sku]] 
+         [?e2 :inv/sku ?sku]]
        db)
-  
-  (def order-schema 
+
+  (def order-schema
     [{:db/ident :order/items
       :db/valueType :db.type/ref
       :db/cardinality :db.cardinality/many
@@ -132,21 +132,19 @@
      {:db/ident :item/count
       :db/valueType :db.type/long
       :db/cardinality :db.cardinality/one}])
-  
+
   (d/transact conn order-schema)
 
-  
+
   (def add-order
-    [
-     {:order/items
+    [{:order/items
       [{:item/id [:inv/sku "SKU-25"]
         :item/count 10}
        {:item/id [:inv/sku "SKU-26"]
-        :item/count 20}]}
-     ])
+        :item/count 20}]}])
 
   (d/transact conn add-order)
-  
+
   (def db (d/db conn))
 
   (d/q '[:find ?sku
@@ -157,9 +155,9 @@
          [?other-item :item/id ?other-inv]
          [?other-inv :inv/sku ?sku]]
        db [:inv/sku "SKU-25"])
-  
 
-  (def rules 
+
+  (def rules
     '[[(ordered-together ?inv ?other-inv)
        [?item :item/id ?inv]
        [?order :order/items ?item]
@@ -170,9 +168,71 @@
          :in $ % ?inv
          :where (ordered-together ?inv ?other-inv)
          [?other-inv :inv/sku ?sku]]
-       db rules [:inv/sku "SKU-25"])  
+       db rules [:inv/sku "SKU-25"])
 
 
+  (def inventory-schema
+    [{:db/ident :inv/count
+      :db/valueType :db.type/long
+      :db/cardinality :db.cardinality/one}])
+
+  (d/transact conn inventory-schema)
+
+  (def inventory-update
+    [[:db/add [:inv/sku "SKU-21"] :inv/count 7]
+     [:db/add [:inv/sku "SKU-22"] :inv/count 7]
+     [:db/add [:inv/sku "SKU-42"] :inv/count 100]])
+
+  (d/transact conn inventory-update)
+
+  (d/transact conn [[:db/retract [:inv/sku "SKU-22"] :inv/count 7]
+                    [:db/add "datomic.tx" :db/doc "remove incorrect assertion"]])
+
+  (d/transact
+   conn
+   [[:db/add [:inv/sku "SKU-42"] :inv/count 1000]
+    [:db/add "datomic.tx" :db/doc "correct data entry error"]])
+
+  (def db (d/db conn))
+
+  (d/q '[:find ?sku ?count
+         :where [?inv :inv/sku ?sku]
+         [?inv :inv/count ?count]]
+       db)
+
+
+  ; most recent txs
+  (d/q '[:find (max 3 ?tx)
+         :where [?tx :db/txInstant]]
+       db)
+
+  
+
+
+  (def txid (->> (d/q '[:find (max 3 ?tx)
+                        :where [?tx :db/txInstant]]
+                      db)
+                 first first last
+                 ))
+  txid
+  
+  (def db-before (d/as-of db txid))
+
+  ; query db before retraction and correction
+  (d/q '[:find ?sku ?count
+         :where [?inv :inv/sku ?sku]
+         [?inv :inv/count ?count]]
+       db-before)
+
+  
+  (def db-hist (d/history db))
+
+  (->> (d/q '[:find ?tx ?sku ?val ?op
+              :where [?inv :inv/count ?val ?tx ?op]
+              [?inv :inv/sku ?sku]]
+            db-hist)
+       (sort-by first)
+       (pp/pprint))
   
 
   )
