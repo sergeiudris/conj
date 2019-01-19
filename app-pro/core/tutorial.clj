@@ -247,4 +247,10 @@
          :where [?e :inv/sku "SKU-31"]]
        db)
 
+  ;; https://stackoverflow.com/questions/14189647/get-all-fields-from-a-datomic-entity
+  (d/q '[:find ?k ?v
+         :where [?e :inv/sku "SKU-31"]
+         [?e ?k ?v]]
+       db)
+
   )
