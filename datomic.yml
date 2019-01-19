@@ -74,6 +74,33 @@ services:
     depends_on:
       - datomic-pro
 
+  datomicdbprod:
+    image: datomic-pro
+    # image: conj_datomicdb
+    container_name: conj-datomicdbprod
+    # volumes:
+    #   - "./.data/datomicdb:/opt/datomic-pro/data"
+    # build:
+    #   context: ./datomic-pro
+    #   dockerfile: ./Dockerfile
+    # ports:
+    #   - "4336:4336"
+    #   - "4335:4335"
+    #   - "4334:4334"
+      # - "9000:9000"
+    # entrypoint: ./bin/transactor
+    # command: ./bin/transactor ./config/dev-transactor.properties
+    command: ./bin/run -m datomic.peer-server -h "0.0.0.0" -p 4334 -a myaccesskey,mysecret -d dayofdatomic,datomic:mem://dayofdatomic
+    # command: config/dev-transactor.properties
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    depends_on:
+      - datomic-pro
+
   # waiter:
   #   image: aanand/wait
   #   links:
@@ -201,7 +228,7 @@ services:
     #   - base
     links:
       - datomicdb
-      - datomicdbfree
+      - datomicdbprod
 
   app-free:
     image: app-free
