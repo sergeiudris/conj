@@ -1,6 +1,6 @@
 ;; https://docs.datomic.com/on-prem/tutorial.html
 
-(ns tutorial 
+(ns core.tutorial 
   (:require [nrepl.server :refer [start-server stop-server]]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]

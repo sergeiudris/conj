@@ -1,4 +1,4 @@
-{:paths ["core"]
+{:paths ["."]
  :deps {clj-time {:mvn/version "0.14.2"}
         com.datomic/client-pro {:mvn/version "0.8.28"}
         

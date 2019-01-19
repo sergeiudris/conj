@@ -119,7 +119,7 @@ services:
     ports:
       - "9000:9000"
     # entrypoint: ./bin/console -p 9000
-    command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334 prod datomic:mem://datomicdbprod:4334
+    command: ./bin/console -p 9000 dev datomic:dev://datomicdb:4334
     # command: dev datomic:dev://datomicdb:4334
     # command: tail -f /dev/null
     # command: bash c nrepl_clj

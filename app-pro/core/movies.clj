@@ -1,4 +1,4 @@
-(ns movies
+(ns core.movies
   (:require [nrepl.server :refer [start-server stop-server]]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]

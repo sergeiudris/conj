@@ -1,4 +1,4 @@
-(ns mbrainz
+(ns core.mbrainz
   (:require [clj-time.core :as t]
             [nrepl.server :refer [start-server stop-server]]
             [clj-time.format :as f]
