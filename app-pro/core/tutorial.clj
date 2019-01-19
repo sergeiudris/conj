@@ -234,8 +234,17 @@
        (sort-by first)
        (pp/pprint))
   
-  (d/q '[:find ?sku
-         :where [_ :inv/sku ?sku]]
+  (d/q '[:find ?e
+         :where [?e :inv/sku "SKU-31"]]
+       db)
+
+
+  (d/pull db '[*] 17592186045463)
+  
+  (d/touch (d/entity db 17592186045463))
+  
+  (d/q '[:find (d/pull ?e [*])
+         :where [?e :inv/sku "SKU-31"]]
        db)
 
   )
