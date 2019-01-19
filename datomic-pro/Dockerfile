@@ -20,6 +20,11 @@ RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && 
     chmod +x linux-install-1.10.0.411.sh && \
     sudo ./linux-install-1.10.0.411.sh
 
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 # ENV DATOMIC_VERSION 0.9.5786  no
 # ENV DATOMIC_VERSION 0.9.5561 yes 
 # ENV DATOMIC_VERSION 0.9.5783 no
@@ -44,6 +49,8 @@ RUN curl -u $(cat /tmp/.credentials) -SL https://my.datomic.com/repo/com/datomic
 # RUN mkdir -p /opt/datomic-pro
 WORKDIR $DATOMIC_HOME
 ADD config $DATOMIC_HOME/config
+# ADD wait.sh $DATOMIC_HOME
+
 
 EXPOSE 4334 4335 4336 9000
 

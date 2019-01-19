@@ -14,7 +14,7 @@ nrepl_cljs(){
 
 init(){
   # https://github.com/clojure-emacs/cider/pull/2194
-  clojure -m core.tutorial
+  clojure -m initdev
 }
 
 "$@"

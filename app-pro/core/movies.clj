@@ -7,7 +7,7 @@
 (def cfg {:server-type :peer-server
              :access-key "myaccesskey"
              :secret "mysecret"
-             :endpoint "datomicdbprod:4334"})
+             :endpoint "datomicdbpeer:8998"})
 
 (def client (d/client cfg))
 

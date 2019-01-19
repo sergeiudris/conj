@@ -52,8 +52,8 @@ services:
     image: datomic-pro
     # image: conj_datomicdb
     container_name: conj-datomicdb
-    volumes:
-      - "./.data/datomicdb:/opt/datomic-pro/data"
+    # volumes:
+    #   - "./.data/datomicdb:/opt/datomic-pro/data"
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile
@@ -74,10 +74,38 @@ services:
     depends_on:
       - datomic-pro
 
-  datomicdbprod:
+  # datomicdbprod:
+  #   image: datomic-pro
+  #   # image: conj_datomicdb
+  #   container_name: conj-datomicdbprod
+  #   # volumes:
+  #   #   - "./.data/datomicdb:/opt/datomic-pro/data"
+  #   # build:
+  #   #   context: ./datomic-pro
+  #   #   dockerfile: ./Dockerfile
+  #   # ports:
+  #   #   - "4336:4336"
+  #   #   - "4335:4335"
+  #   #   - "4334:4334"
+  #     # - "9000:9000"
+  #   # entrypoint: ./bin/transactor
+  #   # command: ./bin/transactor ./config/dev-transactor.properties
+  #   command: bash -c "./bin/transactor ./config/dev-transactor.properties"
+  #   # command: config/dev-transactor.properties
+  #   # command: tail -f /dev/null
+  #   # command: bash c nrepl_clj
+  #   # environment:
+  #   #   - DISPLAY=10.0.75.1:0.0
+  #   stdin_open: true
+  #   tty: true
+  #   depends_on:
+  #     - datomic-pro
+
+
+  datomicdbpeer:
     image: datomic-pro
     # image: conj_datomicdb
-    container_name: conj-datomicdbprod
+    container_name: conj-datomicdbpeer
     # volumes:
     #   - "./.data/datomicdb:/opt/datomic-pro/data"
     # build:
@@ -90,7 +118,7 @@ services:
       # - "9000:9000"
     # entrypoint: ./bin/transactor
     # command: ./bin/transactor ./config/dev-transactor.properties
-    command: ./bin/run -m datomic.peer-server -h "0.0.0.0" -p 4334 -a myaccesskey,mysecret -d dayofdatomic,datomic:mem://dayofdatomic
+    command: dockerize -wait http://create-dbs:8890/health -timeout 360s ./bin/run -m datomic.peer-server -h "0.0.0.0" -p 8998 -a myaccesskey,mysecret -d dayofdatomic,datomic:dev://datomicdb:4334/dayofdatomic
     # command: config/dev-transactor.properties
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -100,6 +128,10 @@ services:
     tty: true
     depends_on:
       - datomic-pro
+    links:
+      - datomicdb
+      - create-dbs
+
 
   # waiter:
   #   image: aanand/wait
@@ -130,11 +162,8 @@ services:
     depends_on:
       - datomic-pro
       - datomicdb
-      - datomicdbprod
     links:
       - datomicdb
-      - datomicdbprod
-
 
   datomicdbfree:
     image: datomic-free
@@ -162,6 +191,33 @@ services:
     depends_on:
       - datomic-free
 
+  create-dbs:
+    image: create-dbs
+    container_name: conj-create-dbs
+    volumes:
+      - ./create-dbs:/opt/code/app
+    build:
+      context: ./create-dbs
+      dockerfile: ./Dockerfile
+    ports:
+    #   - 35544:35543
+      - 8890:8890
+    command: bash c init
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - datomicdb
+    healthcheck:
+        test: ["CMD", "curl", "-f", "localhost:8890"]
+        interval: 1s
+        timeout: 0s
+        retries: 100
 
   clj:
     image: clj
@@ -220,6 +276,7 @@ services:
     ports:
       - 35544:35543
       - 7889:7888
+    # command: bash c init
     command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
@@ -230,7 +287,7 @@ services:
     #   - base
     links:
       - datomicdb
-      - datomicdbprod
+      - datomicdbpeer
 
   app-free:
     image: app-free

@@ -104,20 +104,26 @@ prune(){
 
 cljsh(){
   # docker-compose exec -e TERM clojure sh
-  docker-compose -f datomic.yml exec clj sh
+  # docker-compose -f datomic.yml exec clj sh
+  sh c dc exec clj bash
+
 }
 appprosh(){
   # docker-compose exec -e TERM clojure sh
-  docker-compose -f datomic.yml exec app-pro sh
+  # docker-compose -f datomic.yml exec app-pro sh
+  sh c dc exec app-pro bash
 }
 
 appfreesh(){
   # docker-compose exec -e TERM clojure sh
-  docker-compose -f datomic.yml exec app-free sh
+  # docker-compose -f datomic.yml exec app-free sh
+  sh c dc exec app-free bash
+
 }
 appcljsh(){
   # docker-compose exec -e TERM clojure sh
-  docker-compose -f datomic.yml exec app-clj sh
+  # docker-compose -f datomic.yml exec app-clj sh
+  sh c dc exec app-clj bash
 }
 
 clj_lein(){

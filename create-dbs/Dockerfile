@@ -5,4 +5,4 @@ ADD . /tmp
 # COPY ./deps.edn ./deps.edn
 
 
-
+EXPOSE 8890
