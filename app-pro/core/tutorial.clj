@@ -234,5 +234,8 @@
        (sort-by first)
        (pp/pprint))
   
+  (d/q '[:find ?sku
+         :where [_ :inv/sku ?sku]]
+       db)
 
   )
