@@ -91,7 +91,7 @@
 
   (d/transact conn schema-1)
 
-  (def smaple-data
+  (def sample-data
     (->> (for [color colors size sizes type types]
            {:inv/color color
             :inv/size size
@@ -121,7 +121,58 @@
          [?e2 :inv/sku ?sku]] 
        db)
   
+  (def order-schema 
+    [{:db/ident :order/items
+      :db/valueType :db.type/ref
+      :db/cardinality :db.cardinality/many
+      :db/isComponent true}
+     {:db/ident :item/id
+      :db/valueType :db.type/ref
+      :db/cardinality :db.cardinality/one}
+     {:db/ident :item/count
+      :db/valueType :db.type/long
+      :db/cardinality :db.cardinality/one}])
   
+  (d/transact conn order-schema)
 
   
+  (def add-order
+    [
+     {:order/items
+      [{:item/id [:inv/sku "SKU-25"]
+        :item/count 10}
+       {:item/id [:inv/sku "SKU-26"]
+        :item/count 20}]}
+     ])
+
+  (d/transact conn add-order)
+  
+  (def db (d/db conn))
+
+  (d/q '[:find ?sku
+         :in $ ?inv
+         :where [?item :item/id ?inv]
+         [?order :order/items ?item]
+         [?order :order/items ?other-item]
+         [?other-item :item/id ?other-inv]
+         [?other-inv :inv/sku ?sku]]
+       db [:inv/sku "SKU-25"])
+  
+
+  (def rules 
+    '[[(ordered-together ?inv ?other-inv)
+       [?item :item/id ?inv]
+       [?order :order/items ?item]
+       [?order :order/items ?other-item]
+       [?other-item :item/id ?other-inv]]])
+
+  (d/q '[:find ?sku
+         :in $ % ?inv
+         :where (ordered-together ?inv ?other-inv)
+         [?other-inv :inv/sku ?sku]]
+       db rules [:inv/sku "SKU-25"])  
+
+
+  
+
   )
