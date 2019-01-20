@@ -1,0 +1,149 @@
+[{:db/ident :a/score
+  :db/valueType :db.type/long
+  :db/cardinality db.cardinality/one
+  :db/doc "A score from 0 (not good) to 100 (brilliant)"}
+
+ {:db/ident :a/sense
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "A one-word  sense estimate , e.g. wild, reasonable"}
+
+
+
+ {:db/ident :informationType
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "decision, requirement, idea, specification, note, thought"}
+
+ ;; record
+ {:db/ident :record/text
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "A piece of information (starts as an idea, note, thought)"}
+
+ {:db/ident :record/type
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "thought, understanding, diet, day, choices"}
+
+
+ {:db/ident :record/tags
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc "words characterizing record"}
+
+ ;; idea
+ 
+ {:db/ident :idea/text
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "idea in words"}
+
+ {:db/ident :idea/threads
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc " diet, day, choices, project"}
+
+ {:db/ident :idea/tags
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc "words characterizing idea"}
+
+ {:db/ident :idea/score
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one
+  :db/doc "A score from 0 (not good) to 100 (brilliant)"}
+
+ ;; requirement
+ 
+ {:db/ident :requirement/text
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "in words"}
+
+ {:db/ident :requirement/ideas
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true}
+
+ {:db/ident :requirement/tags
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc "words characterizing decision"}
+
+ {:db/ident :requirement/designs
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related designs"}
+ 
+ {:db/ident :requirement/decisions
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related decisions"}
+ 
+ ;; decision
+ 
+ {:db/ident :decision/text
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "in words"}
+
+ {:db/ident :decision/ideas
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true}
+
+ {:db/ident :decision/tags
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc "words characterizing decision"}
+
+ {:db/ident :decision/threads
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc " diet, day, choices, project"}
+
+ {:db/ident :decision/designs
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related designs"}
+
+ {:db/ident :decision/requirements
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related requirements"}
+
+ ;; design
+ 
+ {:db/ident desgin/name
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/doc "The name of the design"}
+
+
+ {:db/ident :design/tags
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/many
+  :db/doc "words characterizing decision"}
+
+
+ {:db/ident :design/ideas
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true }
+ 
+ {:db/ident :design/decisions
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related decisions"}
+ 
+ {:db/ident :design/requirements
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related requirements"}
+
+ ;; idea,descision, requirement,specificatin,not, thought
+ ]
