@@ -59,6 +59,8 @@ WORKDIR /opt/code/app
 
 ADD ./.m2/settings.xml /root/.m2/
 
+# ONBUILD RUN clojure -Spath
+
 EXPOSE 35543
 EXPOSE 7888
 

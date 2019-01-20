@@ -6,9 +6,17 @@
 
 
 
-(def db-uri "datomic:dev://datomicdb:4334/dayofdatomic")
+(def db-uri-dod "datomic:dev://datomicdb:4334/dayofdatomic")
+(def db-uri-tutorial "datomic:dev://datomicdb:4334/tutorial")
+(def db-uri-movies "datomic:dev://datomicdb:4334/movies")
 
-(d/create-database db-uri)
+
+
+(d/create-database db-uri-dod)
+(d/create-database db-uri-tutorial)
+(d/create-database db-uri-movies)
+
+
 
 
 
@@ -26,6 +34,7 @@
   (http/create-server
    {::http/routes routes
     ::http/type   :jetty
+    ::http/host "0.0.0.0"
     ::http/port   8890}))
 
 (defn start []

@@ -118,7 +118,7 @@ services:
       # - "9000:9000"
     # entrypoint: ./bin/transactor
     # command: ./bin/transactor ./config/dev-transactor.properties
-    command: dockerize -wait http://create-dbs:8890/health -timeout 360s ./bin/run -m datomic.peer-server -h "0.0.0.0" -p 8998 -a myaccesskey,mysecret -d dayofdatomic,datomic:dev://datomicdb:4334/dayofdatomic
+    command: dockerize -wait http://create-dbs:8890/health -timeout 360s ./bin/run -m datomic.peer-server -h "0.0.0.0" -p 8998 -a myaccesskey,mysecret -d dayofdatomic,datomic:dev://datomicdb:4334/dayofdatomic -d movies,datomic:dev://datomicdb:4334/movies -d tutorial,datomic:dev://datomicdb:4334/tutorial
     # command: config/dev-transactor.properties
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
@@ -131,7 +131,6 @@ services:
     links:
       - datomicdb
       - create-dbs
-
 
   # waiter:
   #   image: aanand/wait

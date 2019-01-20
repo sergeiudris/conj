@@ -11,7 +11,7 @@
 
 (def client (d/client cfg))
 
-(def conn (d/connect client {:db-name "dayofdatomic"}))
+(def conn (d/connect client {:db-name "movies"}))
 
 (def db (d/db conn))
 
