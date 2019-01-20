@@ -90,7 +90,7 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
   :db/doc "related designs"
-  :db/isComponent false}
+  :db/isComponent true}
 
  {:db/ident :idea/decisions
   :db/valueType :db.type/ref

@@ -48,6 +48,8 @@
   (def db (d/db conn))
   (def db-uri "datomic:dev://datomicdb:4334/dayofdatomic")
   
+  (d/attribute db :idea/designs)
+  
   (d/delete-database db-uri)
   
   (d/create-database db-uri)

@@ -82,6 +82,16 @@
   ;; op - operation
   )
 
+(comment
+
+  
+
+  (dapi/attribute (cdb) :idea/designs)
+  
+  (keys (ns-publics 'datomic.client.api))
+  
+  )
+
 
 (comment
 
