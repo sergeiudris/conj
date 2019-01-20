@@ -15,6 +15,7 @@
 
 (def db (d/db conn))
 
+(defn cdb [] (d/db conn))
 
 
 
@@ -27,10 +28,26 @@
 (comment
 
   db
-  
+
   (def design-schema-0 (read-string (slurp "core/day2014/design-schema-0.edn")))
+  (def design-data-0 (read-string (slurp "core/day2014/design-data-0.edn")))
 
   (d/transact conn {:tx-data design-schema-0})
+  (d/transact conn {:tx-data design-data-0})
+
+
+  (d/q '[:find ?e
+         :where [?e :record/text ?e]]
+       (cdb))
+
+  (d/q '[:find ?e ?text ?tags
+         :where
+         [?e :record/text ?text]
+         [?e :record/tags ?tags]]
+       (cdb))
+
+
+
   ; entity/attribute/value/tx/op
   ;; op - operation
   )

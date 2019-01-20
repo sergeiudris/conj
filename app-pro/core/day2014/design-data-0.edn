@@ -1,0 +1,5 @@
+[
+ {:record/text "first record"
+  :record/type "test"
+  :record/tags ["datomic" "database" "schema" "design"]}
+ ]
