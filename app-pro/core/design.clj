@@ -35,6 +35,8 @@
   (d/transact conn {:tx-data design-schema-0})
   (d/transact conn {:tx-data design-data-0})
 
+;   (d/delete-database client {:db-name "dayofdatomic"})
+  
 
   (d/q '[:find ?e
          :where [?e :record/text ?e]]
@@ -46,8 +48,19 @@
          [?e :record/tags ?tags]]
        (cdb))
 
+  (d/q '[:find ?text
+         :where [?e :idea/text ?text]]
+       (cdb))
+
+  
+  (d/q '[:find ?text ?threads
+         :where [?e :idea/text ?text]
+         [?e :idea/threads ?threads]]
+       (cdb))
 
 
+; (keys (ns-publics 'd/db.type))
+  
   ; entity/attribute/value/tx/op
   ;; op - operation
   )

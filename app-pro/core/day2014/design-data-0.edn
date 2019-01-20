@@ -2,4 +2,10 @@
  {:record/text "first record"
   :record/type "test"
   :record/tags ["datomic" "database" "schema" "design"]}
+
+;; ideas
+ 
+ {:idea/text "expression"
+  :idea/threads [:thread/energy :thread/engineering]
+  :idea/score 100}
  ]

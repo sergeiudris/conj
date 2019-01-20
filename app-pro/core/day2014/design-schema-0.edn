@@ -40,9 +40,10 @@
   :db/doc "idea in words"}
 
  {:db/ident :idea/threads
-  :db/valueType :db.type/string
+  :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc " diet, day, choices, project"}
+  :db/doc "what aspects of life idea relates to"
+  :db/isComponent true}
 
  {:db/ident :idea/tags
   :db/valueType :db.type/string
@@ -54,6 +55,24 @@
   :db/cardinality :db.cardinality/one
   :db/doc "A score from 0 (not good) to 100 (brilliant)"}
 
+ {:db/ident :idea/requirements
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true}
+
+ {:db/ident :idea/designs
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related designs"
+  :db/isComponent true}
+
+ {:db/ident :idea/decisions
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related decisions"
+  :db/isComponent true}
+ 
  ;; requirement
  
  {:db/ident :requirement/text
@@ -61,26 +80,28 @@
   :db/cardinality :db.cardinality/one
   :db/doc "in words"}
 
- {:db/ident :requirement/ideas
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/many
-  :db/doc "related ideas"
-  :db/isComponent true}
-
  {:db/ident :requirement/tags
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/many
   :db/doc "words characterizing decision"}
 
+ {:db/ident :requirement/ideas
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true}
+ 
  {:db/ident :requirement/designs
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related designs"}
+  :db/doc "related designs"
+  :db/isComponent true}
  
  {:db/ident :requirement/decisions
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related decisions"}
+  :db/doc "related decisions"
+  :db/isComponent true}
  
  ;; decision
  
@@ -89,11 +110,6 @@
   :db/cardinality :db.cardinality/one
   :db/doc "in words"}
 
- {:db/ident :decision/ideas
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/many
-  :db/doc "related ideas"
-  :db/isComponent true}
 
  {:db/ident :decision/tags
   :db/valueType :db.type/string
@@ -105,15 +121,24 @@
   :db/cardinality :db.cardinality/many
   :db/doc " diet, day, choices, project"}
 
+ 
+ {:db/ident :decision/ideas
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many
+  :db/doc "related ideas"
+  :db/isComponent true}
+ 
  {:db/ident :decision/designs
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related designs"}
+  :db/doc "related designs"
+  :db/isComponent true}
 
  {:db/ident :decision/requirements
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related requirements"}
+  :db/doc "related requirements"
+  :db/isComponent true}
 
  ;; design
  
@@ -138,12 +163,26 @@
  {:db/ident :design/decisions
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related decisions"}
+  :db/doc "related decisions"
+  :db/isComponent true}
  
  {:db/ident :design/requirements
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many
-  :db/doc "related requirements"}
+  :db/doc "related requirements"
+  :db/isComponent true}
 
  ;; idea,descision, requirement,specificatin,not, thought
+ 
+ {:db/ident :thread/energy}
+ {:db/ident :thread/exersize}
+ {:db/ident :thread/diet}
+ {:db/ident :thread/social}
+ {:db/ident :thread/family}
+ {:db/ident :thread/movies}
+ {:db/ident :thread/games}
+ {:db/ident :thread/sport}
+ {:db/ident :thread/engineering}
+ 
+ 
  ]
