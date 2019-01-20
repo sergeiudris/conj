@@ -2,6 +2,7 @@
   (:require [nrepl.server :refer [start-server stop-server]]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
+            [core.dev ]
             [datomic.client.api :as d]))
 
 (def cfg {:server-type :peer-server
@@ -29,6 +30,9 @@
 
   db
 
+  (core.dev/echo)
+  
+
   (def design-schema-0 (read-string (slurp "core/day2014/design-schema-0.edn")))
   (def design-data-0 (read-string (slurp "core/day2014/design-data-0.edn")))
 
@@ -52,7 +56,7 @@
          :where [?e :idea/text ?text]]
        (cdb))
 
-  
+
   (d/q '[:find ?text ?threads
          :where [?e :idea/text ?text]
          [?e :idea/threads ?threads]]
@@ -63,4 +67,13 @@
   
   ; entity/attribute/value/tx/op
   ;; op - operation
+  )
+
+
+(comment
+
+
+  (core.dev/create-delete-dayofdatomic)
+  
+  
   )

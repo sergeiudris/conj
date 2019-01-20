@@ -22,6 +22,17 @@
 
 ; (def db (d/db conn))
 
+(defn echo [] "echo")
+
+(defn create-delete-db [name]
+  (def db-uri (str "datomic:dev://datomicdb:4334/" name ))
+  (d/delete-database db-uri)
+  (d/create-database db-uri)
+  )
+
+(defn create-delete-dayofdatomic []
+  (create-delete-db "dayofdatomic")
+  )
 
 (defn -main [] 
 ;   (println conn)
@@ -30,11 +41,11 @@
 
 (comment
   
-(d/create-database db-uri)
-(def conn (d/connect db-uri))
+  (d/create-database db-uri)
+  (def conn (d/connect db-uri))
 ; (def conn (d/connect client {:db-name "hello"}))
-
-(def db (d/db conn))
+  
+  (def db (d/db conn))
   (def db-uri "datomic:dev://datomicdb:4334/dayofdatomic")
   
   (d/delete-database db-uri)

@@ -37,7 +37,9 @@
  {:db/ident :idea/text
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
-  :db/doc "idea in words"}
+  :db/doc "idea in words"
+  ; :db/fulltext true
+  }
 
  {:db/ident :idea/threads
   :db/valueType :db.type/ref

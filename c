@@ -33,6 +33,16 @@ down(){
 }
 
 
+peerrm(){
+  dc stop datomicdbpeer
+  dc rm datomicdbpeer
+}
+
+peerup(){
+  dc up -d --build datomicdbpeer
+}
+
+
 datomic(){
   # export COMPOSE_CONVERT_WINDOWS_PATHS=1
   docker-compose \
