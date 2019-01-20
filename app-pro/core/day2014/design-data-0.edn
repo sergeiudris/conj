@@ -9,13 +9,15 @@
  
 ;; ideas
  
-;  {:idea/text "expression"
-;   :uuid #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0"
-;   :idea/threads [:thread/energy :thread/engineering]
-;   :attribute/score 90
-;   :idea/designs [:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"]
-; ;   :idea/requirements [{:uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"}]
-;   }
+ {:idea/text "expression"
+  :uuid #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0"
+  :idea/threads [:thread/energy :thread/engineering]
+  :attribute/score 90
+  ; :idea/designs [:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"]
+  :idea/design-items [{:item/id [:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e" ]}]
+  
+;   :idea/requirements [{:uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"}]
+  }
  
  ;; requirements
 ;  {:requirement/text "runs in docker"

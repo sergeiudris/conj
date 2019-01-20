@@ -73,9 +73,23 @@
          ]
        (cdb)  #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2")
   
+  (d/q '[:find ?items
+         :in $ ?uuid
+         :where [?e :idea/design-items ?items]]
+       (cdb) #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0")
+
+; https://github.com/Datomic/day-of-datomic/blob/master/tutorial/query.clj#L63
+    
+  (d/q '[:find  [?design-name ...]
+         :in $ ?uuid
+         :where [?idea :uuid ?uuid]
+         [?item :idea/design-items ?idea]
+         [?design :uuid ?item]
+         [?design :design/name ?design-name]]
+       (cdb) #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0")
+
+
   
-
-
 ; (keys (ns-publics 'd/db.type))
   
   ; entity/attribute/value/tx/op
