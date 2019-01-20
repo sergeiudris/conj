@@ -1,4 +1,4 @@
-(ns day2014
+(ns core.day2014
   (:require [nrepl.server :refer [start-server stop-server]]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
@@ -7,7 +7,7 @@
 (def cfg {:server-type :peer-server
              :access-key "myaccesskey"
              :secret "mysecret"
-             :endpoint "datomicdbprod:4334"})
+             :endpoint "datomicdbpeer:8998"})
 
 (def client (d/client cfg))
 
