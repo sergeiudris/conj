@@ -3,7 +3,8 @@
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             [core.dev ]
-            [datomic.client.api :as d]))
+            [datomic.client.api :as d]
+            [datomic.api :as dapi]))
 
 (def cfg {:server-type :peer-server
           :access-key "myaccesskey"
@@ -29,8 +30,11 @@
 (comment
 
   db
+  
 
   (core.dev/echo)
+  
+  (dapi/squuid)
   
 
   (def design-schema-0 (read-string (slurp "core/day2014/design-schema-0.edn")))

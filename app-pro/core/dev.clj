@@ -52,5 +52,7 @@
   
   (d/create-database db-uri)
   
+  (d/squuid)
+  
   
   )
