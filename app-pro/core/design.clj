@@ -65,6 +65,15 @@
          :where [?e :idea/text ?text]
          [?e :idea/threads ?threads]]
        (cdb))
+  
+  (d/q '[:find ?text
+         :in $ ?uuid
+         :where [?e :uuid ?uuid]
+         [?e :record/text ?text]
+         ]
+       (cdb)  #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2")
+  
+  
 
 
 ; (keys (ns-publics 'd/db.type))

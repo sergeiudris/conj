@@ -10,7 +10,8 @@
  {:db/ident :uuid
   :db/valueType :db.type/uuid
   :db/cardinality db.cardinality/one
-  :db/doc "globally unique for all entities, generated w/ datomic.api.squuid"}
+  :db/doc "globally unique for all entities, generated w/ datomic.api.squuid"
+  :db/unique :db.unique/identity}
  
 ;  {:db/ident :attribute/sense
 ;   :db/valueType :db.type/string
