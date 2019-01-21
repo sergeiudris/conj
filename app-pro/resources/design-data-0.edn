@@ -15,8 +15,8 @@
   :idea/text "expression"
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
-  :idea/designs  #db/id[:db.part/user -100301]
-  :idea/requirements  #db/id[:db.part/user -100401]
+  :idea/designs  #db/id[:db.part/user -100301] 
+  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402]]
   }
  
  ; requirements
@@ -26,7 +26,13 @@
   :idea/threads [:thread/engineering ]
   :attribute/score 95
   :requirement/designs #db/id[:db.part/user -100301]
- }
+  }
+ {:db/id #db/id[:db.part/user -100402]
+  :uuid #uuid "5c456715-6223-422f-abb4-83dabfc74ad9"
+  :requirement/text "multiplayer"
+  :idea/threads [:thread/engineering]
+  :attribute/score 95
+  :requirement/designs #db/id[:db.part/user -100301]}
  
 
 ;; designs

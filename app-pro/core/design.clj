@@ -41,6 +41,7 @@ peerdb
 (comment
 
   db
+  (dapi/squuid)
 
 
   (core.dev/echo)
@@ -57,7 +58,8 @@ peerdb
   (def seattle-data-0 (read-string (slurp "resources/seattle-data0.edn")))
 
   seattle-schema
-
+  design-data-0
+  
   (d/transact conn {:tx-data design-schema-0})
   (d/transact conn {:tx-data design-data-0})
 
@@ -75,6 +77,17 @@ peerdb
   (def results (dapi/q '[:find ?c :where [?c :community/name]] peerdb))
   
   (def results (dapi/q '[:find ?c :where [?c :uuid]] peerdb))
+  
+  (dapi/q '[:find ?e :where [?e :uuid]] peerdb)
+  
+  (dapi/touch (dapi/entity peerdb 17592186045663))
+  (dapi/touch (dapi/entity peerdb 17592186045664))
+  (dapi/touch (dapi/entity peerdb 17592186045662))
+  (dapi/touch (dapi/entity peerdb 17592186045665))
+  
+  
+  
+  
   
   
   (count results)
