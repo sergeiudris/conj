@@ -52,7 +52,6 @@ peerdb
 
   (def design-schema-0 (read-string (slurp "resources/design-schema-0.edn")))
   (def design-data-0 (read-string (slurp "resources/design-data-0.edn")))
-  (def design-data-1 (read-string (slurp "resources/design-data-1.edn")))
 
 
   (def sample-data (read-string (slurp "resources/sample.edn")))
@@ -76,7 +75,6 @@ peerdb
 
   (dapi/transact peerconn design-schema-0)
   (dapi/transact peerconn design-data-0)
-  (dapi/transact peerconn design-data-1)
 
 
   (def results (dapi/q '[:find ?c :where [?c :community/name]] peerdb))
