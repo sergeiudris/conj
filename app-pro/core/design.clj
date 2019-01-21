@@ -39,8 +39,8 @@
   (dapi/squuid)
   
 
-  (def design-schema-0 (read-string (slurp "core/day2014/design-schema-0.edn")))
-  (def design-data-0 (read-string (slurp "core/day2014/design-data-0.edn")))
+  (def design-schema-0 (read-string (slurp "resources/design-schema-0.edn")))
+  (def design-data-0 (read-string (slurp "resources/design-data-0.edn")))
 
   (d/transact conn {:tx-data design-schema-0})
   (d/transact conn {:tx-data design-data-0})
