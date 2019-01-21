@@ -30,6 +30,7 @@ peerdb
 
 (defn cdb [] (d/db conn))
 
+(defn cpeerdb [] (dapi/db peerconn))
 
 
 
@@ -78,12 +79,14 @@ peerdb
   
   (def results (dapi/q '[:find ?c :where [?c :uuid]] peerdb))
   
-  (dapi/q '[:find ?e :where [?e :uuid]] peerdb)
+  (dapi/q '[:find ?e :where [?e :uuid]] (dapi/db peerconn))
   
-  (dapi/touch (dapi/entity peerdb 17592186045663))
-  (dapi/touch (dapi/entity peerdb 17592186045664))
-  (dapi/touch (dapi/entity peerdb 17592186045662))
-  (dapi/touch (dapi/entity peerdb 17592186045665))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045663))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045664))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045662))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045665))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045669))
+  
   
   
   

@@ -1,47 +1,47 @@
-[
- ;; records
- 
+[;; records
+
  {:db/id #db/id[:db.part/user -100101]
   :uuid #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2"
   :record/text "first record changed"
   :record/type "test"
   :record/tags ["datomic" "database" "schema" "design"]}
 
- 
+
 ;; ideas
- 
+
  {:db/id #db/id[:db.part/user -100201]
   :uuid #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0"
   :idea/text "expression"
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
-  :idea/designs  #db/id[:db.part/user -100301] 
-  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402]]
-  }
- 
+  :idea/designs  #db/id[:db.part/user -100301]
+  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402] [:uuid #uuid "5c4568d1-4b87-4182-b570-4b78a7a051cb" ]]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
+
  ; requirements
  {:db/id #db/id[:db.part/user -100401]
   :uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"
   :requirement/text "runs in docker"
-  :idea/threads [:thread/engineering ]
+  :idea/threads [:thread/engineering]
   :attribute/score 95
-  :requirement/designs #db/id[:db.part/user -100301]
-  }
+  :requirement/designs #db/id[:db.part/user -100301]}
  {:db/id #db/id[:db.part/user -100402]
   :uuid #uuid "5c456715-6223-422f-abb4-83dabfc74ad9"
   :requirement/text "multiplayer"
   :idea/threads [:thread/engineering]
   :attribute/score 95
   :requirement/designs #db/id[:db.part/user -100301]}
- 
+ {:db/id #db/id[:db.part/user -100403]
+  :uuid #uuid "5c4568d1-4b87-4182-b570-4b78a7a051cb"
+  :requirement/text "cognitive depth, no cap"
+  :idea/threads [:thread/engineering]
+  :attribute/score 95
+  :requirement/designs #db/id[:db.part/user -100301]}
+
 
 ;; designs
- 
+
  {:db/id #db/id[:db.part/user -100301]
   :uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"
-  :design/name "'expression' design"
-  }
- 
- ]
+  :design/name "'expression' design"}]
 
 
