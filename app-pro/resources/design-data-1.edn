@@ -15,7 +15,7 @@
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
   :idea/designs  #db/id[:db.part/user -100301]
-  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402] ]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
+  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402] [:uuid #uuid "5c4568d1-4b87-4182-b570-4b78a7a051cb" ]]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
 
  ; requirements
  {:db/id #db/id[:db.part/user -100401]

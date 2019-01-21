@@ -52,6 +52,8 @@ peerdb
 
   (def design-schema-0 (read-string (slurp "resources/design-schema-0.edn")))
   (def design-data-0 (read-string (slurp "resources/design-data-0.edn")))
+  (def design-data-1 (read-string (slurp "resources/design-data-1.edn")))
+
 
   (def sample-data (read-string (slurp "resources/sample.edn")))
 
@@ -74,6 +76,8 @@ peerdb
 
   (dapi/transact peerconn design-schema-0)
   (dapi/transact peerconn design-data-0)
+  (dapi/transact peerconn design-data-1)
+
 
   (def results (dapi/q '[:find ?c :where [?c :community/name]] peerdb))
   
@@ -81,11 +85,11 @@ peerdb
   
   (dapi/q '[:find ?e :where [?e :uuid]] (dapi/db peerconn))
   
-  (dapi/touch (dapi/entity (cpeerdb) 17592186045663))
-  (dapi/touch (dapi/entity (cpeerdb) 17592186045664))
-  (dapi/touch (dapi/entity (cpeerdb) 17592186045662))
-  (dapi/touch (dapi/entity (cpeerdb) 17592186045665))
-  (dapi/touch (dapi/entity (cpeerdb) 17592186045669))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045428))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045429))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045430))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045431))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045432))
   
   
   
