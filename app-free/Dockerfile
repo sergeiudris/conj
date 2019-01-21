@@ -4,4 +4,5 @@ FROM clj
 # COPY ./deps.edn ./deps.edn
 
 
-
+# COPY ./deps.edn /opt/code/app/
+# RUN clojure -Stree

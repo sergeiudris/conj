@@ -60,6 +60,8 @@ WORKDIR /opt/code/app
 ADD ./.m2/settings.xml /root/.m2/
 
 # ONBUILD RUN clojure -Spath
+# ONBUILD COPY ./deps.edn /opt/code/app/
+# ONBUILD RUN clojure -Stree
 
 EXPOSE 35543
 EXPOSE 7888

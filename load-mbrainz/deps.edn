@@ -1,0 +1,9 @@
+{:paths ["."]
+ :deps {
+        nrepl/nrepl {:mvn/version "0.5.3"}}
+ :aliases {
+           :nREPL {:extra-deps {nrepl/nrepl {:mvn/version "0.5.3"}
+                                cider/piggieback {:mvn/version "0.3.10"}
+                                cider/cider-nrepl  {:mvn/version "0.18.0"}}}}
+ 
+ }
