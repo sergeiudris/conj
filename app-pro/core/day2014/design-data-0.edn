@@ -1,37 +1,40 @@
 [
  ;; records
  
- {:record/text "first record changed"
+ {:db/id #db/id[:db.part/user -100101]
   :uuid #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2"
+  :record/text "first record changed"
   :record/type "test"
   :record/tags ["datomic" "database" "schema" "design"]}
 
  
 ;; ideas
  
- {:idea/text "expression"
+ {:db/id #db/id[:db.part/user -100201]
   :uuid #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0"
+  :idea/text "expression"
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
-  ; :idea/designs [:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"]
-  :idea/design-items [{:item/id [:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e" ]}]
-  
-;   :idea/requirements [{:uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"}]
+  :idea/designs [:db/id #db/id[:db.part/user -100301]]
+  :idea/requirements [:db/id #db/id[:db.part/user -100401]]
   }
  
- ;; requirements
-;  {:requirement/text "runs in docker"
-;   :uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"
-;   :idea/threads [ :thread/engineering]
-;   :attribute/score 95
-;   :idea/designs [{:uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"}]}
+ ; requirements
+ {:db/id #db/id[:db.part/user -100401]
+  :uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"
+  :requirement/text "runs in docker"
+  :idea/threads [:thread/engineering ]
+  :attribute/score 95
+  :requirement/designs [:db/id #db/id[:db.part/user -100301]]
+ }
  
 
 ;; designs
  
- {:design/name "'expression' design"
-  :uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"}
-
+ {:db/id #db/id[:db.part/user -100301]
+  :uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"
+  :design/name "'expression' design"
+  }
  
  ]
 

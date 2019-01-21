@@ -3,6 +3,7 @@
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             [core.dev ]
+            [core.schema]
             [datomic.client.api :as d]
             [datomic.api :as dapi]))
 
