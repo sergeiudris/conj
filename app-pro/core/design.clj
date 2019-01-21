@@ -4,6 +4,7 @@
             [clojure.pprint :as pp]
             [core.dev ]
             [core.schema]
+            [core.seattle]
             [datomic.client.api :as d]
             [datomic.api :as dapi]))
 

@@ -19,6 +19,11 @@
 
 (cdb)
 
+;   (def design-data-0 (read-string (slurp "core/day2014/design-data-0.edn")))
+
+; (d/transact conn design-data-0)
+
+(comment 
 
 ;; find the idents of all schema elements in the system
 (sort (d/q '[:find [?ident ...]
@@ -81,3 +86,6 @@
              [_ :db.install/attribute ?e]
              [?e :db/cardinality :db.cardinality/many]]
            (cdb)))
+
+
+)
