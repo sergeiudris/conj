@@ -15,7 +15,16 @@
 
 (def client (d/client cfg))
 
+(def uri "datomic:dev://datomicdb:4334/dayofdatomic")
+
+(def peerconn (dapi/connect uri))
+
+(def peerdb (dapi/db peerconn))
+
+peerdb
+
 (def conn (d/connect client {:db-name "dayofdatomic"}))
+
 
 (def db (d/db conn))
 
@@ -32,18 +41,43 @@
 (comment
 
   db
-  
+
 
   (core.dev/echo)
-  
+
   (dapi/squuid)
-  
+
 
   (def design-schema-0 (read-string (slurp "resources/design-schema-0.edn")))
   (def design-data-0 (read-string (slurp "resources/design-data-0.edn")))
 
+  (def sample-data (read-string (slurp "resources/sample.edn")))
+
+  (def seattle-schema (read-string (slurp "resources/seattle-schema.edn")))
+  (def seattle-data-0 (read-string (slurp "resources/seattle-data0.edn")))
+
+  seattle-schema
+
   (d/transact conn {:tx-data design-schema-0})
   (d/transact conn {:tx-data design-data-0})
+
+  (d/transact conn {:tx-data sample-data})
+  (d/transact conn {:tx-data seattle-schema})
+  (d/transact conn {:tx-data seattle-data-0})
+
+
+  (dapi/transact peerconn seattle-schema)
+  (dapi/transact peerconn seattle-data-0)
+
+  (dapi/transact peerconn design-schema-0)
+  (dapi/transact peerconn design-data-0)
+
+  (def results (dapi/q '[:find ?c :where [?c :community/name]] peerdb))
+  
+  (def results (dapi/q '[:find ?c :where [?c :uuid]] peerdb))
+  
+  
+  (count results)
 
 ;   (d/delete-database client {:db-name "dayofdatomic"})
   
@@ -67,21 +101,20 @@
          :where [?e :idea/text ?text]
          [?e :idea/threads ?threads]]
        (cdb))
-  
+
   (d/q '[:find ?text
          :in $ ?uuid
          :where [?e :uuid ?uuid]
-         [?e :record/text ?text]
-         ]
+         [?e :record/text ?text]]
        (cdb)  #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2")
-  
+
   (d/q '[:find ?items
          :in $ ?uuid
          :where [?e :idea/design-items ?items]]
        (cdb) #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0")
 
 ; https://github.com/Datomic/day-of-datomic/blob/master/tutorial/query.clj#L63
-    
+  
   (d/q '[:find  [?design-name ...]
          :in $ ?uuid
          :where [?idea :uuid ?uuid]
@@ -91,7 +124,7 @@
        (cdb) #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0")
 
 
-  
+
 ; (keys (ns-publics 'd/db.type))
   
   ; entity/attribute/value/tx/op

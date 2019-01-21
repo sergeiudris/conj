@@ -1,0 +1,5 @@
+[
+ {:district/region :region/e, :db/id #db/id[:db.part/user -1000001], :district/name "East"}
+{:db/id #db/id[:db.part/user -1000002], :neighborhood/name "Capitol Hill", :neighborhood/district #db/id[:db.part/user -1000001]}
+ 
+ ]

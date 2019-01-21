@@ -15,8 +15,8 @@
   :idea/text "expression"
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
-  :idea/designs [:db/id #db/id[:db.part/user -100301]]
-  :idea/requirements [:db/id #db/id[:db.part/user -100401]]
+  :idea/designs  #db/id[:db.part/user -100301]
+  :idea/requirements  #db/id[:db.part/user -100401]
   }
  
  ; requirements
@@ -25,7 +25,7 @@
   :requirement/text "runs in docker"
   :idea/threads [:thread/engineering ]
   :attribute/score 95
-  :requirement/designs [:db/id #db/id[:db.part/user -100301]]
+  :requirement/designs #db/id[:db.part/user -100301]
  }
  
 

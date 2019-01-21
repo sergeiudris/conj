@@ -16,8 +16,22 @@
 ; (def uri "datomic:mem://seattle")
 (def uri "datomic:dev://datomicdb:4334/dayofdatomic")
 
+(comment
+
+  (def design-schema-0 (read-string (slurp "resources/design-schema-0.edn")))
+  (def design-data-0 (read-string (slurp "resources/design-data-0.edn")))
+  
+  @(d/transact conn design-schema-0)
+  @(d/transact conn design-data-0)
+  
+  
+  )
+
+
 (comment 
 
+
+  
 ;; create database
 ; (d/create-database uri)
   
