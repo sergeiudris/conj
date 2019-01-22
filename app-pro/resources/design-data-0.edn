@@ -1,5 +1,5 @@
 [;; records
-
+ 
  {:db/id #db/id[:db.part/user -100101]
   :uuid #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2"
   :record/text "first record changed"
@@ -8,15 +8,15 @@
 
 
 ;; ideas
-
+ 
  {:db/id #db/id[:db.part/user -100201]
   :uuid #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0"
   :idea/text "expression"
   :idea/threads [:thread/energy :thread/engineering]
   :attribute/score 90
   :idea/designs  #db/id[:db.part/user -100301]
-  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402] [:uuid #uuid "5c4568d1-4b87-4182-b570-4b78a7a051cb" ]]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
-
+  :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402]  "5c468b50-89d0-4487-85db-54f66e5937de" ]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
+ 
  ; requirements
  {:db/id #db/id[:db.part/user -100401]
   :uuid #uuid "5c445170-9a35-4be1-b70d-2f6ee6c880be"
@@ -30,18 +30,41 @@
   :idea/threads [:thread/engineering]
   :attribute/score 95
   :requirement/designs #db/id[:db.part/user -100301]}
- {:db/id #db/id[:db.part/user -100403]
+ {:db/id  "5c4568d1-4b87-4182-b570-4b78a7a051cb" ;#db/id[:db.part/user -100403]
   :uuid #uuid "5c4568d1-4b87-4182-b570-4b78a7a051cb"
   :requirement/text "cognitive depth, no cap"
   :idea/threads [:thread/engineering]
   :attribute/score 95
   :requirement/designs #db/id[:db.part/user -100301]}
-
+ {:db/id  "5c468b50-89d0-4487-85db-54f66e5937de" ;#db/id[:db.part/user -100403]
+  :uuid #uuid "5c468b50-89d0-4487-85db-54f66e5937de"
+  :requirement/text "micro-peaceful"
+  :idea/threads [:thread/engineering]
+  :attribute/score 95
+  :requirement/designs #db/id[:db.part/user -100301]}
 
 ;; designs
-
+ 
  {:db/id #db/id[:db.part/user -100301]
   :uuid #uuid "5c44516f-b838-4cdb-b302-fb7679f7fd6e"
-  :design/name "'expression' design"}]
+  :design/name "'expression' design"}
+ 
+ 
+ ;; users
+
+; {:uuid #uuid "5c46975d-b8d1-49d5-a016-324b3db19c5c"
+;  :user/firstname "Uhr'J"
+;  :user/email "urh@trinary.glx"
+;  :user/teammate [:user/email "sert@trinary.glx"]
+;  }
+
+; {:uuid #uuid "5c4698b9-d280-417c-a1c3-26ac51ddfd72"
+;  :user/firstname "Iras"
+;  :user/email "iras@trinary.glx"}
+
+;  {:uuid #uuid "5c469ceb-a344-4db0-ad4a-e10386067803"
+;   :user/firstname "Sert"
+;   :user/email "sert@trinary.glx"}
+ ]
 
 

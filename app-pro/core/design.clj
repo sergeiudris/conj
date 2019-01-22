@@ -61,7 +61,7 @@ peerdb
 
   seattle-schema
   design-data-0
-  
+
   (d/transact conn {:tx-data design-schema-0})
   (d/transact conn {:tx-data design-data-0})
 
@@ -78,23 +78,48 @@ peerdb
 
 
   (def results (dapi/q '[:find ?c :where [?c :community/name]] peerdb))
-  
+
   (def results (dapi/q '[:find ?c :where [?c :uuid]] peerdb))
-  
+
   (dapi/q '[:find ?e :where [?e :uuid]] (dapi/db peerconn))
-  
+
+  (dapi/q '[:find ?e
+            :in $ ?uuid
+            :where [?e :uuid ?uuid]] (dapi/db peerconn) #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2")
+
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045428))
+
+  ; caridanlity many is concatinated, not replaced
+  (dapi/transact peerconn '[{:uuid #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2"
+                             :record/tags ["hello"]}])
+
+
+
   (dapi/touch (dapi/entity (cpeerdb) 17592186045428))
   (dapi/touch (dapi/entity (cpeerdb) 17592186045429))
   (dapi/touch (dapi/entity (cpeerdb) 17592186045430))
   (dapi/touch (dapi/entity (cpeerdb) 17592186045431))
   (dapi/touch (dapi/entity (cpeerdb) 17592186045432))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045433))
+  (dapi/touch (dapi/entity (cpeerdb) 17592186045429))
+
+
+  (defn touch [eid] (dapi/touch (dapi/entity (cpeerdb) eid)))
   
-  
-  
-  
-  
-  
-  
+  (defn find-by-uuid [uuid]
+    (->> (dapi/q '[:find ?e
+                   :in $ ?uuid
+                   :where [?e :uuid ?uuid]] (dapi/db peerconn) uuid)
+         first first touch
+         ))
+
+
+  (find-by-uuid  #uuid "5c44516b-0ffb-463c-846c-cc6c71227ea0")
+
+  (touch )
+
+
+
   (count results)
 
 ;   (d/delete-database client {:db-name "dayofdatomic"})

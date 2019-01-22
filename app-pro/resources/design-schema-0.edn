@@ -227,6 +227,33 @@
 ;   :db/doc "related requirements"
 ;   :db/isComponent true}
  
+ 
+ ;; users
+ 
+ {:db/ident :user/firstname
+  :db/valueType :db.type/string
+  :db/cardinality db.cardinality/one
+  :db/doc "firstname of the user"}
+ 
+ 
+ {:db/ident :user/lastname
+  :db/valueType :db.type/string
+  :db/cardinality db.cardinality/one
+  :db/doc "lastname of the user"}
+ 
+ {:db/ident :user/email
+  :db/valueType :db.type/string
+  :db/cardinality db.cardinality/one
+  :db/unique :db.unique/identity
+  :db/doc "unique email of the user"}
+ 
+ 
+ {:db/ident :user/teammate
+  :db/valueType :db.type/ref
+  :db/cardinality db.cardinality/one
+  :db/doc "user's teammate for Duo tournament"}
+ 
+ 
  ;; idea,descision, requirement,specificatin,not, thought
  
  {:db/ident :thread/energy}
