@@ -36,7 +36,7 @@
   :idea/threads [:thread/engineering]
   :attribute/score 95
   :requirement/designs #db/id[:db.part/user -100301]}
- {:db/id  "5c468b50-89d0-4487-85db-54f66e5937de" ;#db/id[:db.part/user -100403]
+ {:db/id  "5c468b50-89d0-4487-85db-54f66e5937de" ;   <- use simecolon to easily search-replace
   :uuid #uuid "5c468b50-89d0-4487-85db-54f66e5937de"
   :requirement/text "micro-peaceful"
   :idea/threads [:thread/engineering]
