@@ -281,3 +281,7 @@
 ; comments, ideas, requirements, decisions ... have records and other entities
 ; comments may not be necessary (only ideas ?)
 ; 
+
+; what of all entities are refeernces only to other entities and filtering is done by entity type (== name) ?
+; this way every entity is decoupled from other
+; or is it too complex (inheritance-like) ?
