@@ -52,8 +52,9 @@ services:
     image: datomic-pro
     # image: conj_datomicdb
     container_name: conj-datomicdb
-    # volumes:
-    #   - "./.data/datomicdb:/opt/datomic-pro/data"
+    volumes:
+      # - "./.data/datomicdb:/opt/datomic-pro/data"
+      - "./.backups/datomicdb:/opt/backups"
     # build:
     #   context: ./datomic-pro
     #   dockerfile: ./Dockerfile

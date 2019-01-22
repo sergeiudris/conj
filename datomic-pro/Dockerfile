@@ -49,6 +49,8 @@ RUN curl -u $(cat /tmp/.credentials) -SL https://my.datomic.com/repo/com/datomic
 # RUN mkdir -p /opt/datomic-pro
 WORKDIR $DATOMIC_HOME
 ADD config $DATOMIC_HOME/config
+ADD c $DATOMIC_HOME
+
 # ADD wait.sh $DATOMIC_HOME
 
 

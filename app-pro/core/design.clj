@@ -118,7 +118,7 @@ peerdb
 
   (touch )
 
-
+; bin/datomic -Xmx1g -Xms1g backup-db datomic:dev://0.0.0.0:4334/mbrainz-1968-1973 file:/opt/backups/mbrainz-1968-1973
 
   (count results)
 
@@ -181,6 +181,8 @@ peerdb
   (dapi/attribute (cdb) :idea/designs)
   
   (keys (ns-publics 'datomic.client.api))
+  (keys (ns-publics 'datomic.api))
+  
   
   )
 
