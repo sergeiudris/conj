@@ -265,3 +265,16 @@
  {:db/ident :thread/games}
  {:db/ident :thread/sport}
  {:db/ident :thread/engineering}]
+
+
+
+
+
+
+; record is the datum of the system
+; record's value is both in text and as data/enums
+; record has tags/threads/notes to query, but simple
+; idea/records
+
+; idea/records ?
+
