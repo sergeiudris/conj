@@ -119,12 +119,14 @@ peerdb
   (touch )
 
 ; bin/datomic -Xmx1g -Xms1g backup-db datomic:dev://0.0.0.0:4334/mbrainz-1968-1973 file:/opt/backups/mbrainz-1968-1973
-
+  
   (count results)
 
 ;   (d/delete-database client {:db-name "dayofdatomic"})
   
 
+  (Math/pow 2 24)
+  
   (d/q '[:find ?e
          :where [?e :record/text ?e]]
        (cdb))
