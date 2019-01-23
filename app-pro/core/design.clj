@@ -5,6 +5,7 @@
             [core.dev ]
             [core.schema]
             [core.seattle]
+            [core.mbrainz]
             [datomic.client.api :as d]
             [datomic.api :as dapi]))
 
@@ -171,13 +172,17 @@ peerdb
 
 
 
-  (d/q '[:find ?user
-         :where [_ :user/firstname ?user]]
+  (d/q '[:find ?u ?record
+         :where [?u :user/email]
+         [?u :record/user ?record]]
        (cdb))
 ; (keys (ns-publics 'd/db.type))
   
   ; entity/attribute/value/tx/op
   ;; op - operation
+  
+
+  
   )
 
 (comment
