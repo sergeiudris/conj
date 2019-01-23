@@ -317,7 +317,7 @@ result1
          [?release :release/day ?day]]
        ; (d/db conn) "Ringo Starr"
        (d/db conn) "John Lennon")
-  
+
   ;=>
 ; ["Happy Xmas (War Is Over)" 1972 11 24]
   
@@ -330,7 +330,7 @@ result1
          [?artist :artist/startYear ?year]]
        ; (d/db conn) "Ringo Starr"
        (d/db conn) "John Lennon")
-  
+
 
    ; scalar find spec
   
@@ -338,32 +338,40 @@ result1
          :in $ ?name
          :where
          [?artist :artist/name ?name]
-         [?artist :artist/startYear ?year]
-         ]
-       (d/db conn) "John Lennon"
-       )
+         [?artist :artist/startYear ?year]]
+       (d/db conn) "John Lennon")
 
   ; count all artists who are not Canadian
   
   (d/q '[:find (count ?eid) .
-         :where 
+         :where
          [?eid :artist/name]
-         (not [?eid :artist/country :country/CA])
-         ]
+         (not [?eid :artist/country :country/CA])]
        (d/db conn))
 
   (doc not)
-  
+
   ; not-join 
   
-    
+  ; number of artists who didn't release an album in 1970
   (d/q '[:find (count ?artist) .
          :where [?artist :artist/name]
          (not-join [?artist]
                    [?release :release/artists ?artist]
-                   [?release :release/year 1970]
-                   )
-         ]
+                   [?release :release/year 1970])]
        (d/db conn))
+
+  ; multiple not-clauses are connect be 'and', just as they are in :where
+  ; count the number of releases named 'Live at Carnegie Hall' that were not by Bill Withers
   
+  (d/q '[:find (count ?r) .
+         :where
+         [?r :release/name "Live at Carnegie Hall"]
+         (not-join [?r]
+                   [?r :release/artists ?a]
+                   [?a :artist/name "Bill Withers"])]
+       (d/db conn))
+
+   ; 
+
   )
