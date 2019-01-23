@@ -1,11 +1,25 @@
 [;; records
  
- {:db/id #db/id[:db.part/user -100101]
+ {:db/id "5c444f10-c0f5-4eef-b004-ef9331b487a2"
   :uuid #uuid "5c444f10-c0f5-4eef-b004-ef9331b487a2"
   :record/text "first record changed"
   :record/type "test"
   :record/tags ["datomic" "database" "schema" "design"]}
 
+ 
+ {:db/id "5c47dd17-e862-4074-9ed7-2268087a808b"
+  :uuid #uuid "5c47dd17-e862-4074-9ed7-2268087a808b"
+  :record/text "keep searching for the ship!"
+  :record/type "record"
+  :record/tags ["record"]
+  :record/user "5c46975d-b8d1-49d5-a016-324b3db19c5c"}
+ 
+ {:db/id "5c47da5e-271c-4605-b856-824f6ee9c3f8"
+  :uuid #uuid "5c47da5e-271c-4605-b856-824f6ee9c3f8"
+  :record/text "the ship is in danger"
+  :record/type "vitaal"
+  :record/tags ["record"]
+  :record/user "5c4698b9-d280-417c-a1c3-26ac51ddfd72"}
 
 ;; ideas
  
@@ -16,6 +30,15 @@
   :attribute/score 90
   :idea/designs  #db/id[:db.part/user -100301]
   :idea/requirements  [#db/id[:db.part/user -100401] #db/id[:db.part/user -100402]  "5c468b50-89d0-4487-85db-54f66e5937de" ]} ;https://docs.datomic.com/cloud/transactions/transaction-data-reference.html
+ 
+  {:db/id "5c47dd5b-1c0d-481b-90f4-77210ee3d4d0"
+   :uuid #uuid "5c47dd5b-1c0d-481b-90f4-77210ee3d4d0"
+   :idea/text "get to the ship"
+   :idea/threads [:thread/energy :thread/fo4ram]
+   :attribute/score 90
+   :idea/author "5c47da5e-271c-4605-b856-824f6ee9c3f8"
+   :idea/records ["5c47da5e-271c-4605-b856-824f6ee9c3f8"]
+   }
  
  ; requirements
  {:db/id #db/id[:db.part/user -100401]
@@ -51,20 +74,28 @@
  
  
  ;; users
+ 
+ {:db/id "5c46975d-b8d1-49d5-a016-324b3db19c5c"
+  :uuid #uuid "5c46975d-b8d1-49d5-a016-324b3db19c5c"
+  :user/firstname "Uhr'J"
+  :user/email "urh@trinary.glx"
+  :user/teammate "5c469ceb-a344-4db0-ad4a-e10386067803"
+  }
 
-; {:uuid #uuid "5c46975d-b8d1-49d5-a016-324b3db19c5c"
-;  :user/firstname "Uhr'J"
-;  :user/email "urh@trinary.glx"
-;  :user/teammate [:user/email "sert@trinary.glx"]
-;  }
+ {:db/id "5c47dc4e-7e11-4b5a-b989-620f4ab68aa6"
+  :uuid #uuid "5c47dc4e-7e11-4b5a-b989-620f4ab68aa6"
+  :user/firstname "Erum"
+  :user/email "Erum@trinary.glx"}
+ 
+ {:db/id "5c4698b9-d280-417c-a1c3-26ac51ddfd72"
+  :uuid #uuid "5c4698b9-d280-417c-a1c3-26ac51ddfd72"
+  :user/firstname "Ayras"
+  :user/email "Ayras@trinary.glx"}
 
-; {:uuid #uuid "5c4698b9-d280-417c-a1c3-26ac51ddfd72"
-;  :user/firstname "Iras"
-;  :user/email "iras@trinary.glx"}
-
-;  {:uuid #uuid "5c469ceb-a344-4db0-ad4a-e10386067803"
-;   :user/firstname "Sert"
-;   :user/email "sert@trinary.glx"}
+ {:db/id "5c469ceb-a344-4db0-ad4a-e10386067803"
+  :uuid #uuid "5c469ceb-a344-4db0-ad4a-e10386067803"
+  :user/firstname "Sert"
+  :user/email "sert@trinary.glx"}
  ]
 
 

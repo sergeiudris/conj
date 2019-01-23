@@ -176,3 +176,16 @@ result1
             [?a2 :artist/name ?aname]] )
 
 (d/q query db "Bill Withers")
+
+
+;;;; https://docs.datomic.com/on-prem/query.html
+
+(comment
+  
+  
+  
+  
+  
+  
+  
+  )

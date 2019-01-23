@@ -170,6 +170,10 @@ peerdb
 
 
 
+
+  (d/q '[:find ?user
+         :where [_ :user/firstname ?user]]
+       (cdb))
 ; (keys (ns-publics 'd/db.type))
   
   ; entity/attribute/value/tx/op

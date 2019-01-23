@@ -45,6 +45,11 @@
   :db/isComponent false}
 
 
+ {:db/ident :record/user
+  :db/valueType :db.type/ref
+  :db/cardinality db.cardinality/one
+  :db/doc "author of the record"}
+
 
 
  ;; idea
@@ -91,7 +96,21 @@
   :db/cardinality :db.cardinality/many
   :db/doc "related designs"
   :db/isComponent false}
+ 
+ {:db/ident :idea/user
+  :db/valueType :db.type/ref
+  :db/cardinality db.cardinality/one
+  :db/doc "this attribute is incorrect, should be removed"}
 
+ {:db/ident :idea/author
+  :db/valueType :db.type/ref
+  :db/cardinality db.cardinality/one
+  :db/doc "author of the idea"}
+ 
+   {:db/ident :idea/records
+    :db/valueType :db.type/ref
+    :db/cardinality db.cardinality/many
+    :db/doc "records composing the idea"}
 ;  {:db/ident :idea/design-items
 ;   :db/valueType :db.type/ref
 ;   :db/cardinality :db.cardinality/many
@@ -253,6 +272,8 @@
   :db/cardinality db.cardinality/one
   :db/doc "user's teammate for Duo tournament"}
  
+
+ 
  
  ;; idea,descision, requirement,specificatin,not, thought
  
@@ -263,6 +284,7 @@
  {:db/ident :thread/family}
  {:db/ident :thread/movies}
  {:db/ident :thread/games}
+ {:db/ident :thread/fo4ram}
  {:db/ident :thread/sport}
  {:db/ident :thread/engineering}]
 
