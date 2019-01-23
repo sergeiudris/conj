@@ -191,9 +191,7 @@ result1
   (def data-1 '[[sally :age 21]
                 [fred :age 42]
                 [bob :age 42]
-                [bob :likes "veggies"]
-                
-                ])
+                [bob :likes "veggies"]])
 
   ; all who is 42
   (d/q '[:find ?e
@@ -201,27 +199,25 @@ result1
        people)
 
   ; find all who is 42 and likes veggies
-  (d/q '[:find ?e ?x 
+  (d/q '[:find ?e ?x
          :where [?e :age 42]
          [?e :likes ?x]]
-       data-1
-       )
-  
+       data-1)
+
   ; anything that is liked
   (d/q '[:find ?x
          :where [_ :likes ?x]]
        data-1)
-  
+
   (doc take)
-  
-  
+
+
   ; find all release names
   (->> (d/q '[:find ?release-name
               :where [_ :release/name ?release-name]]
             (cdb))
-       (take 10)
-       )
-  
+       (take 10))
+
   ; find releases performed by John Lennon
   
   (->> (d/q '[:find ?release-name
@@ -232,8 +228,8 @@ result1
             (cdb) "John Lennon")
        ; count
        )
-  
-  
+
+
   ; what releases are associated with the artist named John Lennon and named Mind Games ?
   
   (->> (d/q '[:find ?release ?release-name ?release-year ?release-month ?release-day ?release-country
@@ -244,14 +240,11 @@ result1
               [?release :release/year ?release-year]
               [?release :release/month ?release-month]
               [?release :release/day ?release-day]
-              [?release :release/country ?release-country]
-              
-              
-              ]
+              [?release :release/country ?release-country]]
             (cdb) ["John Lennon" "Mind Games"]))
-  
+
   (d/attribute (cdb) :release/designs)
-  
+
   ; https://gist.github.com/stuarthalloway/2321773
   (d/q '[:find ?attr
          :in $ [?include-ns ...]                ;; bind ?include-ns once for each item in collection
@@ -261,46 +254,95 @@ result1
          [(datomic.Util/namespace ?attr) ?ns]   ;; namespace of name
          [(= ?ns ?include-ns)]]                 ;; must match one of the ?include-ns 
        (d/db conn)
-       ["release" ])
-  
+       ["release"])
+
   (def release-17592186079767 (d/touch (d/entity (d/db conn) 17592186079767)))
   (def release-17592186079770 (d/touch (d/entity (d/db conn) 17592186079770)))
   (type release-17592186079767)
   (doc diff)
   (doc map)
-  
+
   (pp/pprint (diff release-17592186079767 release-17592186079770))
   ; :medium/format :medium.format/vinyl12, :medium/position 1, :medium/trackCount 12
   ;:medium/format :medium.format/vinyl, :medium/position 1, :medium/trackCount 2
   
-  (diff {:a 3 :b {:c 2}} {:a 1 :b {:c 5}})  
-  
+  (diff {:a 3 :b {:c 2}} {:a 1 :b {:c 5}})
+
   ; what releases are associated w either Paul McCartney or George Harrison
   
   (d/q '[:find ?release-name
          :in $ [?artist-name ...]
          :where [?artist :artist/name ?artist-name]
          [?release :release/artists ?artist]
-         [?release :release/name ?release-name]
-         ]
+         [?release :release/name ?release-name]]
        (d/db conn) ["Paul McCartney" "George Harrison"])
-  
+
   ; what releases are associated w/ either John Lennon's Mind Games or Paul McCartney's Ram ?
   
   (->> (d/q '[:find ?release ?release-month ?release-day
               :in $ [[?artist-name ?release-name]]
-              :where 
+              :where
               [?artist :artist/name ?artist-name]
               [?release :release/name ?release-name]
               [?release :release/month ?release-month]
-              [?release :release/day ?release-day]
-              ]
+              [?release :release/day ?release-day]]
             (d/db conn) [["John Lennon" "Mind Games"] ["Paul McCartney" "Ram"]])
        ; (map first)
        ; (map #( d/touch (d/entity (d/db conn) %)  ))
        )
 
-  ; 
+  ; collection find spec
+  
+  (d/q '[:find [?release-name ...]
+         :in $ ?artist-name
+         :where
+         [?artist :artist/name ?artist-name]
+         [?release :release/artists ?artist]
+         [?release :release/name ?release-name]]
+       (d/db conn) "John Lennon"
+       ; (d/db conn) "Paul McCartney"
+       )
+
+  ; single tuple find spec
+  
+  ; wrong useless query - just picks the first of many
+  (d/q '[:find [?release-name ?year ?month ?day]
+         :in $ ?name
+         :where
+         [?artist :artist/name ?name]
+         [?release :release/artists ?artist]
+         [?release :release/name ?release-name]
+         [?release :release/year ?year]
+         [?release :release/month ?month]
+         [?release :release/day ?day]]
+       ; (d/db conn) "Ringo Starr"
+       (d/db conn) "John Lennon")
+  
+  ;=>
+; ["Happy Xmas (War Is Over)" 1972 11 24]
+  
+  ; correct - get the only tuple
+  (d/q '[:find [?year ?month ?day]
+         :in $ ?name
+         :where [?artist :artist/name ?name]
+         [?artist :artist/startDay ?day]
+         [?artist :artist/startMonth ?month]
+         [?artist :artist/startYear ?year]]
+       ; (d/db conn) "Ringo Starr"
+       (d/db conn) "John Lennon")
+  
+
+   ; scalar find spec
+  
+  (d/q '[:find ?year .
+         :in $ ?name
+         :where
+         [?artist :artist/name ?name]
+         [?artist :artist/startYear ?year]
+         ]
+       (d/db conn) "John Lennon"
+       )
+
   
   
   )
