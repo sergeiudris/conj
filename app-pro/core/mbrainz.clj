@@ -343,6 +343,27 @@ result1
        (d/db conn) "John Lennon"
        )
 
+  ; count all artists who are not Canadian
   
+  (d/q '[:find (count ?eid) .
+         :where 
+         [?eid :artist/name]
+         (not [?eid :artist/country :country/CA])
+         ]
+       (d/db conn))
+
+  (doc not)
+  
+  ; not-join 
+  
+    
+  (d/q '[:find (count ?artist) .
+         :where [?artist :artist/name]
+         (not-join [?artist]
+                   [?release :release/artists ?artist]
+                   [?release :release/year 1970]
+                   )
+         ]
+       (d/db conn))
   
   )
