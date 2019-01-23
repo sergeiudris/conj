@@ -3,6 +3,9 @@
             [nrepl.server :refer [start-server stop-server]]
             [clj-time.format :as f]
             [clojure.repl :refer :all]
+            [clojure.data :refer :all]
+            [clojure.pprint :as pp]
+            
             [datomic.api :as d]
             [core.rules :refer (rules)]))
 
@@ -233,25 +236,71 @@ result1
   
   ; what releases are associated with the artist named John Lennon and named Mind Games ?
   
-  (->> (d/q '[:find ?release ?release-name ?release-year
+  (->> (d/q '[:find ?release ?release-name ?release-year ?release-month ?release-day ?release-country
               :in $ [?artist-name ?release-name]
               :where [?artist :artist/name ?artist-name]
               [?release :release/artists ?artist]
               [?release :release/name ?release-name]
-              [?release :release/year ?release-year]]
+              [?release :release/year ?release-year]
+              [?release :release/month ?release-month]
+              [?release :release/day ?release-day]
+              [?release :release/country ?release-country]
+              
+              
+              ]
             (cdb) ["John Lennon" "Mind Games"]))
   
   (d/attribute (cdb) :release/designs)
   
   ; https://gist.github.com/stuarthalloway/2321773
   (d/q '[:find ?attr
-       :in $ [?include-ns ...]                ;; bind ?include-ns once for each item in collection
-       :where
-       [?e :db/valueType]                     ;; all schema types (must have a valueType)
-       [?e :db/ident ?attr]                   ;; schema type name
-       [(datomic.Util/namespace ?attr) ?ns]   ;; namespace of name
-       [(= ?ns ?include-ns)]]                 ;; must match one of the ?include-ns 
-     (d/db conn)
-     ["release" ])
+         :in $ [?include-ns ...]                ;; bind ?include-ns once for each item in collection
+         :where
+         [?e :db/valueType]                     ;; all schema types (must have a valueType)
+         [?e :db/ident ?attr]                   ;; schema type name
+         [(datomic.Util/namespace ?attr) ?ns]   ;; namespace of name
+         [(= ?ns ?include-ns)]]                 ;; must match one of the ?include-ns 
+       (d/db conn)
+       ["release" ])
+  
+  (def release-17592186079767 (d/touch (d/entity (d/db conn) 17592186079767)))
+  (def release-17592186079770 (d/touch (d/entity (d/db conn) 17592186079770)))
+  (type release-17592186079767)
+  (doc diff)
+  (doc map)
+  
+  (pp/pprint (diff release-17592186079767 release-17592186079770))
+  ; :medium/format :medium.format/vinyl12, :medium/position 1, :medium/trackCount 12
+  ;:medium/format :medium.format/vinyl, :medium/position 1, :medium/trackCount 2
+  
+  (diff {:a 3 :b {:c 2}} {:a 1 :b {:c 5}})  
+  
+  ; what releases are associated w either Paul McCartney or George Harrison
+  
+  (d/q '[:find ?release-name
+         :in $ [?artist-name ...]
+         :where [?artist :artist/name ?artist-name]
+         [?release :release/artists ?artist]
+         [?release :release/name ?release-name]
+         ]
+       (d/db conn) ["Paul McCartney" "George Harrison"])
+  
+  ; what releases are associated w/ either John Lennon's Mind Games or Paul McCartney's Ram ?
+  
+  (->> (d/q '[:find ?release ?release-month ?release-day
+              :in $ [[?artist-name ?release-name]]
+              :where 
+              [?artist :artist/name ?artist-name]
+              [?release :release/name ?release-name]
+              [?release :release/month ?release-month]
+              [?release :release/day ?release-day]
+              ]
+            (d/db conn) [["John Lennon" "Mind Games"] ["Paul McCartney" "Ram"]])
+       ; (map first)
+       ; (map #( d/touch (d/entity (d/db conn) %)  ))
+       )
+
+  ; 
+  
   
   )
