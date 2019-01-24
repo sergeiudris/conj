@@ -372,6 +372,47 @@ result1
                    [?a :artist/name "Bill Withers"])]
        (d/db conn))
 
-   ; 
+   ; find conut of all vinyl media by listing the complete set of media that make up vinyl in the 'or' clause
+  
+  (d/q '[:find (count ?medium) .
+         :where
+         (or [?medium :medium/format :medium.format/vinyl7]
+             [?medium :medium/format :medium.format/vinyl10]
+             [?medium :medium/format :medium.format/vinyl12]
+             [?medium :medium/format :medium.format/vinyl])]
+       (d/db conn))
 
+
+
+  ; use 'and' cluse inside 'or' to find the number of artists who are either groups or females
+  
+  (d/q '[:find (count ?artist) .
+         :where
+         (or
+          [?artist :artist/type :artist.type/group]
+          (and
+           [?artist :artist/type :artist.type/person]
+           [?artist :artist/gender :artist.gender/female])
+          )]
+       (d/db conn)
+       )
+
+  ; the number of releases that are either by Canadian artists or released in 1970
+  
+  (d/q '[:find (count ?release) .
+         :where 
+         [?release :release/name]
+         (or-join [?release]
+                  (and 
+                   [?release :release/artists ?artist]
+                   [?artist :artist/country :country/CA]
+                   )
+                  [?release :release/year 1970]
+                  )
+         ]
+       (d/db conn)
+       )
+
+  ; 
+  
   )
