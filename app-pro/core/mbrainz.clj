@@ -392,27 +392,92 @@ result1
           [?artist :artist/type :artist.type/group]
           (and
            [?artist :artist/type :artist.type/person]
-           [?artist :artist/gender :artist.gender/female])
-          )]
-       (d/db conn)
-       )
+           [?artist :artist/gender :artist.gender/female]))]
+       (d/db conn))
 
   ; the number of releases that are either by Canadian artists or released in 1970
   
   (d/q '[:find (count ?release) .
-         :where 
+         :where
          [?release :release/name]
          (or-join [?release]
-                  (and 
+                  (and
                    [?release :release/artists ?artist]
-                   [?artist :artist/country :country/CA]
-                   )
-                  [?release :release/year 1970]
-                  )
+                   [?artist :artist/country :country/CA])
+                  [?release :release/year 1970])]
+       (d/db conn))
+
+  ; < linits the results to artists who started before 16000
+  
+
+  (d/q '[:find ?name ?year
+         :where
+         [?artist :artist/name ?name]
+         [?artist :artist/startYear ?year]
+         [(< ?year 1600)]
          ]
-       (d/db conn)
+       (d/db conn))
+
+  (doc quot)
+  ; quot converts track lengths from milliseconds to minutes
+  
+  (d/q '[:find ?track-name ?minutes
+         :in $ ?artist-name
+         :where
+         [?artist :artist/name ?artist-name]
+         [?track :track/artists ?artist]
+         [?track :track/duration ?millis]
+         [(quot ?millis 60000) ?minutes]
+         [?track :track/name ?track-name]
+         
+         ]
+       (d/db conn) "John Lennon"
+       )
+  
+  ; no nesting, use multistep
+  
+  (d/q '[:find ?celcius .
+         :in ?fahrenheit
+         :where 
+         [(- ?fahrenheit 32) ?f-32]
+         [(/ ?f-32 1.8) ?celcius]
+         ]
+       212
        )
 
-  ; 
+  ; get-else  : report N/A whenever an artist's startYear is not in th database
+  
+  (d/q '[:find ?artist-name ?year
+         :in $ [?artist-name ...]
+         :where 
+         [?artist :artist/name ?artist-name]
+         [(get-else $ ?artist :artist/startYear "N/A") ?year]
+         
+         ]
+       (d/db conn) ["Crosby, Stills & Nash" "Crosby & Nash"]
+       )
+
+  ; get-some : try finding :country/name for an entity and then fallback to :artist/name
+  
+  (d/q '[:find [?e ?attr ?name]
+         :in $ ?e
+         :where
+         [(get-some $ ?e :country/name :artist/name) [?attr ?name]]
+         ]
+       (d/db conn) :country/US)
+  
+  ; ground: takes a single arg (constant) and returns same arg
+  
+  ; fulltext: find all artists whose name includes "Jane"
+  
+  (d/q '[:find ?e ?name ?tx ?score
+         :in $ ?search
+         :where
+         [(fulltext $ :artist/name ?search) [[?e ?name ?tx ?score]]]
+         ]
+       (d/db conn) "Jane"
+       )
+  
+  
   
   )
