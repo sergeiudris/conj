@@ -689,6 +689,38 @@ result1
                  [?release :release/artists ?artist]
                  [?release :release/name ?name]]}
        (d/db conn) "Paul McCartney")
+
+
+; The second query runs 50 times faster.
+
+
+; entity identifiers
+
+(def queryArtistByCountry '{:find [?artist-name]
+                            :in [$ ?country ]
+                            :where  [
+                                     [?artist :artist/name ?artist-name]
+                                     [?artist :artist/country ?country]
+                                     ]
+                            })
+
+; lookup refs
+(d/q queryArtistByCountry (d/db conn) [:country/name "Belgium"])
+
+; ident
+(d/q queryArtistByCountry (d/db conn) :country/BE)
+
+; eid
+(defn country-eid [name] (->> (d/q '{:find [(pull ?e [*])]
+                              :in [$ ?name]
+                              :where [[?e :country/name ?name]]}
+                            (d/db conn) name)
+                       ffirst first second
+                       ))
+
+(d/q queryArtistByCountry (d/db conn) (country-eid "Belgium"))
+
+
   
   )
 
