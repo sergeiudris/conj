@@ -721,6 +721,32 @@ result1
 (d/q queryArtistByCountry (d/db conn) (country-eid "Belgium"))
 
 
+; dynamic query resolution
+
+;fails
+(d/q '{:find [[?artist-name ...]]
+       :in [$ ?country [?reference ...]]
+       :where [
+               [?artist :artist/name ?artist-name]
+               [?artist ?reference ?country]
+               ]
+       }
+     (d/db conn) :country/BE [:artist/country]
+     )
+
+; solutions : A - don't do that (above) B - reolve eid yourself
+(d/q '{:find [[?artist-name ...]]
+       :in [$ ?country [?reference ...]]
+       :where [
+               [(datomic.api/entid $ ?country) ?country-id]
+               [?artist :artist/name ?artist-name]
+               [?artist ?reference ?country-id]
+               
+               ]
+       }
+     (d/db conn) :country/BE [:artist/country]
+     )
+
   
   )
 
