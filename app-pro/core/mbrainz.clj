@@ -479,5 +479,40 @@ result1
        )
   
   
+  ; missing? :  find all artsis whose startYear is not recorded
   
+  (d/q '[:find (count ?name) .
+         :where 
+         [?artist :artist/name ?name]
+         [(missing? $ ?artist :artist/startYear)]
+         ]
+       (d/db conn)
+       )
+  
+; tx-ids: find txs from t 1000 through 1050
+  
+  (d/q '[:find [?tx ...]
+         :in ?log
+         :where [(tx-ids ?log 1000 1050) [?tx ...]] 
+         
+         ]
+       (d/log conn)
+       )
+
+  
+  ; tx-data : find the entities, referenced byt transaction id
+  
+  (d/q '[:find [?e ...]
+         :in ?log ?tx
+         :where [(tx-data ?log ?tx) [[?e]]]
+         ]
+       (d/log conn) 13194139534312
+       )
+
+
+;
+
+
+
   )
+
