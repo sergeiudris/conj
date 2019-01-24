@@ -414,8 +414,7 @@ result1
          :where
          [?artist :artist/name ?name]
          [?artist :artist/startYear ?year]
-         [(< ?year 1600)]
-         ]
+         [(< ?year 1600)]]
        (d/db conn))
 
   (doc quot)
@@ -428,44 +427,35 @@ result1
          [?track :track/artists ?artist]
          [?track :track/duration ?millis]
          [(quot ?millis 60000) ?minutes]
-         [?track :track/name ?track-name]
-         
-         ]
-       (d/db conn) "John Lennon"
-       )
-  
+         [?track :track/name ?track-name]]
+       (d/db conn) "John Lennon")
+
   ; no nesting, use multistep
   
   (d/q '[:find ?celcius .
          :in ?fahrenheit
-         :where 
+         :where
          [(- ?fahrenheit 32) ?f-32]
-         [(/ ?f-32 1.8) ?celcius]
-         ]
-       212
-       )
+         [(/ ?f-32 1.8) ?celcius]]
+       212)
 
   ; get-else  : report N/A whenever an artist's startYear is not in th database
   
   (d/q '[:find ?artist-name ?year
          :in $ [?artist-name ...]
-         :where 
+         :where
          [?artist :artist/name ?artist-name]
-         [(get-else $ ?artist :artist/startYear "N/A") ?year]
-         
-         ]
-       (d/db conn) ["Crosby, Stills & Nash" "Crosby & Nash"]
-       )
+         [(get-else $ ?artist :artist/startYear "N/A") ?year]]
+       (d/db conn) ["Crosby, Stills & Nash" "Crosby & Nash"])
 
   ; get-some : try finding :country/name for an entity and then fallback to :artist/name
   
   (d/q '[:find [?e ?attr ?name]
          :in $ ?e
          :where
-         [(get-some $ ?e :country/name :artist/name) [?attr ?name]]
-         ]
+         [(get-some $ ?e :country/name :artist/name) [?attr ?name]]]
        (d/db conn) :country/US)
-  
+
   ; ground: takes a single arg (constant) and returns same arg
   
   ; fulltext: find all artists whose name includes "Jane"
@@ -473,46 +463,158 @@ result1
   (d/q '[:find ?e ?name ?tx ?score
          :in $ ?search
          :where
-         [(fulltext $ :artist/name ?search) [[?e ?name ?tx ?score]]]
-         ]
-       (d/db conn) "Jane"
-       )
-  
-  
+         [(fulltext $ :artist/name ?search) [[?e ?name ?tx ?score]]]]
+       (d/db conn) "Jane")
+
+
   ; missing? :  find all artsis whose startYear is not recorded
   
   (d/q '[:find (count ?name) .
-         :where 
+         :where
          [?artist :artist/name ?name]
-         [(missing? $ ?artist :artist/startYear)]
-         ]
-       (d/db conn)
-       )
-  
+         [(missing? $ ?artist :artist/startYear)]]
+       (d/db conn))
+
 ; tx-ids: find txs from t 1000 through 1050
   
   (d/q '[:find [?tx ...]
          :in ?log
-         :where [(tx-ids ?log 1000 1050) [?tx ...]] 
-         
-         ]
-       (d/log conn)
-       )
+         :where [(tx-ids ?log 1000 1050) [?tx ...]]]
+       (d/log conn))
 
-  
+
   ; tx-data : find the entities, referenced byt transaction id
   
   (d/q '[:find [?e ...]
          :in ?log ?tx
-         :where [(tx-data ?log ?tx) [[?e]]]
+         :where [(tx-data ?log ?tx) [[?e]]]]
+       (d/log conn) 13194139534312)
+
+
+; java methods
+  
+  (d/q '[:find ?k ?v
+         :where
+         [(System/getProperties) [[?k ?v]]]])
+
+  (d/q '[:find ?k ?v
+         :where
+         [(System/getProperties) [[?k ?v]]]
+         [(.endsWith ?k "version")]])
+
+  ; clojure funs
+  ; use 'subs' to extract prefixes of words
+  
+  (d/q '[:find [?prefix ...]
+         :in [?word ...]
+         :where [(subs ?word 0 5) ?prefix]]
+       ["hello" "antidisestablishmentarianism"])
+
+  ; grouping via :with
+  
+  ;wrong query (set removes duplicates) - find hwo many heads in total
+  (d/q '[:find (sum ?heads) .
+         :in [[_ ?heads]]]
+       [["Cerberus" 3]
+        ["Medusa" 1]
+        ["Cyclops" 1]
+        ["Chimera" 1]])
+
+  (d/q '[:find (sum ?heads) .
+         :with ?monster
+         :in [[?monster ?heads]]]
+       [["Cerberus" 3]
+        ["Medusa" 1]
+        ["Cyclops" 1]
+        ["Chimera" 1]])
+
+
+
+  ; find smalles and largest track lengths
+  
+  (d/q '[:find [(min ?dur) (max ?dur)]
+         :where [_ :track/duration ?dur]
          ]
-       (d/log conn) 13194139534312
+       (d/db conn)
        )
 
+  ; sum to find total nuber of tracks on all media on db
+  
+  (d/q '[:find (sum ?count) .
+         :with ?medium
+         :where [?medium :medium/trackCount ?count]
+         ]
+       (d/db conn))
+  
+  ; count total and distinct artist names
+  
+  (d/q '[:find (count ?name) (count-distinct ?name)
+         :with ?artist
+         :where [?artist :artist/name ?name]
+         ]
+       (d/db conn)
+       )
 
-;
+  ; stats: report median, avg and standard deviation of song title lengths and includes year in the find set to break out the results by year
+  
+  (d/q '[:find ?year (median ?namelen) (avg ?namelen) (stddev ?namelen)
+         :with ?track 
+         :where [?track :track/name ?name]
+         [(count ?name) ?namelen]
+         [?medium :medium/tracks ?track]
+         [?release :release/media ?medium]
+         [?release :release/year ?year]
+         
+         ]
+       (d/db conn)
+       )
 
+  (count "abc")
+  
+  ; aggregates returning collections
+  ; distinct 
+  
+  
+  (d/q '[:find (distinct ?v)
+         :in [?v ...]
+         ]
+       [1 1 2 2 2 3]
+       )
 
+  ; min n, max n
+  ; get five shortest and longest tracks in th database
+  
+  (d/q '[:find [(min 5 ?millis) (max 5 ?millis)]
+         :where [?track :track/duration ?millis]
+         ]
+       (d/db conn)
+       )
+  
+  ; rand - select n items w/ potential for duplicates
+  ; sample - select n distinct
+  
+  (d/q '[:find [(rand 2 ?name) (sample 2 ?name)]
+         :where [_ :artist/name ?name]]
+       (d/db conn))
 
+  ;custom aggregates
+  
+  (defn mode 
+    [vals]
+    (->> (frequencies vals)
+         (sort-by (comp - second))
+         ffirst))
+
+(doc frequencies)
+
+  ; what is the most common release medium length, in tracks ?
+  
+(d/q '[:find (core.mbrainz/mode ?track-count) .
+       :with ?media 
+       :where [?media :medium/trackCount ?track-count]]
+     (d/db conn)
+     )
+  
+  
   )
 
