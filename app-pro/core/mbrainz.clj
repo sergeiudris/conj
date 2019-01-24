@@ -605,16 +605,90 @@ result1
          (sort-by (comp - second))
          ffirst))
 
-(doc frequencies)
+  (doc frequencies)
 
   ; what is the most common release medium length, in tracks ?
   
-(d/q '[:find (core.mbrainz/mode ?track-count) .
-       :with ?media 
-       :where [?media :medium/trackCount ?track-count]]
-     (d/db conn)
-     )
+  (d/q '[:find (core.mbrainz/mode ?track-count) .
+         :with ?media 
+         :where [?media :medium/trackCount ?track-count]]
+       (d/db conn)
+       )
   
+; pull expressions
+  
+  ; return the :release/name for all of the Led Zeppelin releases
+  
+  ; (d/q '[:find (pull ?e [:release/name])
+  ;        :in $ ?artist
+  ;        :where 
+  ;        [?e :release/artists ?artist]
+  ;        ]
+  ;      (d/db conn)  led-zeppelin
+  ;      )
+  
+  ; (d/q '[:find (pull ?e pattern)
+  ;        :in $ ?artist pattern
+  ;        :where
+  ;        [?e :release/artists ?artist]]
+  ;      (d/db conn)  led-zeppelin [:release/name])
+  
+  (d/q '[:find (pull ?e [:release/name])
+         :in $ ?artist-name
+         :where [?e :release/artists ?a]
+         [?a :artist/name ?artist-name]]
+       (d/db conn)   "Led Zeppelin")
+
+  (d/q '[:find (pull ?e [:release/name]) (pull ?a [*])
+         :in $ ?artist-name
+         :where 
+         [?e :release/artists ?a]
+         [?a :artist/name ?artist-name]
+         
+         ]
+       (d/db conn) "Led Zeppelin"
+       )
+
+  (d/q '[:find (pull ?e [:release/name :release/artists])
+         :in $ ?artist-name
+         :where [?e :release/artists ?a]
+         [?a :artist/name ?artist-name]]
+       (d/db conn)   "Led Zeppelin")
+  
+
+; query as map
+  
+  (d/q '{:find [(pull ?e [:release/name :release/artists]) (pull ?a [*])]
+         :in [$ ?artist-name]
+         :where [
+                 [?e :release/artists ?a]
+                 [?a :artist/name ?artist-name]
+                 ]
+         }
+       (d/db conn)   "Led Zeppelin")
+  
+
+; performance - put restrictive, narrowing queries first
+  
+; slower
+  (d/q '{:find [[?name ...]]
+         :in [$ ?artist-name]
+         :where [
+                 [?release :release/name ?name]
+                 [?release :release/artists ?artist]
+                 [?artist :artist/name ?artist-name]
+                 ]
+         }
+       (d/db conn) "Paul McCartney")
+  )
+  
+; faster
+  (d/q '{:find [[?name ...]]
+         :in [$ ?artist-name]
+         :where [[?artist :artist/name ?artist-name] ; more seelctive clause
+                 [?release :release/artists ?artist]
+                 [?release :release/name ?name]]}
+       (d/db conn) "Paul McCartney")
   
   )
 
