@@ -213,6 +213,7 @@ services:
     #   - base
     links:
       - datomicdb
+      - clj
     healthcheck:
         test: ["CMD", "curl", "-f", "localhost:8890"]
         interval: 1s
