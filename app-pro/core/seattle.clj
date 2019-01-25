@@ -28,10 +28,10 @@
   )
 
 
-(comment 
+(comment
 
 
-  
+
 ;; create database
 ; (d/create-database uri)
   
@@ -374,4 +374,6 @@
                     (:tx-data report)))))
 
 
+
+  (doc when-let)
   )
