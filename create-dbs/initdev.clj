@@ -9,16 +9,15 @@
 (def db-uri-dod "datomic:dev://datomicdb:4334/dayofdatomic")
 (def db-uri-tutorial "datomic:dev://datomicdb:4334/tutorial")
 (def db-uri-movies "datomic:dev://datomicdb:4334/movies")
+(def db-uri-seattle "datomic:dev://datomicdb:4334/seattle")
+
 
 
 
 (d/create-database db-uri-dod)
 (d/create-database db-uri-tutorial)
 (d/create-database db-uri-movies)
-
-
-
-
+(d/create-database db-uri-seattle)
 
 
 

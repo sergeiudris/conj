@@ -176,6 +176,26 @@ peerdb
          :where [?u :user/email]
          [?u :record/user ?record]]
        (cdb))
+
+  ; find idea text and record text
+  (d/q '{:find [?idea-text ?record-text]
+         :where [
+                 [?idea :idea/text ?idea-text]
+                 [?idea :idea/records ?record]
+                 [?record :record/text ?record-text]
+                 ]}
+       (cdb)
+       )
+
+    ; find idea text and record 
+  (d/q '{:find [?idea-text (pull ?record [*])]
+         :where [[?idea :idea/text ?idea-text]
+                 [?idea :idea/records ?record]
+                ;  [?record :record/text ?record-text]
+                 ]}
+       (cdb))
+
+  
 ; (keys (ns-publics 'd/db.type))
   
   ; entity/attribute/value/tx/op

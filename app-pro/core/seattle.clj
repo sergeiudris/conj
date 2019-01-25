@@ -14,7 +14,7 @@
 
 ;; store database uri
 ; (def uri "datomic:mem://seattle")
-(def uri "datomic:dev://datomicdb:4334/dayofdatomic")
+(def uri "datomic:dev://datomicdb:4334/seattle")
 
 (comment
 
@@ -56,6 +56,9 @@
   (nth data-tx 2)
 
   (doc nth)
+  (doc ->)
+  (doc ->>)
+
 
 ;; submit seed data transaction
   @(d/transact conn data-tx)
@@ -76,6 +79,7 @@
 
 ;; Use a pull expression to get entities' attributes and values.
   (def pull-results (q '[:find (pull ?c [*]) :where [?c :community/name]] (db conn)))
+  (count pull-results)
   (pprint (first pull-results))
 
 ;; for each community, display its name
