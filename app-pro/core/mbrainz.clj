@@ -680,7 +680,6 @@ result1
                  ]
          }
        (d/db conn) "Paul McCartney")
-  )
   
 ; faster
   (d/q '{:find [[?name ...]]
