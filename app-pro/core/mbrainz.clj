@@ -59,7 +59,7 @@
 
 (d/q qy1 db "John Lennon")
 
-(->> (d/q '[:find ?title
+(->> (d/q '[:find [?title ...]
             :in $ ?artist-name
             :where
             [?a :artist/name ?artist-name]
