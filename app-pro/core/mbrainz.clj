@@ -749,3 +749,25 @@ result1
   
   )
 
+
+(comment 
+  
+  db
+  
+  (d/pull (cdb) '[*] 42)
+  
+  (pp/pprint *1)
+  
+  (d/pull (cdb) '[*] [:artist/name "Paul McCartney"])
+  
+  (d/pull (cdb) '[*] [:country/name "Bangladesh"])
+  (d/pull (cdb) '[*] 17592186045729)
+  (d/pull (cdb) '[*] :country/BD)
+  
+  
+  
+  
+  
+  
+  )
+
