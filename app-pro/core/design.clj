@@ -172,8 +172,8 @@ peerdb
 
 
 
-  (d/q '[:find ?u ?record
-         :where [?u :user/email]
+  (d/q '[:find ?email ?record
+         :where [?u :user/email ?email]
          [?u :record/user ?record]]
        (cdb))
 
@@ -195,6 +195,13 @@ peerdb
                  ]}
        (cdb))
 
+(d/q '{:find [(pull ?e [*])]
+       :where [
+               [?e :uuid]
+               ]}
+     (cdb)
+     )
+  
   
 ; (keys (ns-publics 'd/db.type))
   
