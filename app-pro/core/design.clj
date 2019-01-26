@@ -195,12 +195,14 @@ peerdb
                  ]}
        (cdb))
 
-(d/q '{:find [(pull ?e [*])]
-       :where [
-               [?e :uuid]
-               ]}
-     (cdb)
-     )
+  (d/q '{:find [(pull ?e [*])]
+         :where [
+                 [?e :uuid]
+                 ]}
+       (cdb)
+       )
+
+  (pp/pprint *1)
   
   
 ; (keys (ns-publics 'd/db.type))
