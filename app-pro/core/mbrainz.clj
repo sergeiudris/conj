@@ -32,6 +32,8 @@
   (defonce server (start-server :bind "0.0.0.0" :port 7888)))
 
 
+(comment
+
 ;; https://github.com/Datomic/mbrainz-sample/wiki/Queries
 ;; https://github.com/Datomic/mbrainz-sample/blob/master/examples/clj/datomic/samples/mbrainz.clj
 
@@ -74,6 +76,8 @@
 (pp/pprint *1)
 
 (doc seq)
+
+(doc reify)
 
 (d/q '[:find ?title ?album ?year
        :in $ ?artist-name
@@ -199,7 +203,7 @@ result1
 
 (d/q query db "Bill Withers")
 
-
+)
 ;;;; https://docs.datomic.com/on-prem/query.html
 
 (comment

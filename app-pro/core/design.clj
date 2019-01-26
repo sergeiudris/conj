@@ -6,6 +6,7 @@
             [core.schema]
             [core.seattle]
             [core.mbrainz]
+            [core.tx]
             [datomic.client.api :as d]
             [datomic.api :as dapi]))
 
