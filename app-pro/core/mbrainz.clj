@@ -59,6 +59,22 @@
 
 (d/q qy1 db "John Lennon")
 
+(->> (d/q '[:find ?title
+            :in $ ?artist-name
+            :where
+            [?a :artist/name ?artist-name]
+            [?t :track/artists ?a]
+            [?t :track/name ?title]]
+          (cdb) "John Lennon"
+          )
+     seq
+     pp/pprint
+     )
+
+(pp/pprint *1)
+
+(doc seq)
+
 (d/q '[:find ?title ?album ?year
        :in $ ?artist-name
        :where
@@ -764,7 +780,16 @@ result1
   (d/pull (cdb) '[*] 17592186045729)
   (d/pull (cdb) '[*] :country/BD)
   
+  (d/q '{:find [(pull ?a [:db/ident]) ?v]
+         :in [$ ?name]
+         :where [
+                 [?e :artist/name ?name]
+                 [?e ?a ?v]
+                 ]}
+       (cdb) "Paul McCartney"
+       )
   
+  (set! *print-length* 250)
   
   
   
