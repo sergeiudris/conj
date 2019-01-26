@@ -25,6 +25,10 @@
   
   (d/pull db '[*] basis-tx)
   
+  (def log (d/log conn))
   
+  (-> (d/tx-range log basis-tx (inc basis-tx)) 
+      seq first :data count
+      )
   
   )
