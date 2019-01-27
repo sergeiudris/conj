@@ -795,8 +795,15 @@ result1
   
   (set! *print-length* 250)
   
+  (d/q '[:find (count ?e)
+         :where [?e :db/code]
+         [?e ?k ?v]]
+       db)
   
-  
-  
+   (d/q '[:find (count ?e) .
+          :where
+          [?e]
+          ]
+        (d/db conn))
   )
 

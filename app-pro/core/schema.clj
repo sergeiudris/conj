@@ -68,7 +68,7 @@
              [?e :db/ident ?ident]
              [_ :db.install/attribute ?e]
              [(namespace ?ident) ?ns]
-             [(= ?ns "user")]]
+             [(= ?ns "db")]]
            (cdb)))
 
 ;; find all reference attributes
