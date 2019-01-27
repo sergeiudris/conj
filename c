@@ -2,6 +2,9 @@
 
 export COMPOSE_CONVERT_WINDOWS_PATHS=1
 
+# kill $(lsof -t -i:8080)
+# kill -9
+
 
 dc(){
   # export COMPOSE_CONVERT_WINDOWS_PATHS=1
