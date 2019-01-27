@@ -196,7 +196,7 @@ peerdb
                  ]}
        (cdb))
 
-  (d/q '{:find [(pull ?e [*])]
+  (d/q '{:find [(pull ?e [*]) ]
          :where [
                  [?e :uuid]
                  ]}
@@ -204,6 +204,8 @@ peerdb
        )
 
   (pp/pprint *1)
+  (count *1)
+
   
   
 ; (keys (ns-publics 'd/db.type))
