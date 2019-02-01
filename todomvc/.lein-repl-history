@@ -1,0 +1,44 @@
+exit
+ns
+(ns)
+ns
+'ns
+*ns
+ns*
+(all-ns)
+*ns*
+(ns todomvc.views)
+(dir todomvc.views)
+(keys (ns-publics  todomvc.views))
+(keys (ns-publics  'todomvc.views))
+(keys (ns-publics 'todomvc.views))
+(keys (ns-publics 'todomvc.subs))
+(doc todo-item)
+(require '[clojure.nrepl])
+(require '[clojure.repl])
+(doc vec)
+(require '[clojure.repl :refer :all])
+(doc vec)
+(doc todo-item)
+(todo-item)
+exit
+(doc todomvc.views/todo-item)
+(source todomvc.views/todo-item)
+@app-state
+(in-ns 'todomvc.core)
+history
+@app-state
+(print 1)
+(prn 1)
+(println 1)
+(ns 'user)
+(in-ns 'user)
+(prn 1)
+(in-ns 'todomvc.core)
+(prn 1)
+(:require '[clojure.repl :refer :all])
+(prn 1)
+(println 1)
+(+ 1 1)
+(- 1 1)
+(prn 3)
