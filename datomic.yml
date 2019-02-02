@@ -360,3 +360,28 @@ services:
     # restart: always
     ports:
       - 8088:8080
+
+
+
+  wui:
+    image: wui
+    # container_name: dq-dockerwheel
+    volumes:
+      - ./wui:/clj
+    build:
+      context: ./wui
+      dockerfile: ./Dockerfile
+    ports:
+      - 3449:3449
+      - 7788:7888
+    # command: tail -f /dev/null
+    command: lein do clean, figwheel
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    links:
+      - app-pro
+      - app-free
+    # depends_on:
+    #   - base

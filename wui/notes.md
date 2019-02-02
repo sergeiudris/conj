@@ -1,0 +1,1 @@
+ctrl + H - hide inspector
