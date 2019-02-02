@@ -277,8 +277,9 @@ services:
     ports:
       - 35544:35543
       - 7889:7888
-    # command: bash c init
-    command: tail -f /dev/null
+      - 8891:8890
+    command: bash c init
+    # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0

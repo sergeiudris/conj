@@ -8,3 +8,5 @@ FROM clj
 
 COPY ./deps.edn /opt/code/app/
 RUN clojure -Stree
+
+EXPOSE 8890
