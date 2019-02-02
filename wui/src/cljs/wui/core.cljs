@@ -7,6 +7,7 @@
    [wui.routes :as routes]
    [wui.views :as views]
    [wui.config :as config]
+   [wui.io :as io]
    ))
 
 
@@ -26,3 +27,4 @@
   (re-frame/dispatch-sync [::rp/add-keyboard-event-listener "keydown"])
   (dev-setup)
   (mount-root))
+

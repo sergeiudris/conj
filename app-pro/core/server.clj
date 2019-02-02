@@ -21,7 +21,10 @@
    {::http/routes routes
     ::http/type   :jetty
     ::http/host "0.0.0.0"
-    ::http/port   8890}))
+    ::http/port   8890
+    ; io.pedestal.http/allowed-origins ["*"]
+    ::http/allowed-origins ["*"]
+    }))
 
 (defn start []
   (http/start (create-server)))

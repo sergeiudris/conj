@@ -1,7 +1,8 @@
 FROM clojure
 
 WORKDIR /clj
-ADD . /clj
+# ADD . /clj
+ADD project.clj /clj
 VOLUME /clj
 
 # 3449 is default http and websocket port that figwheel uses to communicate
@@ -10,7 +11,7 @@ EXPOSE 3449
 EXPOSE 7888
 
 RUN lein deps
-RUN lein cljsbuild once
+# RUN lein cljsbuild once
 # CMD lein figwheel
 # This command will start figwheel and open a repl socket
 # This would need to change for a live environment -- you wouldn't want

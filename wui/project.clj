@@ -9,7 +9,9 @@
                  [secretary "1.2.3"]
                  [garden "1.3.5"]
                  [ns-tracker "0.3.1"]
-                 [re-pressed "0.2.2"]]
+                 [re-pressed "0.2.2"]
+                 [cljs-http "0.1.45"]
+                 ]
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-garden "0.2.8"]]

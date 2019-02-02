@@ -376,7 +376,8 @@ services:
       - 3449:3449
       - 7788:7888
     # command: tail -f /dev/null
-    command: lein do clean, figwheel
+    # command: lein do clean, figwheel
+    command: bash c init
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
     stdin_open: true

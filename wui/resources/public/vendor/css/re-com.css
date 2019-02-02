@@ -22,11 +22,12 @@ html, body {
     font-family:    Segoe UI, Roboto, sans-serif;
     font-size:      14px;
     font-weight:    400;
-    color:          rgba(68, 68, 68, 1.0);
+    color:          rgb(65, 71, 121);
     letter-spacing: 0.002em;
     height:         100%;
     margin:         0px;
     padding:        0px;
+    background-color: #111;
 }
 
 /*----------------------------------------------------------------------------------------
