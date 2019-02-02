@@ -10,7 +10,7 @@
 ;
 ; You must not remove this notice, or any other, from this software.
 
-(defproject cors "0.5.1"
+(defproject qs "0.5.1"
   :description "pedestal demo demonstrating CORS support"
   :url "http://pedestal.io/samples/index"
   :license {:name "Eclipse Public License"
@@ -26,6 +26,6 @@
                  [ring-cors/ring-cors "0.1.8"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "cors.server/run-dev"]}
+  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "qs.qs/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.1"]]}}
-  :main ^{:skip-aot true} cors.server)
+  :main ^{:skip-aot true} qs.qs)

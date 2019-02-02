@@ -10,7 +10,7 @@
 ;
 ; You must not remove this notice, or any other, from this software.
 
-(ns cors.service
+(ns qs.service
   (:require [clojure.java.io :as io]
             [clojure.core.async :as async]
             [io.pedestal.log :as log]

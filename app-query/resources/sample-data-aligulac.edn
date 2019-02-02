@@ -1,0 +1,63 @@
+[
+ ;; player
+ {:player/id 23
+  :player/race "Z"
+  :player/name "Sasha Hostyn"
+  :player/tag "Scarlett"
+  :player/country "CA"}
+ {:player/id 6
+  :player/race "T"
+  :player/name "윤영서"
+  :player/tag "TaeJa"
+  :player/country "KR"
+  }
+ {:player/id 12
+  :player/race "T"
+  :player/name "최지성"
+  :player/tag "Bomber"
+  :player/country "KR"}
+ 
+ ;; match
+ 
+ {:match/id 62618
+  :match/game "HotS"
+  :match/date #inst "2013-06-06T00:00:00.000-00:00"
+  :match/sca 1
+  :match/scb 0
+  :match/pla_id 23
+  :match/plb_id 6
+  :match/rca "Z"
+  :match/rcb "T"
+  :match/event ""
+  :match/eventobj_id 12991
+  }
+ 
+ {:match/id 969
+  :match/game "WoL"
+  :match/date #inst "2012-11-02T00:00:00.000-00:00"
+  :match/sca 1
+  :match/scb 2
+  :match/pla_id 12
+  :match/plb_id 23
+  :match/rca "T"
+  :match/rcb "Z"
+  :match/event "2012 MLG Fall Championship - Groupstage (SC2C)"
+  :match/eventobj_id 3506}
+ 
+ ;; events 
+ 
+ {:event/id 12991
+  :event/big false
+  :event/prizepool false
+  :event/name "Team Acer vs. Team Liquid"
+  :event/type "round"
+  :event/fullname "Acer TeamStory Cup Season 1 Week 3 Team Acer vs. Team Liquid"}
+ 
+  {:event/id 3506
+   :event/big false
+   :event/prizepool false
+   :event/name "WB Round 1"
+   :event/type "round"
+   :event/fullname "MLG Pro Circuit 2012 Fall Championship Pool D WB Round 1"}
+ 
+ ]

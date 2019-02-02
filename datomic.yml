@@ -263,6 +263,7 @@ services:
     # depends_on:
     #   - base
     links:
+      - clj
       - datomicdb
       - datomicdbfree
 
@@ -278,8 +279,8 @@ services:
       - 35544:35543
       - 7889:7888
       - 8891:8890
-      - 8892:8080
-      - 8893:8081
+      # - 8892:8080
+      # - 8893:8081
 
     command: bash c init
     # command: tail -f /dev/null
@@ -291,6 +292,7 @@ services:
     # depends_on:
     #   - base
     links:
+      - clj
       - datomicdb
       - datomicdbpeer
 
@@ -314,6 +316,7 @@ services:
     # depends_on:
     #   - base
     links:
+      - clj
       - datomicdb
       - datomicdbfree
 
@@ -386,7 +389,39 @@ services:
     stdin_open: true
     tty: true
     links:
-      - app-pro
+      # - app-pro
       - app-free
+      - query-service
     # depends_on:
     #   - base
+
+
+  query-service:
+    image: query-service
+    container_name: conj-query-service
+    volumes:
+      - ./query-service:/opt/code/app
+    build:
+      context: ./query-service
+      dockerfile: ./Dockerfile
+    ports:
+      # - 35544:35543
+      - 7778:7888
+      # - 8891:8890
+      - 8892:8080
+      - 8893:8081
+
+    command: bash c init
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - clj
+      - datomicdb
+      - datomicdbpeer
+      - datomicdbfree
