@@ -18,4 +18,8 @@ init(){
   clojure -m core.core
 }
 
+cors_service(){
+  pwd
+}
+
 "$@"

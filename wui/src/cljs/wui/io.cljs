@@ -7,7 +7,7 @@
 
 
 (defn app-pro-get-health []
-    (go (let [response (<! (http/get "http://localhost:8891"
+    (go (let [response (<! (http/get "http://localhost:8893/health"
                                      {:with-credentials? false
                                       :query-params {"since" 135}}))]
           ; (prn (:status response))
@@ -50,7 +50,10 @@
   (prn [1 2 3])
   
   (repl/doc <! )
+  (repl/doc first)
   (repl/doc take!)
+  (repl/doc repl/apropos)
+  
   (keys (ns-publics  'cljs.pprint))
 
   ;; requests  
@@ -64,10 +67,12 @@
   
   
   (go (let [result (<! (app-pro-get-health))]
+        (pp/pprint result)
         (->>
-        ;  (first result)
+         (first (keys result))
         ;  :id
-         pp/pprint)
+         pp/pprint
+         )
         ))
   
   )

@@ -7,7 +7,7 @@
 
 
 (defn gen-resp []
-  {:status 200 :body "Hello, world!!!"})
+  {:status 200 :body "ok"})
 
 (defn respond-hello [request]
   (gen-resp))
