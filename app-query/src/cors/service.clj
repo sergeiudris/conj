@@ -23,6 +23,8 @@
             [ring.middleware.cors :as cors]
             [aq.conn]
             [aq.query]
+            [cors.handlers.health]
+            [cors.handlers.query]
             ))
 
 ;; If this looks familiar, it's very similar to the server-sent-events sample!
@@ -63,8 +65,8 @@
 (defroutes routes
   [[
     ["/"   {:get [::send-stuff (sse/start-event-stream sse-stream-ready)]}]
-    ["/health" {:get [::hello respond-hello ]} ]
-    ["/2"   {:get [::send-stuff2 (sse/start-event-stream sse-stream-ready)]}]
+    ["/health" {:get [::health cors.handlers.health/handler ]} ]
+    ["/entity"  {:get [::entity cors.handlers.query/entity]}]
     ]])
 
 

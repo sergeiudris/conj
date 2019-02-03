@@ -8,12 +8,12 @@
 
 (defn get-paginted-entity
   "Returns entities and total count given limit,offset and attribute keword"
-  [db attribute limit offset]
+  [attribute limit offset]
   {:entities (->>
               (d/q '{:find [?e (count ?e)]
                      :in [$ ?attribute]
                      :where [[?e ?attribute]]}
-                   db attribute)
+                   (cdb) attribute)
               (drop offset)
               (take limit)
               (map  #(identity (d/pull (cdb) '[*] (first %))))
@@ -22,9 +22,10 @@
    :count (d/q '{:find [(count ?e) .]
                  :in [$ ?attribute]
                  :where [[?e ?attribute]]}
-               db attribute)
+               (cdb) attribute)
    }
   )
+
 
 
 
@@ -35,7 +36,7 @@
        (cdb))
 
   (->>
-   (get-paginted-entity (cdb) :artist/name 10 0)
+   (get-paginted-entity :artist/name 10 0)
    (pp/pprint)
    )
   
