@@ -8,7 +8,7 @@
 
 
 (defn app-pro-get-entity-params
-  "Query paginated entities"
+  "Query paginated entities using params"
   [{:keys [limit offset attribute] :or {:limit 10 :offset 0}}]
   (go (let [response (<! (http/get "http://localhost:8893/entity-params"
                                    {:with-credentials? false
@@ -22,6 +22,18 @@
         (:body response)
         ))
   )
+
+(defn app-pro-get-entity
+  "Query paginated entities"
+  [{:keys [data]}]
+  (go (let [response (<! (http/get "http://localhost:8893/entity"
+                                   {:with-credentials? false
+                                    :query-params {
+                                                   "data" (str data)
+                                                   }}))]
+          ; (prn (:status response))
+          ; (prn (map :login (:body response)))
+        (:body response))))
 
 ; (defn github-get-users []
 ;   (go (let [response (<! (http/get "http://api.github.com/users"
@@ -82,5 +94,18 @@
          pp/pprint
          )
         ))
+
+  
+  (go (let [result (<! (app-pro-get-entity {:data {:limit 1 :offset 0 :attribute :release/name :fmt "edn"}}))]
+        (pp/pprint result)
+        (->>
+         identity
+        ;  (first (keys (reader/read-string result)))
+        ;  (first (keys  result))
+        ;  :id
+        ;  pp/pprint
+         )))  
+  
+  
   
   )

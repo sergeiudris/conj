@@ -52,4 +52,6 @@
 
   (or (parse-int nil) 10)
   
+  (str {:a 3 :fmt "edn"})
+  
   )

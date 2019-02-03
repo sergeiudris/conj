@@ -47,11 +47,46 @@
      })
   )
 
+
+
 ; http://localhost:8893/entity-params?limit=1&offset=0&attribute=%22:release/year%22&fmt=str
+
+(def gen-resp-entity-default-body {
+                                   :attribute :artist/name
+                                   :limit 10
+                                   :offset 0
+                                   :fmt "edn"
+                                   :x 3
+                                   })
+
+(defn gen-resp-entity [request]
+  (let [{query-params :query-params} request
+        {
+         data-str :data
+         :or {data-str (str {
+                             :attribute :artist/name
+                             :limit 10
+                             :offset 0
+                             :fmt "edn"
+                             :x 3
+                             })
+              }
+         }query-params
+        data (merge gen-resp-entity-default-body (edn/read-string data-str))
+        ]
+    {:status 200
+     :body (let [body {:data (aq.query/get-paginted-entity data )
+                       :request-data data
+                       :random (Math/random)
+                       :uuid (d/squuid)
+                       }]
+             (if (= (:fmt data) "edn") body (str body)))}))
+
 
 
 (defn entity-params [request]
   (gen-resp-entity-params request))
 
-(prn 3)
 
+(defn entity [request]
+  (gen-resp-entity request))
