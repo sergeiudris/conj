@@ -96,7 +96,7 @@
         ))
 
   
-  (go (let [result (<! (app-pro-get-entity {:data {:limit 1 :offset 0 :attribute :release/name :fmt "edn"}}))]
+  (go (let [result (<! (app-pro-get-entity {:data {:limit 1 :offset 110 :attribute :artist/name :fmt "edn"}}))]
         (pp/pprint result)
         (->>
          identity

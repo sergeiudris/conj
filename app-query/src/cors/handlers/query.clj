@@ -19,7 +19,9 @@
     (try (Integer/parseInt number-string)
          (catch Exception e nil)))
 
+; http://localhost:8893/entity-params?limit=1&offset=0&attribute=%22:release/year%22&fmt=str
 (defn gen-resp-entity-params [request]
+  "Calls aq.query and sends edn as repsonse. Parses individual url string params (limit, offset, attribute etc.) "
   (let [{query-params :query-params} request
         {x :x
          limit :limit
@@ -32,7 +34,7 @@
               offset 0
               fmt "edn"
               }
-         } query-params
+         }query-params
         ]
     {:status 200 
      :body (let [body {:data (aq.query/get-paginted-entity {:attribute (edn/read-string attribute) 
@@ -43,13 +45,15 @@
                        :uuid (d/squuid)
                        :x x}]
              (if (= fmt "edn") body (str body))
-             ) 
+             )
      })
   )
 
 
 
-; http://localhost:8893/entity-params?limit=1&offset=0&attribute=%22:release/year%22&fmt=str
+
+
+
 
 (def gen-resp-entity-default-body {
                                    :attribute :artist/name
@@ -58,8 +62,10 @@
                                    :fmt "edn"
                                    :x 3
                                    })
-
+;; http://localhost:8893/entity?data={:attribute
 (defn gen-resp-entity [request]
+  "Calls aq.query and sends edn as repsonse. Uses edn:  parses only one param 
+(edn/read-string (:data query-params)) "
   (let [{query-params :query-params} request
         {
          data-str :data
