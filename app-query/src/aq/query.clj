@@ -45,6 +45,8 @@
   (int "1")
   (Integer/parseInt "1")
 
+  (doc get-paginted-entity)  
+
   
   (defn parse-int [number-string]
     (try (Integer/parseInt number-string)
@@ -53,7 +55,7 @@
   (or (parse-int nil) 10)
   
   (str {:a 3 :fmt "edn"})
-  
+
   (str {:data
         {:entities
          [{:artist/sortName "Tolonen, Jukka"

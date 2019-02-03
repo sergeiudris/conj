@@ -99,6 +99,7 @@
 
 (defn todo-app
   []
+  (prn 3)
   [:div
    [:section#todoapp
     [task-entry]

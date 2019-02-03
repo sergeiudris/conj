@@ -371,31 +371,6 @@ services:
 
 
 
-  wui:
-    image: wui
-    # container_name: dq-dockerwheel
-    volumes:
-      - ./wui:/clj
-    build:
-      context: ./wui
-      dockerfile: ./Dockerfile
-    ports:
-      - 3449:3449
-      - 7788:7888
-    # command: tail -f /dev/null
-    # command: lein do clean, figwheel
-    command: bash c init
-    # environment:
-    #   - DISPLAY=10.0.75.1:0.0
-    stdin_open: true
-    tty: true
-    links:
-      # - app-pro
-      - app-free
-      - app-query
-    # depends_on:
-    #   - base
-
 
   app-query:
     image: app-query
@@ -425,3 +400,57 @@ services:
       - datomicdb
       - datomicdbpeer
       - datomicdbfree
+
+
+
+  wui:
+    image: wui
+    # container_name: dq-dockerwheel
+    volumes:
+      - ./wui:/clj
+    build:
+      context: ./wui
+      dockerfile: ./Dockerfile
+    ports:
+      - 3449:3449
+      - 7788:7888
+    # command: tail -f /dev/null
+    # command: lein do clean, figwheel
+    command: bash c init
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    links:
+      # - app-pro
+      - app-free
+      - app-query
+    # depends_on:
+    #   - base
+
+
+
+  todomvc:
+    image: todomvc
+    # container_name: dq-dockerwheel
+    volumes:
+      - ./todomvc:/clj
+    build:
+      context: ./todomvc
+      dockerfile: ./Dockerfile
+    ports:
+      - 3448:3448
+      - 7878:7888
+    # command: tail -f /dev/null
+    # command: lein do clean, figwheel
+    command: bash c init
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # links:
+      # - app-pro
+      # - app-free
+      # - app-query
+    # depends_on:
+    #   - base
