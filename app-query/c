@@ -17,6 +17,10 @@ start(){
   lein run
 }
 
+init(){
+  lein run-dev
+}
+
 nrepl_cljs(){
   clj -R:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"
 }

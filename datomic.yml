@@ -391,18 +391,18 @@ services:
     links:
       # - app-pro
       - app-free
-      - query-service
+      - app-query
     # depends_on:
     #   - base
 
 
-  query-service:
-    image: query-service
-    container_name: conj-query-service
+  app-query:
+    image: app-query
+    container_name: conj-app-query
     volumes:
-      - ./query-service:/opt/code/app
+      - ./app-query:/opt/code/app
     build:
-      context: ./query-service
+      context: ./app-query
       dockerfile: ./Dockerfile
     ports:
       # - 35544:35543
@@ -410,7 +410,6 @@ services:
       # - 8891:8890
       - 8892:8080
       - 8893:8081
-
     command: bash c init
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
