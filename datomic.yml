@@ -335,6 +335,7 @@ services:
     links:
       - clj
       - datomicdb
+      - datomicdbfree
 
   load-codeqs:
     image: load-codeqs

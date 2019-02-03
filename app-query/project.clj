@@ -1,12 +1,23 @@
 (defproject dq.app-query "0.1.0-SNAPSHOT"
   ; :main dq.dq
+  
+   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo/"
+                                    ; :creds :gpg
+                                    }}
+  
   :plugins [[cider/cider-nrepl "0.18.0"]
             [nightlight/lein-nightlight "RELEASE"]]
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [cider/piggieback "0.3.10"]
                  [figwheel-sidecar "0.5.16"]
                  [nrepl "0.5.3"]
+                 
                  [com.datomic/datomic-free "0.9.5656"]
+                ;  [com.datomic/datomic-pro "0.9.5661"]
+                 
+                ;  com.datomic/datomic-pro {:mvn/version "0.9.5661"}
+                 
+                 
                  [commons-codec "1.7"]
                  [io.pedestal/pedestal.service       "0.5.5"]
                  [io.pedestal/pedestal.service-tools "0.5.5"] ;; Only needed for ns-watching; WAR tooling

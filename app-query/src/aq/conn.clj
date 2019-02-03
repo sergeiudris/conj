@@ -6,7 +6,11 @@
             
             ))
 
-(def  db-uri "datomic:free://datomicdbfree:4334/hello")
+; (def  db-uri "datomic:free://datomicdbfree:4334/hello")
+
+
+(def db-uri "datomic:free://datomicdbfree:4334/mbrainz-1968-1973")
+
 
 (d/create-database db-uri)
 

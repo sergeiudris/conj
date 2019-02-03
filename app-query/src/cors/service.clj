@@ -20,7 +20,10 @@
             [io.pedestal.http.route.definition :refer [defroutes]]
             [io.pedestal.http.sse :as sse]
             [ring.util.response :as ring-resp]
-            [ring.middleware.cors :as cors]))
+            [ring.middleware.cors :as cors]
+            [aq.conn]
+            [aq.query]
+            ))
 
 ;; If this looks familiar, it's very similar to the server-sent-events sample!
 ;; have a look at that sample if it's not immediately apparent what's happening
