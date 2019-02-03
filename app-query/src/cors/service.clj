@@ -49,7 +49,7 @@
 
 
 (defn gen-resp []
-  {:status 200 :body {:data "ok"}})
+  {:status 200 :body (str {:data "ok"})})
 
 (defn respond-hello [request]
   (gen-resp))

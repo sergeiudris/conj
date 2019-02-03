@@ -52,6 +52,8 @@
   
   (find-ns 'aq.aq)
 
+  (str {:a 3 :b {}})
+
   
   
   (pp/pprint (keys (ns-publics 'datomic.api)))
