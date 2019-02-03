@@ -3,6 +3,7 @@
   (:require [cljs-http.client :as http]
             [cljs.repl :as repl]
             [cljs.pprint :as pp]
+            [cljs.reader :as reader]
             [cljs.core.async :refer [<! take!]]))
 
 
@@ -69,7 +70,7 @@
   (go (let [result (<! (app-pro-get-health))]
         (pp/pprint result)
         (->>
-         (first (keys result))
+         (first (keys (reader/read-string result)))
         ;  :id
          pp/pprint
          )

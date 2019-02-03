@@ -1,6 +1,7 @@
 (ns aq.conn
   (:require [datomic.api :as d]
             [clojure.pprint :as pp]
+            [clojure.edn :as edn]
             [clojure.repl :refer :all]
             
             ))
