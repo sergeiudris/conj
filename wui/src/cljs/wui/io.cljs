@@ -7,14 +7,20 @@
             [cljs.core.async :refer [<! take!]]))
 
 
-(defn app-pro-get-health []
-    (go (let [response (<! (http/get "http://localhost:8893/health"
-                                     {:with-credentials? false
-                                      :query-params {"since" 135}}))]
+(defn app-pro-get-entity-params
+  "Query paginated entities"
+  [{:keys [limit offset attribute] :or {:limit 10 :offset 0}}]
+  (go (let [response (<! (http/get "http://localhost:8893/entity-params"
+                                   {:with-credentials? false
+                                    :query-params {
+                                                   "limit" limit
+                                                   "offset" offset
+                                                   "attribute" attribute
+                                                   }}))]
           ; (prn (:status response))
           ; (prn (map :login (:body response)))
-          (:body response)
-          ))
+        (:body response)
+        ))
   )
 
 ; (defn github-get-users []
@@ -67,10 +73,11 @@
         ))
   
   
-  (go (let [result (<! (app-pro-get-health))]
+  (go (let [result (<! ( app-pro-get-entity-params {:limit 1 :offset 0 :attribute :release/name} ))]
         (pp/pprint result)
         (->>
-         (first (keys (reader/read-string result)))
+        ;  (first (keys (reader/read-string result)))
+         (first (keys  result))
         ;  :id
          pp/pprint
          )

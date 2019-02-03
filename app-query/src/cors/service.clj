@@ -66,7 +66,7 @@
   [[
     ["/"   {:get [::send-stuff (sse/start-event-stream sse-stream-ready)]}]
     ["/health" {:get [::health cors.handlers.health/handler ]} ]
-    ["/entity"  {:get [::entity cors.handlers.query/entity]}]
+    ["/entity-params"  {:get [::entity-params cors.handlers.query/entity-params]}]
     ]])
 
 

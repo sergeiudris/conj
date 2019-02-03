@@ -8,7 +8,8 @@
 
 (defn get-paginted-entity
   "Returns entities and total count given limit,offset and attribute keword"
-  [attribute limit offset]
+  [{:keys [attribute limit offset]
+    :or {limit 10 offset 0}}]
   {:entities (->>
               (d/q '{:find [?e (count ?e)]
                      :in [$ ?attribute]
@@ -36,10 +37,19 @@
        (cdb))
 
   (->>
-   (get-paginted-entity :artist/name 10 0)
+   (get-paginted-entity {:attribute :artist/name 
+                         :limit 1
+                         })
    (pp/pprint)
    )
-  
-  
+  (int "1")
+  (Integer/parseInt "1")
 
+  
+  (defn parse-int [number-string]
+    (try (Integer/parseInt number-string)
+         (catch Exception e nil)))
+
+  (or (parse-int nil) 10)
+  
   )
