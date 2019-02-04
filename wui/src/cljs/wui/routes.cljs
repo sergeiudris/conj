@@ -19,7 +19,7 @@
     (.setEnabled true)))
 
 (defn app-routes []
-  (secretary/set-config! :prefix "#")
+  (secretary/set-config! :prefix "#/")
   ;; --------------------
   ;; define routes here
   (defroute "/" []
@@ -47,6 +47,9 @@
   
   (defroute "/hello" []
     (re-frame/dispatch [::events/set-active-panel :about-panel]))
+  
+  (defroute "/entity" []
+      (re-frame/dispatch [::events/set-active-panel :entity-panel]))
   
   ;; --------------------
   (hook-browser-navigation!))

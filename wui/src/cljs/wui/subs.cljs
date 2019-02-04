@@ -16,3 +16,8 @@
  ::re-pressed-example
  (fn [db _]
    (:re-pressed-example db)))
+
+(re-frame/reg-sub
+ ::songs-list
+ (fn [db _]
+   (:songs-list db)))

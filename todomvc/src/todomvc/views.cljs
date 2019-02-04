@@ -108,3 +108,11 @@
     [footer-controls]]
    [:footer#info
     [:p "Double-click to edit a todo"]]])
+
+
+(comment 
+
+  (footer-controls)
+  
+  
+  )

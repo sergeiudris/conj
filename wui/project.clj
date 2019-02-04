@@ -11,6 +11,7 @@
                  [ns-tracker "0.3.1"]
                  [re-pressed "0.2.2"]
                  [cljs-http "0.1.45"]
+                 [re-frame-datatable "0.6.0"]
                  ]
 
   :plugins [[lein-cljsbuild "1.1.7"]
