@@ -90,11 +90,7 @@
 ;; entity
 
 
-(defn click-me []
-  [ant/button 
-   {:on-click #(ant/message-info "Hello Reagent!")
-    :style {:width "100px"}} 
-   "Click me"])
+
 
 ;; people data
 (def people [{:id 1 :name "Tracey Davidson" :age 43 :address "5512 Pockrus Page Rd"}
@@ -178,6 +174,38 @@
 (defn table-pagination []
   [dtv/default-pagination-controls :pagination [::subs/songs-list]])
 
+
+(def log (.-log js/console))
+
+(defn tags []
+  [:section
+   [ant/tag {:color "purple"} ":artist/name"]
+   [ant/tag {:color "volcano"} ":track/name"]
+   [ant/tag {:color "orange"} ":release/year"]
+   [ant/tag {:color "gold"} ":medium/tracks"]
+   [ant/tag {:color "lime"} ":label/country"]
+   ])
+
+(defn entity-buttons []
+  [:section
+   [ant/button-group 
+    {:size "small"
+    ;  :on-click #(ant/message-info (.-value (-.target %1)))
+    ;  :on-click #(prn (.-nativeEvent  %1))
+    ;  :on-click #(log %1)
+     :on-click #(-> % .-target .-value log)
+     }
+    [ant/button {:icon "info" :value ":artist/name"}]
+    [ant/button {:icon "github" :value ":release/year"}]
+    ]
+   ])
+
+(defn click-me []
+  [ant/button
+   {:on-click #(ant/message-info "Hello Reagent!")
+    :style {:width "100px"}}
+   "Click me"])
+
 (defn entity-title []
   [re-com/title
    :label "Entity"
@@ -190,6 +218,8 @@
               [entity-title]
               ; [sneak-peek-for-readme]
               ; [table-pagination]
+              [tags]
+              [entity-buttons]
               [datatable]
               [click-me]
               ]])

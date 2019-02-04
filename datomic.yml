@@ -326,7 +326,7 @@ services:
     build:
       context: ./load-mbrainz
       dockerfile: ./Dockerfile
-    command: sh mbrainz.sh ; tail -f /dev/null
+    command: sh mbrainz.sh && tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0

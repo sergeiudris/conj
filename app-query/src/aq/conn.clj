@@ -12,7 +12,9 @@
 (def db-uri "datomic:free://datomicdbfree:4334/mbrainz-1968-1973")
 
 
-(d/create-database db-uri)
+; (d/create-database db-uri)
+(d/delete-database db-uri)
+
 
 (do
  (def conn (d/connect db-uri))
@@ -29,6 +31,14 @@
 
 
   (d/q '[:find ?e :in $] db)
+
+(d/q '{:find [(count ?e) .]
+       :where [
+               [?e :artist/name]
+               ]
+       }
+     (cdb)
+     )
 
 ; first query!
   (map first
