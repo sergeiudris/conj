@@ -194,7 +194,8 @@
     ;  :on-click #(ant/message-info (.-value (-.target %1)))
     ;  :on-click #(prn (.-nativeEvent  %1))
     ;  :on-click #(log %1)
-     :on-click #(-> % .-target .-value log)
+    ;  :on-click #(-> % .-target .-value log)
+     :on-click #(re-frame/dispatch [:get-entities])
      }
     [ant/button { :value ":artist/name"} ":artist/name"]
     [ant/button { :value ":release/year"} ":release/year"]

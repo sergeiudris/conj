@@ -4,6 +4,8 @@
                  [reagent "0.8.1"]
                  [antizer "0.3.1"]
                  [re-frame "0.10.6"]
+                 [day8.re-frame/http-fx "0.1.6"]
+                 [cljs-ajax "0.8.0"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [org.clojure/core.async "0.4.490"]
                  [re-com "2.1.0"]

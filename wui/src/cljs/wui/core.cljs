@@ -10,6 +10,7 @@
    [wui.io :as io]
    [cljs.spec.alpha :as s]
    [goog.events :as gevents]
+   [day8.re-frame.http-fx]
    ))
 
 
