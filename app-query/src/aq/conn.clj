@@ -13,7 +13,7 @@
 
 
 ; (d/create-database db-uri)
-(d/delete-database db-uri)
+; (d/delete-database db-uri)
 
 
 (do
