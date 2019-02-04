@@ -15,6 +15,7 @@
                  [re-pressed "0.2.2"]
                  [cljs-http "0.1.45"]
                  [re-frame-datatable "0.6.0"]
+                 [binaryage/devtools "0.9.10"]
                  ]
 
   :plugins [[lein-cljsbuild "1.1.7"]
@@ -68,8 +69,7 @@
                                            day8.re-frame-10x.preload]
                     :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true
                                            "day8.re_frame.tracing.trace_enabled_QMARK_" true}
-                    :external-config      {:devtools/config {:features-to-install :all}}
-                    }
+                    :external-config      {:devtools/config {:features-to-install :all}}}
     ;  :figwheel {:on-jsload "wui.core/init"
     ;             :websocket-host "0.0.0.0"}
      

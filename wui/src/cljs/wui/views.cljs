@@ -132,20 +132,34 @@
                                   (remove (fn [d] (= (get (js->clj %2) "id")
                                                      (:id d))) @data-atom)))}])}))
 
+(def log (.-log js/console))
+
+
 ;; ant table
 (defn datatable []
   "antd table to rednner people"
-  (let [data (r/atom people)]
+  (let [data-default (r/atom people)
+        data (re-frame/subscribe [:entities-vector])
+        columns (re-frame/subscribe [:entities-columns])
+        ]
     (fn []
+      ; (log (or data []))
+      (log @data)
+      (log @columns)
+      ; (log (into [] (or columns [])))
       [:div
        [:h2 "Data Table"]
        [ant/table
-        {:columns (add-actions-column columns data)
-         :dataSource @data :pagination pagination :row-key "id"
+        {:columns @columns ;(add-actions-column columns data)
+         :dataSource @data 
+         :pagination pagination 
+         :row-key "id"
          :row-selection
          {:on-change
           #(let [selected (js->clj %2 :keywordize-keys true)]
-             (ant/message-info (str "You have selected: " (map :name selected))))}}]])))
+             (ant/message-info (str "You have selected: " (map :name selected))))}}]
+       
+       ])))
 
 (defn sneak-peek-for-readme []
   [dt/datatable
@@ -175,7 +189,6 @@
   [dtv/default-pagination-controls :pagination [::subs/songs-list]])
 
 
-(def log (.-log js/console))
 
 (defn tags []
   [:section
@@ -251,6 +264,8 @@
   
   (+ 1 1)
 
+  (or nil [])
+  
   (doc +)
   
   (doc ant/button)

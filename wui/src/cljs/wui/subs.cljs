@@ -21,3 +21,37 @@
  ::songs-list
  (fn [db _]
    (:songs-list db)))
+
+
+(re-frame/reg-sub
+ :entities-data
+ (fn [db _]
+   (:entities db)))
+
+(re-frame/reg-sub
+ :entities-vector
+ (fn [_ _]  (re-frame/subscribe [:entities-data]))
+ (fn [data _]
+    (or  (:entities data) [])
+   ))
+
+(re-frame/reg-sub
+ :entities-columns
+ (fn [_ _]  (re-frame/subscribe [:entities-data]))
+ (fn [data _]
+   (->> 
+    (->> (:entities data)
+         first
+         keys
+         (map (fn [key] {:title key :dataIndex key}))
+         (into [])
+         tap
+         )
+    )
+   ))
+
+
+   
+  ;  (map fn [entity] {:title (get-in data [:request-data :attribute])
+  ;                    :dataIndex 
+  ;                    }data )))
