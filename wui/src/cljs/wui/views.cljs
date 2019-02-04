@@ -3,9 +3,12 @@
    [re-frame.core :as re-frame]
    [re-com.core :as re-com]
    [re-pressed.core :as rp]
+   [cljs.repl :refer [doc source]]
    [wui.subs :as subs]
    [re-frame-datatable.core :as dt]
    [re-frame-datatable.views :as dtv]
+   [antizer.reagent :as ant]
+   [reagent.core :as r]
    ))
 
 
@@ -86,6 +89,68 @@
 
 ;; entity
 
+
+(defn click-me []
+  [ant/button 
+   {:on-click #(ant/message-info "Hello Reagent!")
+    :style {:width "100px"}} 
+   "Click me"])
+
+;; people data
+(def people [{:id 1 :name "Tracey Davidson" :age 43 :address "5512 Pockrus Page Rd"}
+             {:id 2 :name "Pierre de Wiles" :age 41 :address "358 Fermat's St"}
+             {:id 3 :name "Lydia Weaver" :age 23 :address "1251 Fourth St"}
+             {:id 4 :name "Willie Reynolds" :age 26 :address "2984 Beechcrest Rd"}
+             {:id 5 :name "Richard Perelman" :age 51 :address "2003 Poincaré Ricci Rd"}
+             {:id 6 :name "Srinivasa Ramanujan" :age 32 :address "1729 Taxi Cab St"}
+             {:id 7 :name "Zoe Cruz" :age 31 :address "8593 Pine Rd"}
+             {:id 8 :name "Adam Turing" :age 41 :address "1936 Automata Lane"}])
+
+(defn comparison [data1 data2 field]
+  (compare (get (js->clj data1 :keywordize-keys true) field)
+           (get (js->clj data2 :keywordize-keys true) field)))
+
+
+;; we need to use dataIndex instead of data-index, see README.md
+(def columns [{:title "Name" :dataIndex "name" :sorter #(comparison %1 %2 :name)}
+              {:title "Age" :dataIndex "age" :sorter #(comparison %1 %2 :age)}
+              {:title "Address" :dataIndex "address" :sorter #(comparison %1 %2 :address)}])
+
+
+
+
+(def pagination {:show-size-changer true
+                 :default-page-size 5
+                 :page-size-options ["5" "10" "20"]
+                 :show-total #(str "Total: " % " users")})
+
+(defn add-actions-column [columns data-atom]
+  (conj columns
+        {:title "Actions"
+         :render
+         #(r/as-element
+           [ant/button {:icon "delete" :type "danger"
+                        :on-click
+                        (fn []
+                          (reset! data-atom
+                                  (remove (fn [d] (= (get (js->clj %2) "id")
+                                                     (:id d))) @data-atom)))}])}))
+
+;; ant table
+(defn datatable []
+  "antd table to rednner people"
+  (let [data (r/atom people)]
+    (fn []
+      [:div
+       [:h2 "Data Table"]
+       [ant/table
+        {:columns (add-actions-column columns data)
+         :dataSource @data :pagination pagination :row-key "id"
+         :row-selection
+         {:on-change
+          #(let [selected (js->clj %2 :keywordize-keys true)]
+             (ant/message-info (str "You have selected: " (map :name selected))))}}]])))
+
 (defn sneak-peek-for-readme []
   [dt/datatable
    :songs
@@ -123,8 +188,10 @@
    :gap "1em"
    :children [[link-to-home-page]
               [entity-title]
-              [sneak-peek-for-readme]
-              [table-pagination]
+              ; [sneak-peek-for-readme]
+              ; [table-pagination]
+              [datatable]
+              [click-me]
               ]])
 
 ;; main
@@ -144,3 +211,20 @@
     [re-com/v-box
      :height "100%"
      :children [[panels @active-panel]]]))
+
+
+(comment
+  
+  (+ 1 1)
+
+  (doc +)
+  
+  (doc ant/button)
+
+  (source ant/button)
+  
+  (doc js->clj)
+  
+  
+  
+  )
