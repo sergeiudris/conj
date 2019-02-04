@@ -184,6 +184,7 @@
    [ant/tag {:color "orange"} ":release/year"]
    [ant/tag {:color "gold"} ":medium/tracks"]
    [ant/tag {:color "lime"} ":label/country"]
+   
    ])
 
 (defn entity-buttons []
@@ -195,8 +196,10 @@
     ;  :on-click #(log %1)
      :on-click #(-> % .-target .-value log)
      }
-    [ant/button {:icon "info" :value ":artist/name"}]
-    [ant/button {:icon "github" :value ":release/year"}]
+    [ant/button { :value ":artist/name"} ":artist/name"]
+    [ant/button { :value ":release/year"} ":release/year"]
+    [ant/button {:value ":label/country"} ":label/country"]
+    [ant/button {:value ":medium/tracks"} ":medium/tracks"]
     ]
    ])
 
