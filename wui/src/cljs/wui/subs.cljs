@@ -78,14 +78,25 @@
  (fn [db _]
    (:entity-table-state db)))
 
+(re-frame/reg-sub
+ :active-attribute
+ (fn [db _]
+   (:active-attribute db)))
+
 
 (re-frame/reg-sub
  :entity-request-data
- (fn [_ _]  [(re-frame/subscribe [:entities-data]) (re-frame/subscribe [:entities-table-state])] )
- (fn [[entities-data entities-table-state] _]
-   {:entities-data entities-data
-    :entities-table-state entities-table-state
-    }
+ (fn [_ _]  [(re-frame/subscribe [:active-attribute]) (re-frame/subscribe [:entities-table-state])] )
+ (fn [[active-attribute entities-table-state] _]
+   (conlog entities-table-state)
+   (let [limit (get-in entities-table-state [:pagination :pageSize] 10)
+         offset (->> (get-in entities-table-state [:pagination :current] 1) dec (* limit))
+         ]
+     {:attribute active-attribute
+      :limit limit
+      :offset offset
+      :fmt "edn"} ;{:limit 10 :offset 10 :attribute :artist/name :fmt "edn"}
+     )
    )
  )
    

@@ -29,28 +29,29 @@
 ;  [(re-frame/)]
  [(re-frame/inject-cofx ::inject/sub [:entity-request-data])]
  (fn [{:keys [db entity-request-data]} [_ a]]
-  ;  (conlog entity-request-data)
+   (conlog entity-request-data)
    
    {:http-xhrio {:method :get
                  :uri "http://localhost:8893/entity"
                  :response-format (ajax/raw-response-format)
                  :on-success [:process-response]
                  :format :edn
-                 :params {:data (str {:limit 10 :offset 10 :attribute :artist/name :fmt "edn"})}
+                 :params {:data (->> (merge {:limit 10 :offset 0 :attribute :artist/name :fmt "edn"} entity-request-data) str) }
                  :on-fail [:failed-response]}
     :db (assoc db :flag true)})
  )
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  :entity-table-state
- (fn [db [_ pagination filters sorter extra]]
+ (fn [{:keys [db]} [_ pagination filters sorter extra]]
   ;  (prn value)
-   (assoc db :entity-table-state {
-                                  :pagination  (js->clj pagination :keywordize-keys true)
-                                  :filters (js->clj filters :keywordize-keys true)
-                                  :sorter (js->clj sorter :keywordize-keys true)
-                                  :extra (js->clj extra :keywordize-keys true)
-                                  })))
+   {
+    :dispatch [:get-entities nil]
+    :db    (assoc db :entity-table-state {:pagination  (js->clj pagination :keywordize-keys true)
+                                          :filters (js->clj filters :keywordize-keys true)
+                                          :sorter (js->clj sorter :keywordize-keys true)
+                                          :extra (js->clj extra :keywordize-keys true)})}
+   ))
 
 (re-frame/reg-event-fx
  :active-attribute

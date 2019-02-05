@@ -116,7 +116,7 @@
 
 
 (def pagination {:show-size-changer true
-                 :default-page-size 5
+                 :default-page-size 10
                  :page-size-options ["5" "10" "20"]
                  :position "top"
                  :show-total #(str "Total: " % " users")})
