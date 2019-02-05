@@ -65,6 +65,13 @@
    )
  )
 
+(re-frame/reg-sub
+ :entities-total-count
+ (fn [_ _] (re-frame/subscribe [:entities-data]))
+ (fn [data _]
+     (:count data)
+   )
+)
 
 
    

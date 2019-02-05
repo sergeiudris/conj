@@ -118,6 +118,7 @@
 (def pagination {:show-size-changer true
                  :default-page-size 5
                  :page-size-options ["5" "10" "20"]
+                 :position "top"
                  :show-total #(str "Total: " % " users")})
 
 (defn add-actions-column [columns data-atom]
@@ -141,6 +142,7 @@
   (let [data-default (r/atom people)
         data (re-frame/subscribe [:entities-vector])
         columns (re-frame/subscribe [:entities-columns])
+        entities-total-count (re-frame/subscribe [:entities-total-count])
         ]
     (fn []
       ; (log (or data []))
@@ -152,7 +154,7 @@
        [ant/table
         {:columns @columns ;(add-actions-column columns data)
          :dataSource @data 
-         :pagination pagination 
+         :pagination (merge pagination {:total @entities-total-count}) 
          :row-key "id"
          :row-selection
          {:on-change
@@ -278,7 +280,7 @@
   (source ant/button)
   
   (doc js->clj)
-  
+  (merge {:a 3} {:total 2})
   
   
   )
