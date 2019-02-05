@@ -208,12 +208,17 @@
     ;  :on-click #(prn (.-nativeEvent  %1))
     ;  :on-click #(log %1)
     ;  :on-click #(-> % .-target .-value log)
-     :on-click #(re-frame/dispatch [:get-entities])
+     :on-click #(re-frame/dispatch [:get-entities (-> % .-target .-value)])
      }
     [ant/button { :value ":artist/name"} ":artist/name"]
-    [ant/button { :value ":release/year"} ":release/year"]
+    [ant/button { :value ":release/name"} ":release/name"]
     [ant/button {:value ":label/country"} ":label/country"]
-    [ant/button {:value ":medium/tracks"} ":medium/tracks"]
+    [ant/button {:value ":track/name"} ":track/name"]
+    
+    
+    
+    ; [ant/button {:value ":medium/format"} ":medium/format"]
+    ; [ant/button {:value ":medium/tracks"} ":medium/tracks"]
     ]
    ])
 

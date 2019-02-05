@@ -54,7 +54,12 @@
     (:entities data)
     first
     keys
-    (map (fn [key] {:title key :dataIndex key}))
+    (map (fn [key] 
+           {
+            :title key 
+            :dataIndex key 
+            :render (fn [text record index] (str text) )}
+           ))
     (into [])
     )
    )

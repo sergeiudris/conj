@@ -24,13 +24,13 @@
 
 (re-frame/reg-event-fx
  :get-entities
- (fn [{:keys [db]} [_ a]] 
+ (fn [{:keys [db]} [_ attribute]] 
    {:http-xhrio {:method :get
                  :uri "http://localhost:8893/entity"
                  :response-format (ajax/raw-response-format)
                  :on-success [:process-response]
                  :format :edn
-                 :params {:data (str {:limit 10 :offset 10 :attribute :artist/name :fmt "edn"}) }
+                 :params {:data (str {:limit 10 :offset 10 :attribute attribute :fmt "edn"}) }
                  :on-fail [:failed-response]}
     :db (assoc db :flag true)
     }
