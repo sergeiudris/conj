@@ -5,6 +5,8 @@
    [day8.re-frame.tracing :refer-macros [fn-traced defn-traced]]
    [ajax.core :as ajax]
    [cljs.reader :as reader]
+   [wui.dev :refer [conlog]]
+   [vimsical.re-frame.cofx.inject :as inject]
    ))
 
 (re-frame/reg-event-db
@@ -24,18 +26,20 @@
 
 (re-frame/reg-event-fx
  :get-entities
- (fn [{:keys [db]} [_ attribute]] 
+;  [(re-frame/)]
+ [(re-frame/inject-cofx ::inject/sub [:entity-request-data])]
+ (fn [{:keys [db entity-request-data]} [_ a]]
+  ;  (conlog entity-request-data)
+   
    {:http-xhrio {:method :get
                  :uri "http://localhost:8893/entity"
                  :response-format (ajax/raw-response-format)
                  :on-success [:process-response]
                  :format :edn
-                 :params {:data (str {:limit 10 :offset 10 :attribute attribute :fmt "edn"}) }
+                 :params {:data (str {:limit 10 :offset 10 :attribute :artist/name :fmt "edn"})}
                  :on-fail [:failed-response]}
-    :db (assoc db :flag true)
-    }
-   )
-)
+    :db (assoc db :flag true)})
+ )
 
 (re-frame/reg-event-db
  :entity-table-state
@@ -47,6 +51,17 @@
                                   :sorter (js->clj sorter :keywordize-keys true)
                                   :extra (js->clj extra :keywordize-keys true)
                                   })))
+
+(re-frame/reg-event-fx
+ :active-attribute
+ (fn [{:keys [db]} [_ value]]
+   {
+    :dispatch [:get-entities value]
+    :db (assoc db :active-attribute value)
+    }
+   )
+ )
+
 
 ; {:pagination pagination
 ;  :filters filters

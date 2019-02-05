@@ -73,7 +73,21 @@
    )
 )
 
+(re-frame/reg-sub
+ :entities-table-state
+ (fn [db _]
+   (:entity-table-state db)))
 
+
+(re-frame/reg-sub
+ :entity-request-data
+ (fn [_ _]  [(re-frame/subscribe [:entities-data]) (re-frame/subscribe [:entities-table-state])] )
+ (fn [[entities-data entities-table-state] _]
+   {:entities-data entities-data
+    :entities-table-state entities-table-state
+    }
+   )
+ )
    
   ;  (map fn [entity] {:title (get-in data [:request-data :attribute])
   ;                    :dataIndex 

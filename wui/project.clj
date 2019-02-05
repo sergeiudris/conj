@@ -16,6 +16,7 @@
                  [cljs-http "0.1.45"]
                  [re-frame-datatable "0.6.0"]
                  [binaryage/devtools "0.9.10"]
+                 [re-frame-utils "0.1.0"]
                  ]
 
   :plugins [[lein-cljsbuild "1.1.7"]

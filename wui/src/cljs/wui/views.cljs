@@ -218,7 +218,8 @@
     ;  :on-click #(prn (.-nativeEvent  %1))
     ;  :on-click #(log %1)
     ;  :on-click #(-> % .-target .-value log)
-     :on-click #(re-frame/dispatch [:get-entities (-> % .-target .-value)])
+    ;  :on-click #(re-frame/dispatch [:get-entities (-> % .-target .-value)])
+     :on-click #(re-frame/dispatch [:active-attribute (-> % .-target .-value)])
      }
     [ant/button { :value ":artist/name"} ":artist/name"]
     [ant/button { :value ":release/name"} ":release/name"]
