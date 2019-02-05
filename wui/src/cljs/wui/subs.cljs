@@ -71,4 +71,10 @@
   
   (repl/doc get-in)
   
+  (pp/pprint @re-frame.db/app-db)
+  
+  (-> js/window .-re_frame .-db .-app_db .-state)
+  ;;window.re_frame.db.app_db.state
+
+  
   )
