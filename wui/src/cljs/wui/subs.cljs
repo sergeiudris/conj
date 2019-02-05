@@ -1,6 +1,10 @@
 (ns wui.subs
   (:require
-   [re-frame.core :as re-frame]))
+   [re-frame.core :as re-frame]
+   [cljs.repl :as repl]
+   [cljs.pprint :as pp]
+   [wui.dev :refer [log-idty conlog]]
+   ))
 
 (re-frame/reg-sub
  ::name
@@ -26,32 +30,45 @@
 (re-frame/reg-sub
  :entities-data
  (fn [db _]
-   (:entities db)))
+   ; (prn (:entities-response db) 0.5)
+   (->>
+    (pp/pprint (get-in db [:entities-response]) )
+    (get-in db [:entities-response :data])
+    )
+   )
+ )
 
 (re-frame/reg-sub
  :entities-vector
  (fn [_ _]  (re-frame/subscribe [:entities-data]))
  (fn [data _]
-    (or  (:entities data) [])
+   (or  (:entities data) [])
    ))
 
 (re-frame/reg-sub
  :entities-columns
  (fn [_ _]  (re-frame/subscribe [:entities-data]))
  (fn [data _]
-   (->> 
-    (->> (:entities data)
-         first
-         keys
-         (map (fn [key] {:title key :dataIndex key}))
-         (into [])
-         tap
-         )
+   (->>  
+    (:entities data)
+    first
+    keys
+    (map (fn [key] {:title key :dataIndex key}))
+    (into [])
     )
-   ))
+   )
+ )
+
 
 
    
   ;  (map fn [entity] {:title (get-in data [:request-data :attribute])
   ;                    :dataIndex 
   ;                    }data )))
+
+
+(comment
+  
+  (repl/doc get-in)
+  
+  )

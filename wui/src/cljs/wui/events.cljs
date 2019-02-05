@@ -4,6 +4,7 @@
    [wui.db :as db]
    [day8.re-frame.tracing :refer-macros [fn-traced defn-traced]]
    [ajax.core :as ajax]
+   [cljs.reader :as reader]
    ))
 
 (re-frame/reg-event-db
@@ -28,6 +29,8 @@
                  :uri "http://localhost:8893/entity"
                  :response-format (ajax/raw-response-format)
                  :on-success [:process-response]
+                 :format :edn
+                 :params {:data (str {:limit 10 :offset 10 :attribute :artist/name :fmt "edn"}) }
                  :on-fail [:failed-response]}
     :db (assoc db :flag true)
     }
@@ -38,8 +41,8 @@
 (re-frame/reg-event-db
  :process-response
  (fn [db [_ value]]
-   (prn value)
-   (assoc db :entities value)
+  ;  (prn value)
+   (assoc db :entities-response (reader/read-string value) )
    ))
 
 (re-frame/reg-event-db

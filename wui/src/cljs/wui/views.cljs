@@ -144,8 +144,8 @@
         ]
     (fn []
       ; (log (or data []))
-      (log @data)
-      (log @columns)
+      ; (log @data)
+      ; (log @columns)
       ; (log (into [] (or columns [])))
       [:div
        [:h2 "Data Table"]

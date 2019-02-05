@@ -55,3 +55,4 @@ ls-key
 (doc ->>)
 (keys {:a})
 (keys {:a 3})
+(do (require '[figwheel-sidecar.repl-api :as figwheel]) (figwheel/cljs-repl))
