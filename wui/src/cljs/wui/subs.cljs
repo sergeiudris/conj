@@ -32,7 +32,8 @@
  (fn [db _]
    ; (prn (:entities-response db) 0.5)
    (->>
-    (pp/pprint (get-in db [:entities-response]) )
+   ;  (pp/pprint (get-in db [:entities-response]) )
+    (conlog (get-in db [:entities-response]))
     (get-in db [:entities-response :data])
     )
    )
