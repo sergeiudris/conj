@@ -135,6 +135,10 @@
 
 (def log (.-log js/console))
 
+(defn on-table-change [pagination filters sorter extra]
+  (re-frame/dispatch [:entity-table-state pagination filters sorter extra]
+  )
+)
 
 ;; ant table
 (defn datatable []
@@ -150,11 +154,15 @@
       ; (log @columns)
       ; (log (into [] (or columns [])))
       [:div
-       [:h2 "Data Table"]
+       [:h2 "Entity Table"]
        [ant/table
         {:columns @columns ;(add-actions-column columns data)
          :dataSource @data 
-         :pagination (merge pagination {:total @entities-total-count}) 
+         :on-change on-table-change
+         :pagination (merge pagination {
+                                        :total @entities-total-count
+                                        :on-change #(log %1 %2)
+                                        })
          :row-key "id"
          :row-selection
          {:on-change
@@ -239,13 +247,14 @@
   [re-com/v-box
    :gap "1em"
    :children [[link-to-home-page]
-              [entity-title]
+              ; [entity-title]
+              [:br] [:br]
               ; [sneak-peek-for-readme]
               ; [table-pagination]
-              [tags]
+              ; [tags]
               [entity-buttons]
               [datatable]
-              [click-me]
+              ; [click-me]
               ]])
 
 ;; main

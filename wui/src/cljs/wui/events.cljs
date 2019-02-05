@@ -37,6 +37,21 @@
    )
 )
 
+(re-frame/reg-event-db
+ :entity-table-state
+ (fn [db [_ pagination filters sorter extra]]
+  ;  (prn value)
+   (assoc db :entity-table-state {
+                                  :pagination  (js->clj pagination :keywordize-keys true)
+                                  :filters (js->clj filters :keywordize-keys true)
+                                  :sorter (js->clj sorter :keywordize-keys true)
+                                  :extra (js->clj extra :keywordize-keys true)
+                                  })))
+
+; {:pagination pagination
+;  :filters filters
+;  :sorter sorter
+;  :extra extra}
 
 (re-frame/reg-event-db
  :process-response
