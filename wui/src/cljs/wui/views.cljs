@@ -119,7 +119,7 @@
                  :default-page-size 10
                  :page-size-options ["5" "10" "20"]
                  :position "top"
-                 :show-total #(str "Total: " % " users")})
+                 :show-total #(str "Total: " % " entities")})
 
 (defn add-actions-column [columns data-atom]
   (conj columns
