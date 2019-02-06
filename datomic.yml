@@ -326,7 +326,7 @@ services:
     build:
       context: ./load-mbrainz
       dockerfile: ./Dockerfile
-    command: bash mbrainz.sh 
+    command: bash c init
     # command: bash c nrepl_clj
     # environment:
     #   - DISPLAY=10.0.75.1:0.0
@@ -336,6 +336,11 @@ services:
       - clj
       - datomicdb
       - datomicdbfree
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:8890"]
+      interval: 1s
+      timeout: 0s
+      retries: 100
 
   load-codeqs:
     image: load-codeqs
@@ -386,7 +391,7 @@ services:
       # - 8891:8890
       - 8892:8080
       - 8893:8081
-    command: bash c init
+    command: dockerize -wait http://load-mbrainz:8890/health -timeout 360s  bash c init
     # command: tail -f /dev/null
     # command: bash c nrepl_clj
     # environment:
@@ -400,6 +405,7 @@ services:
       - datomicdb
       - datomicdbpeer
       - datomicdbfree
+      - load-mbrainz
 
 
 
