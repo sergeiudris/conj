@@ -460,3 +460,33 @@ services:
       # - app-query
     # depends_on:
     #   - base
+
+
+  app-exp:
+    image: app-exp
+    container_name: conj-app-exp
+    volumes:
+      - ./app-exp:/opt/code/app
+    build:
+      context: ./app-exp
+      dockerfile: ./Dockerfile
+    ports:
+      # - 35544:35543
+      - 7890:7888
+      # - 8891:8890
+      - 8899:8080
+    command: dockerize -wait http://load-mbrainz:8890/health -timeout 360s  bash c init
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
+    links:
+      - clj
+      - datomicdb
+      - datomicdbpeer
+      - datomicdbfree
+      - load-mbrainz
