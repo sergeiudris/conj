@@ -16,7 +16,7 @@
                 ;  [com.datomic/datomic-pro "0.9.5661"]
                  
                 ;  com.datomic/datomic-pro {:mvn/version "0.9.5661"}
-                 
+                 [com.cerner/clara-rules "0.19.0"]
                  
                  [commons-codec "1.7"]
                  [io.pedestal/pedestal.service       "0.5.5"]
