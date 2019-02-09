@@ -3,6 +3,7 @@
             [clojure.pprint :as pp]
             [dev.server]
             [exp.clara.clara]
+            [exp.rabbitmq]
             [dev.nrepl]))
 
 

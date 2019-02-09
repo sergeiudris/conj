@@ -18,6 +18,9 @@
                 ;  com.datomic/datomic-pro {:mvn/version "0.9.5661"}
                  [com.cerner/clara-rules "0.19.0"]
                  
+                ;  [com.novemberain/langohr "3.3.0"]
+                 [com.novemberain/langohr "5.1.0"]
+                 
                  [commons-codec "1.7"]
                  [io.pedestal/pedestal.service       "0.5.5"]
                  [io.pedestal/pedestal.service-tools "0.5.5"] ;; Only needed for ns-watching; WAR tooling
