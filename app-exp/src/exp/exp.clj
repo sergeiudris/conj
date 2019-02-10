@@ -5,6 +5,7 @@
             [exp.clara.clara]
             [exp.rabbitmq]
             [exp.logic]
+            [exp.logic.datomic]
             [dev.nrepl]))
 
 
