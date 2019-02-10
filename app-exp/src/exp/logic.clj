@@ -459,3 +459,83 @@
   
   
   )
+
+
+(comment 
+  
+  
+  
+  
+;   ((db-rel man p)
+;    (db-rel woman p)
+;    (db-rel likes ^:index p1 ^:index p2)
+;    (db-rel fun p)
+  
+;    (def facts0
+;      (db
+;       [man 'Bob]
+;       [man 'John]
+;       [man 'Ricky]
+  
+;       [woman 'Mary]
+;       [woman 'Martha]
+;       [woman 'Lucy]
+  
+;       [likes 'Bob 'Mary]
+;       [likes 'John 'Martha]
+;       [likes 'Ricky 'Lucy]
+;       [likes 'Ricky 'Mary]))
+  
+;    (def facts1 (-> facts0 (db-fact fun  'Lucy) (db-fact fun  'Mary)))
+  
+;    (with-db facts1
+;      (run* [q]
+;            (fresh [x y]
+;                   (fun y)
+;                   (likes x y)
+;                   (== q [x y])))))
+  
+  
+  ;; actions
+  ;; unit
+  ;; structure
+  ;; environment
+  
+  
+  (db-rel unit p)
+  (db-rel structure p)
+  (db-rel terrain p)
+  (db-rel action p)
+  
+  (db-rel allowed ^:index p1 ^:index p2)
+  
+  (def facts0
+    (db
+     [unit "hero"]
+     [unit "lizard"]
+     
+     [structure "market"]
+     [structure "engineering-hub"]
+     
+     [terrain "stone"]
+     [terrain "sand"]
+     
+     [action "observe"]
+     [action "move"]
+     [action "build"]
+     [action "attack"]
+     [action "buy"]
+
+     [allowed "market" "buy"]
+     [allowed "engineering-hub" "build"]     
+
+     ; query what actions are allowed when multiple entities are selected
+     
+     
+     
+     ))
+  
+  
+  
+  
+  )
