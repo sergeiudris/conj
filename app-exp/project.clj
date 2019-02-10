@@ -20,6 +20,7 @@
                  
                 ;  [com.novemberain/langohr "3.3.0"]
                  [com.novemberain/langohr "5.1.0"]
+                 [org.clojure/core.logic "0.8.11"]
                  
                  [commons-codec "1.7"]
                  [io.pedestal/pedestal.service       "0.5.5"]

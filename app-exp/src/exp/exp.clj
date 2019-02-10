@@ -4,6 +4,7 @@
             [dev.server]
             [exp.clara.clara]
             [exp.rabbitmq]
+            [exp.logic]
             [dev.nrepl]))
 
 
