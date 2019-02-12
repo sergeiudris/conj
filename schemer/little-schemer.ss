@@ -304,5 +304,16 @@ a ; (x y z)
 
 (addtup '(1 2 3 ))
 
+(define o* 
+    (lambda (n m)
+    (cond
+        ( (zero? m) 0)
+    ( (zero? n) 0)
+    (else ( o+ n (o* n (sub1 m))  ) )
+        )
+    ; (else  )
+
+    )
+    )
 
    
