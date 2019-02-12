@@ -262,6 +262,9 @@ a ; (x y z)
 
 (zero? 0)
 
+
+; Yes! cons builds lists and add1 builds numbers.  p.60
+
 (define o+
     (lambda (n m)
     (cond 
@@ -270,5 +273,17 @@ a ; (x y z)
         )
     ))
 
- ; Yes! cons builds lists and add1 builds numbers.  p.60
+(define o-
+    (lambda (n m)
+    (cond 
+        ((zero? m) n)
+        (else (sub1 (- n (sub1 m))))
+        )
+    )
+)
+
+(o- 3 1)
+
+
+
    
