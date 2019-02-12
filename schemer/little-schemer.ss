@@ -245,3 +245,28 @@ a ; (x y z)
         ))) 
 
 (multisubst 'z 'c '(c a b c d c)) ; (a b z)
+
+
+(define add1
+    (lambda (n)
+    (+ n 1)))
+
+(add1 67)
+
+(define sub1 
+    (lambda (n)
+    (- n 1)))
+
+(sub1 1)
+
+
+(zero? 0)
+
+(define ++ 
+    (lambda (n m)
+    (cond 
+        ((zero? m) n)
+        (else  (add1 (+ n (sub1 m))))
+        )
+    ))
+
