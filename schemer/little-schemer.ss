@@ -67,8 +67,81 @@ xyz
 
 (cons 1 '(2 3))
 
+(null? '()) ;; #t  (symbolic value)
+
+(null? (quote ())) 
+
+(atom? 'hey)
+
+(eq? 'Harry 'Harry) ; #t
+
+(define lat?
+    (lambda (l)
+        (cond
+        ((null? l) #t )
+        (( atom? ( car l)) (lat? ( cdr l)))
+        (else #f ))
+    ))
 
 
+(lat? '(a b c))
 
 
-    
+(or (null? '()) (atom? '(a b)))
+
+
+(define member?
+    (lambda (a lat)
+    (cond
+    ((null? lat) #f )
+    (else (or ( eq? ( car lat) a)
+        (member? a ( cdr lat))
+        )
+    )))) 
+
+
+(member? 'a '(a b))
+
+(define rember0
+    (lambda (a lat)
+        (cond
+        ( (null? lat) (quote ()))
+        (else 
+            (cond
+            ( ( eq? ( car lat) a) ( cdr lat))
+            (else ( rember a
+            ( cdr lat))))
+        )
+        )
+    )) 
+
+(rember 'a '(a b))
+
+
+(define rember1
+    (lambda (a lat)
+        (cond
+        ((null? lat) (quote ()))
+        (else 
+            (cond
+            (( eq? ( car lat) a) ( cdr lat))
+            (else (cons ( car lat)
+                    (rember a
+                    ( cdr lat))))
+))))) 
+
+(rember 'b '(a b c))
+
+(define a '(x y z))
+(rember 'y a) ; (x z)
+a ; (x y z)
+
+(define rember
+    (lambda (a lat)
+    (cond
+    ((null? lat) (quote ()))
+    ((eq? ( car lat) a) ( cdr lat))
+    (else ( cons ( car lat)
+    (rember a ( cdr lat))))))) 
+
+
