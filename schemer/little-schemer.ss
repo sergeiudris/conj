@@ -262,7 +262,7 @@ a ; (x y z)
 
 (zero? 0)
 
-(define ++ 
+(define o+
     (lambda (n m)
     (cond 
         ((zero? m) n)
@@ -270,3 +270,5 @@ a ; (x y z)
         )
     ))
 
+ ; Yes! cons builds lists and add1 builds numbers.  p.60
+   
