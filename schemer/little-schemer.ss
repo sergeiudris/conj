@@ -234,3 +234,14 @@ a ; (x y z)
         ))) 
 
 (multiinsertL 'z 'b '(a b c b)) ; (a z b c z b)
+
+
+(define multisubst
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons new (multisubst new old  (cdr lat))))
+        (else ( cons (car lat) (multisubst new old (cdr lat)) ))
+        ))) 
+
+(multisubst 'z 'c '(c a b c d c)) ; (a b z)
