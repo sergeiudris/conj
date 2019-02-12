@@ -15,7 +15,7 @@ RUN apt-get update && \
 RUN git clone https://github.com/cisco/ChezScheme
 
 RUN cd ChezScheme && \
-    git checkout tags/v9.5 && \
+    git checkout 5aba39c40b46cee61a388d71ef4e5eebfa717108 && \
     ./configure && \
     sudo make install
 
