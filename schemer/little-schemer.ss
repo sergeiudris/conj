@@ -141,7 +141,61 @@ a ; (x y z)
     (cond
     ((null? lat) (quote ()))
     ((eq? ( car lat) a) ( cdr lat))
-    (else ( cons ( car lat)
-    (rember a ( cdr lat))))))) 
+    (else ( cons ( car lat)(rember a ( cdr lat))))
+    ))) 
 
+
+
+
+(define firsts
+    (lambda (l)
+    (cond
+    ( (null? l) '() )
+    (else ( cons (car (car l)) (firsts ( cdr l))))))) 
+
+(firsts '((a) (b))) ; (a b)
+
+(define insertR
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons old (cons new (cdr lat))))
+        (else ( cons (car lat) (insertR new old (cdr lat)) ))
+        ))) 
+
+(insertR 'z 'a '(a b c))
+
+(insertR 'z 'b '(a b c)) ; (a b z c)
+
+
+(define insertL
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons new lat))
+        (else ( cons (car lat) (insertL new old (cdr lat)) ))
+        ))) 
+
+(insertL 'z 'c '(a b c)) ; (a b z c)
+
+
+(define subst
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons new (cdr lat)))
+        (else ( cons (car lat) (subst new old (cdr lat)) ))
+        ))) 
+
+(subst 'z 'c '(a b c)) ; (a b z)
+
+
+(define subst2
+    (lambda (new o1 o2 lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) o1) (cons new (cdr lat)))
+        ((eq? (car lat) o2) (cons new (cdr lat)))
+        (else ( cons (car lat) (subst new o1 o2 (cdr lat)) ))
+        ))) 
 
