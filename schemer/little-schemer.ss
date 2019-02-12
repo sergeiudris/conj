@@ -285,5 +285,14 @@ a ; (x y z)
 (o- 3 1)
 
 
+(2 11 3 79 47 6) ; tuple (tup)
+
+(1 2 8 apple 4 3) ; not a tuple (tup), lsit of atoms
+
+()  ; tup
+
+(null? '())
+
+
 
    
