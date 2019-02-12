@@ -12,4 +12,8 @@ nrepl_cljs(){
   clj -R:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"
 }
 
+init(){
+  clojure -m reference.core
+}
+
 "$@"
