@@ -291,8 +291,18 @@ a ; (x y z)
 
 ()  ; tup
 
-(null? '())
+((null? '()) 0)
 
+(define addtup
+    (lambda (tup)
+    (cond 
+        ((null? tup) 0)
+        (else ( o+ (car tup) (addtup (cdr tup)) ) )        
+        )
+    )
+)
+
+(addtup '(1 2 3 ))
 
 
    
