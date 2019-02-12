@@ -50,7 +50,8 @@
            (fresh [x y]
                   (fun y)
                   (likes x y)
-                  (== q [x y])))))
+                  (== q [x y]))))
+   )
 
 
   ;; a la carte unifier

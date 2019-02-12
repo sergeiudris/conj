@@ -502,3 +502,27 @@ services:
       NAME: "rabbitmq"
     volumes:
       - ./rabbitmq/isolated.conf:/etc/rabbitmq/rabbitmq.config
+
+
+  schemer:
+    image: schemer
+    container_name: conj-schemer
+    volumes:
+      - ./schemer:/opt/code/app
+    build:
+      context: ./schemer
+      dockerfile: ./Dockerfile
+    # ports:
+    #   # - 35544:35543
+    #   - 7890:7888
+    #   # - 8891:8890
+    #   - 8899:8080
+    command: bash c init
+    # command: tail -f /dev/null
+    # command: bash c nrepl_clj
+    # environment:
+    #   - DISPLAY=10.0.75.1:0.0
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - base
