@@ -307,13 +307,29 @@ a ; (x y z)
 (define o* 
     (lambda (n m)
     (cond
-        ( (zero? m) 0)
+    ( (zero? m) 0)
     ( (zero? n) 0)
     (else ( o+ n (o* n (sub1 m))  ) )
         )
     ; (else  )
 
     )
+    )
+
+    ;; page 67
+
+(define tup+
+    (lambda (tup1 tup2)
+        (cond 
+            ((null? tup1) tup2 )
+            ((null? tup2) tup1 )
+            
+            (else 
+                (cons (o+ (  ) () ) '() )
+                )
+            )
+    )
+    
     )
 
    
