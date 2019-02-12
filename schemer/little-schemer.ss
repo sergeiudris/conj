@@ -194,8 +194,43 @@ a ; (x y z)
     (lambda (new o1 o2 lat)
     (cond  
         ((null? lat) '())
-        ((eq? (car lat) o1) (cons new (cdr lat)))
-        ((eq? (car lat) o2) (cons new (cdr lat)))
-        (else ( cons (car lat) (subst new o1 o2 (cdr lat)) ))
+        ((or (eq? (car lat) o1) (eq? (car lat) o2)) (cons new (cdr lat))  )
+        (else ( cons (car lat) (subst2 new o1 o2 (cdr lat)) ))
         ))) 
 
+(subst2 'z 'd 'c '(a b c)) ; (a b z)
+
+
+
+(define multirember
+    (lambda (a lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) a) (multirember a (cdr lat)))
+        (else ( cons (car lat) (multirember a (cdr lat)) ))
+        ))) 
+
+(multirember 'b '(a b c b d b e)) ; (a c d e)
+
+
+
+(define multiinsertR
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons (car lat) (cons new (multiinsertR new old  (cdr lat))) ))
+        (else ( cons (car lat) (multiinsertR new old (cdr lat)) ))
+        ))) 
+
+(multiinsertR 'z 'b '(a b c b)) ; (a b z c b z)
+
+
+(define multiinsertL
+    (lambda (new old lat)
+    (cond  
+        ((null? lat) '())
+        ((eq? (car lat) old) (cons new (cons (car lat) (multiinsertL new old  (cdr lat))) ))
+        (else ( cons (car lat) (multiinsertL new old (cdr lat)) ))
+        ))) 
+
+(multiinsertL 'z 'b '(a b c b)) ; (a z b c z b)
