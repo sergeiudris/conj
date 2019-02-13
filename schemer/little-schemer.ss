@@ -415,3 +415,13 @@ a ; (x y z)
     )
     
 )
+
+(define o/ 
+    (lambda (n m)
+        (cond 
+            ((< n m) 0)
+            (else (add1 (o/ (o- n m) m) ))
+
+            )
+    )
+)
