@@ -316,7 +316,7 @@ a ; (x y z)
     )
     )
 
-    ;; page 67
+    ;; page 68
 
 (define tup+
     (lambda (tup1 tup2)
@@ -326,6 +326,8 @@ a ; (x y z)
             ((null? tup2) tup1 )
             
             (else
+                
+                (cons (o+ (car tup1) (car tup2))  (tup+ (cdr tup1) (cdr tup2)))
                 
                 
                 )
