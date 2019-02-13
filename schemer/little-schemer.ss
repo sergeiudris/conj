@@ -398,8 +398,20 @@ a ; (x y z)
         ((zero? n) 0)
         ((zero? m) 1)
         ((o= m 1) n)
-        (else (o* n (o^ n (sub1 m) )  )
+        (else (o* n (o^ n (sub1 m) )  ))
         )
     )
     
+)
+
+(define o^2
+    (lambda (n m)
+    (cond 
+        ; ((zero? n) 0)
+        ((zero? m) 1)
+        ; ((o= m 1) n)
+        (else (o* n (o^ n (sub1 m) )  ))
+        )
     )
+    
+)
