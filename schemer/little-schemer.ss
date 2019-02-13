@@ -486,3 +486,14 @@ a ; (x y z)
             )
     )
 )
+
+(define eqan? 
+    (lambda (a1 a2)
+    (cond 
+        ; ((and (atom? a1) (atom? a2)) )
+        ((and (number? a1) (number? a2)) (o= a1 a2) )
+        ((or (number? a1) (number? a2)) #f)
+        (else (eq? a1 a2 ))
+        )
+    )
+    )
