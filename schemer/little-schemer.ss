@@ -475,4 +475,14 @@ a ; (x y z)
             (else (cons (car lat) (no-nums (cdr lat)) ) ) 
             )
     )
+)
+
+(define all-nums
+    (lambda (lat)
+        (cond 
+            ((null? lat) '())
+            ((number? (car lat)) (cons (car lat) (all-nums (cdr lat)) )) 
+            (else (all-nums (cdr lat) ))
+            )
     )
+)
