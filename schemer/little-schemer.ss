@@ -360,3 +360,46 @@ a ; (x y z)
         )
     )
 )
+
+(define o=
+    (lambda (n m)
+    (cond
+        ((and (zero? n) (zero? m)) #t)
+        ((or (zero? n) (zero? m)) #f)
+        (else (o= (sub1 n) (sub1 m)) )
+        )
+    )
+    )
+
+
+(define o=2
+    (lambda (n m)
+    (cond
+        ((zero? n) (zero? m))
+        ((zero? n) #f)
+        (else (o= (sub1 n) (sub1 m)) )
+        )
+    )
+)
+
+(define o=3
+    (lambda (n m)
+    (cond
+        ((o> n m) #t)
+        ((o< n m) #f)
+        (else #t)
+        )
+    )
+)
+
+(define o^ 
+    (lambda (n m)
+    (cond 
+        ((zero? n) 0)
+        ((zero? m) 1)
+        ((o= m 1) n)
+        (else (o* n (o^ n (sub1 m) )  )
+        )
+    )
+    
+    )
