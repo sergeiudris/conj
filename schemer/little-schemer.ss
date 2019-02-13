@@ -1,3 +1,5 @@
+;; https://github.com/frankitox/the-little-javascripter/blob/master/The%20Little%20Schemer%204th%20Ed.pdf
+
 (define atom?
     (lambda (x)
     (and (not (pair? x)) (not (null? x))))) 
@@ -340,6 +342,20 @@ a ; (x y z)
         ((zero? m) #t)
         (else 
             (o> (sub1 n) (sub1 m) )
+        )
+        )
+    )
+)
+
+
+
+(define o< 
+    (lambda (n m)
+    (cond 
+        ((zero? m) #f)
+        ((zero? n) #t)
+        (else 
+            (o< (sub1 n) (sub1 m) )
         )
         )
     )
