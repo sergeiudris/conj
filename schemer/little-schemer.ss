@@ -435,3 +435,24 @@ a ; (x y z)
     )
     
 )
+
+
+(define pick 
+    (lambda (n lat)
+        (cond
+            ((zero? n) (car lat))
+            ; ((null? lat) #f)
+            (else  (pick (sub1 n) (cdr lat) ) )
+            )
+    )
+)
+
+(define pick2
+    (lambda (n lat)
+        (cond
+            ((zero? (sub1 n)) (car lat))
+            ; ((null? lat) #f)
+            (else  (pick (sub1 n) (cdr lat) ) )
+            )
+    )
+)
