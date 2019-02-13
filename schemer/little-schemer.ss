@@ -321,15 +321,17 @@ a ; (x y z)
 (define tup+
     (lambda (tup1 tup2)
         (cond 
+            ( (and (null? tup1) (null? tup2) ) '() )
             ((null? tup1) tup2 )
             ((null? tup2) tup1 )
             
-            (else 
-                (cons (o+ (  ) () ) '() )
+            (else
+                
+                
                 )
             )
     )
     
-    )
+)
 
    
