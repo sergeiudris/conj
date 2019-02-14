@@ -636,3 +636,26 @@ The First Commandment:
 )
 
 (subst* 'N 'a '(a b c (d e a (z (a) (a)))) )
+
+(define insertL* 
+    (lambda (new old l)
+        (cond 
+            ((null? l) '())
+        ((atom? (car l))
+            (cond
+                ((eq? (car l) old) (cons new (cons old (insertL* new old (cdr l) )))   )
+                (else  (cons (car l)  (insertL* new old (cdr l))  ) )
+            )
+        )
+        (else 
+            (cons (insertL* new old (car l)) (insertL* new old (cdr l)) )
+            )
+            
+            
+            )
+    )
+)
+
+(insertL* 'N 'a '(a b c (d e a (z (a) (a)))) ) ;(N a b c (d e N a (z (N a) (N a))))
+
+
