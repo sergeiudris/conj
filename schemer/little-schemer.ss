@@ -605,10 +605,17 @@ The First Commandment:
 (define occur* 
     (lambda (a l)
         (cond
-            ((null? l) '())
-            (  )
-            ()
+            ((null? l) 0)
+            ( (atom? (car l)) 
+                (cond
+                    ( (eq? a (car l)) (add1 (occur* a (cdr l) ) ) )
+                    (else  (occur* a (cdr l))   )
+                    )
+            )
+            (else (o+ (occur* a (car l) ) (occur* a (cdr l))  ) )
             )
     )
     
-    )
+)
+
+(occur* 'a  '(a b c (d e a (z (a) (a)))) )
