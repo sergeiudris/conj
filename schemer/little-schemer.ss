@@ -617,5 +617,22 @@ The First Commandment:
     )
     
 )
-
 (occur* 'a  '(a b c (d e a (z (a) (a)))) )
+
+
+(define subst* 
+    (lambda (new old l)
+        (cond
+            ((null? l) '())
+            ((atom? (car l)) 
+                (cond 
+                    ((eq? (car l) old )  (cons new ( subst* new old (cdr l))) )
+                    (else (cons (car l) ( subst* new old (cdr l)) ) )                    
+                )  
+            )
+            (else (cons (subst* new old (car l))   ( subst* new old (cdr l))) )
+        )
+    )
+)
+
+(subst* 'N 'a '(a b c (d e a (z (a) (a)))) )
