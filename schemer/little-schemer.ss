@@ -558,7 +558,7 @@ a ; (x y z)
 (define rember* 
     (lambda (a l)
         (cond 
-            ((null? l) l)
+            ((null? l) '())
             ((atom? (car l)) 
                 (cond 
                     ((eq? (car l) a) (rember* a (cdr l))  )
@@ -578,7 +578,7 @@ a ; (x y z)
 (define insertR* 
     (lambda (new old l)
         (cond 
-            ((null? l) l)
+            ((null? l) '())
             ((atom? (car l))
                 (cond 
                     ((eq? (car l) old) ( cons old (cons new  (insertR* new old (cdr l))  )))
@@ -594,3 +594,21 @@ a ; (x y z)
 )
 
 (insertR* 'N 'a '(b a c (a d  (x y a z)  )))
+
+#_("
+The First Commandment: 
+- when recurring on a list of atoms, lat, ask two questions about it: (null? lat) and else
+- when recurring on a number, ask two questions: zero? and else
+- when recurring on a list of S-expressions ask three questions: (null? l) (atom? (car l)) else
+")
+
+(define occur* 
+    (lambda (a l)
+        (cond
+            ((null? l) '())
+            (  )
+            ()
+            )
+    )
+    
+    )
