@@ -659,3 +659,36 @@ The First Commandment:
 (insertL* 'N 'a '(a b c (d e a (z (a) (a)))) ) ;(N a b c (d e N a (z (N a) (N a))))
 
 
+(define member* 
+    (lambda (a l)
+        (cond 
+            ((null? l) #f)
+            ((atom? (car l)) 
+                (cond 
+                    ((eq? a (car l)) #t )
+                    (else (member* a (cdr l) ) )
+                    )
+            )
+            (else 
+                (or (member* a (car l)) (member* a (cdr l))   )
+            )
+            )
+
+    )
+    
+)
+
+(member* 'a '( b c d '(z x '(b a))))
+
+(define leftmost 
+    (lambda (l)
+        (cond 
+            ((atom? (car l)) (car l))
+            (else (leftmost (car l)) )
+        )
+    )
+)
+
+
+(leftmost '(((x y z)) b c) )
+
