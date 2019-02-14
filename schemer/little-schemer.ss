@@ -692,3 +692,43 @@ The First Commandment:
 
 (leftmost '(((x y z)) b c) )
 
+
+(define eqlist? 
+    (lambda (l1 l2)
+        (cond 
+            ((and (null? l1) (null? l2) ) #t )
+            ( (null? l1) #f )
+            ( (null? l2) #f )
+            (else 
+                (and 
+                    (eq? (car l1) (car l2) )
+                    (eqlist? (cdr l1) (cdr l2))
+                )
+            )
+        )
+    )
+)
+
+(eqlist? '(a b c) '(a b c))
+
+(eqlist? '(a (b (z)) c) '(a (b (z)) c))
+
+(define eqlist?* 
+    (lambda (l1 l2)
+        (cond 
+            ((and (null? l1) (null? l2) ) #t )
+            ((or (null? l1) (null? l2) ) #f )
+            ((atom? (car l1))
+                (cond 
+                       
+                )
+            )
+            (else 
+                (and 
+                    (eq? (car l1) (car l2) )
+                    (eqlist? (cdr l1) (cdr l2))
+                )
+            )
+        )
+    )
+)
