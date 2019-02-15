@@ -764,3 +764,16 @@ The First Commandment:
 (equal?* '(a (b (z)) c) '(a (b (z)) c))
 (equal?* 'a 'a)
 (equal?* 1 1)
+
+(define rember-any
+    (lambda (s l)
+        (cond 
+            ((null? l) '())
+            ((equal?* s (car l)) (rember-any s (cdr l)) )
+            ((atom? (car l)) (cons (car l) (rember-any s (cdr l)) ) )
+            (else (cons (rember-any s (car l) ) (rember-any s (cdr l)) )   )   
+        )
+    )
+)
+
+(rember-any '(a b) '(a b (z (a b)) c ))
