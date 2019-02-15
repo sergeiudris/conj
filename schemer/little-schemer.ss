@@ -777,3 +777,19 @@ The First Commandment:
 )
 
 (rember-s* '(a b) '(a b (z (a b)) c ))
+
+;; shadows
+
+(define numbered? 
+    (lambda (aexp)
+        (cond 
+            ((atom? aexp) (number? aexp))
+            ( (eq? (car (cdr aexp)) '+)  )
+            ( (eq? (car (cdr aexp)) '*)  )
+            ( (eq? (car (cdr aexp)) 'expt)  )
+            (else )
+            
+            )
+    )
+    
+)
