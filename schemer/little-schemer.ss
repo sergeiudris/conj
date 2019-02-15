@@ -776,4 +776,4 @@ The First Commandment:
     )
 )
 
-(rember-any '(a b) '(a b (z (a b)) c ))
+(rember-s* '(a b) '(a b (z (a b)) c ))
