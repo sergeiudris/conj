@@ -904,7 +904,22 @@ The First Commandment:
 
 (define blus 
     (lambda (n m)
-        
+        (cond 
+            ((null? m) n)
+            ((cons (car m) (blus n (cdr m)) ))
+            )
     )
     
 )
+
+(define blus2 
+    (lambda (n m)
+        (cond 
+            ((sero? m) n)
+            (else (edd1 (blus n (zub1 m)) ))
+        )
+    )
+    
+)
+
+(blus2 '(() () ()) '(() ()))
