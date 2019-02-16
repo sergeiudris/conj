@@ -927,6 +927,28 @@ The First Commandment:
 
 ;; Friends and Relations
 
+
+(define eqan? 
+    (lambda (a1 a2)
+    (cond 
+        ; ((and (atom? a1) (atom? a2)) )
+        ((and (number? a1) (number? a2)) (= a1 a2) )
+        ((or (number? a1) (number? a2)) #f)
+        (else (eq? a1 a2 ))
+        )
+    )
+)
+
+(define member?
+    (lambda (a lat)
+    (cond
+    ((null? lat) #f )
+    (else (or ( equal?* ( car lat) a)
+        (member? a ( cdr lat))
+        )
+    )))) 
+
+
 (define set?
     (lambda (lat)
         (cond 
