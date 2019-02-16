@@ -960,3 +960,14 @@ The First Commandment:
 )
 
 (set? '(a a b c ) )
+
+(define makeset 
+    (lambda (lat)
+        (cond 
+            ((null? lat) lat)
+            ((member? (car lat) (cdr lat) ) (makeset (cons (car lat) (rember (car lat) (cdr lat) ) )  ) )
+            (else (cons (car lat) (makeset (cdr lat)) ))
+        )
+    )
+    
+)
