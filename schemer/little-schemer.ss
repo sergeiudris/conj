@@ -990,3 +990,14 @@ The First Commandment:
         )
 )
 
+(define subset? 
+    (lambda (set1 set2)
+        (cond 
+            ()
+            ()
+            ()           
+            
+            )
+    )
+    
+)
