@@ -784,7 +784,8 @@ The First Commandment:
     (lambda (aexp)
         (cond 
             ((atom? aexp) (number? aexp))
-            (else (and (or (eq? (car (cdr aexp)) '+) (eq? (car (cdr aexp)) '*) (eq? (car (cdr aexp)) 'expt)) 
+            (else (and 
+                (or (eq? (car (cdr aexp)) '+) (eq? (car (cdr aexp)) '*) (eq? (car (cdr aexp)) 'expt)) 
                 (and (numbered? (car aexp) ) (numbered? (car (cdr (cdr aexp)) )))
                 ))
             )
@@ -793,3 +794,28 @@ The First Commandment:
 )
 
 (numbered? '(1 + (2 expt (3 * 4))) )
+
+(define a (lambda (a b c) (c a b) )  )
+
+(a 2 3 expt)
+
+(define value 
+    (lambda (nexp)
+        (cond 
+            ((atom? nexp) nexp)
+            ((eq? (car (cdr nexp)) '+) (+  (value (car nexp)) (value (car (cdr (cdr nexp))))   ))
+            ((eq? (car (cdr nexp)) '*) (*  (value (car nexp)) (value (car (cdr (cdr nexp))))   ))
+            ((eq? (car (cdr nexp)) '^) (expt  (value (car nexp)) (value (car (cdr (cdr nexp))))   ))
+
+            ; (else ( 
+            ;     (car (cdr nexp))  
+            ;         (value (car nexp)) 
+            ;         (value (car (cdr (cdr nexp)))  ) 
+            ;     )   
+            ; )           
+        )
+    )
+)
+
+(value '(1 + 2))
+(value '(2 ^ (1 + (1 * 2))))
