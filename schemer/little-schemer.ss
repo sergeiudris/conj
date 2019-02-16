@@ -864,6 +864,8 @@ The First Commandment:
     )
 )
 
+; eighth commandment: use helper functions to abstract from representations
+
 (define value-d2
     (lambda (nexp)
         (cond 
@@ -878,3 +880,31 @@ The First Commandment:
 (value-d2 '(+ 1 2))
 (value-d2 '(+ 1 (^ 3 4)))
 (value-d2 '(^ 2  (+ 1 (* 1 2))))
+
+
+; how many primitives we need for numbers ?  A - four:  zero? sub1 add1 number?
+
+(define sero? 
+    (lambda (n)
+        (null? n)
+    )
+)
+
+(define edd1 
+    (lambda (n)
+        (cons '() n)    
+    )
+)
+
+(define zub1 
+    (lambda (n)
+        (cdr n)    
+    )
+)
+
+(define blus 
+    (lambda (n m)
+        
+    )
+    
+)
