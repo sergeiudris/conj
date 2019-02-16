@@ -784,12 +784,12 @@ The First Commandment:
     (lambda (aexp)
         (cond 
             ((atom? aexp) (number? aexp))
-            ( (eq? (car (cdr aexp)) '+)  )
-            ( (eq? (car (cdr aexp)) '*)  )
-            ( (eq? (car (cdr aexp)) 'expt)  )
-            (else )
-            
+            (else (and (or (eq? (car (cdr aexp)) '+) (eq? (car (cdr aexp)) '*) (eq? (car (cdr aexp)) 'expt)) 
+                (and (numbered? (car aexp) ) (numbered? (car (cdr (cdr aexp)) )))
+                ))
             )
     )
     
 )
+
+(numbered? '(1 + (2 expt (3 * 4))) )
