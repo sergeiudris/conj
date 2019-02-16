@@ -844,3 +844,37 @@ The First Commandment:
 (value-d '(+ 1 2))
 (value-d '(+ 1 (^ 3 4)))
 (value-d '(^ 2  (+ 1 (* 1 2))))
+
+
+(define 1st-sub-exp 
+    (lambda (aexp)
+        (car (cdr aexp))
+    )
+)
+
+(define 2st-sub-exp 
+    (lambda (aexp)
+        (car (cdr (cdr aexp)))
+    )
+)
+
+(define operator 
+    (lambda (aexp)
+        (car aexp)
+    )
+)
+
+(define value-d2
+    (lambda (nexp)
+        (cond 
+            ((atom? nexp) nexp)
+            ((eq? (operator nexp) '+ ) (+ (value-d2 (1st-sub-exp nexp) ) (value-d2 (2st-sub-exp nexp )  ) ) )
+            ((eq? (operator nexp) '* ) (* (value-d2 (1st-sub-exp nexp)) (value-d2 (2st-sub-exp nexp ) ) ) )
+            ((eq? (operator nexp) '^ ) (expt (value-d2 (1st-sub-exp nexp)) (value-d2 (2st-sub-exp nexp ) ) ) )
+        )
+    )
+)
+
+(value-d2 '(+ 1 2))
+(value-d2 '(+ 1 (^ 3 4)))
+(value-d2 '(^ 2  (+ 1 (* 1 2))))
