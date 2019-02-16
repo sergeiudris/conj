@@ -923,3 +923,18 @@ The First Commandment:
 )
 
 (blus2 '(() () ()) '(() ()))
+
+
+;; Friends and Relations
+
+(define set?
+    (lambda (lat)
+        (cond 
+            ((null? lat) #t)
+            ((member? (car lat) (cdr lat) ) #f)
+            (else (set? (cdr lat)))
+        )
+    )
+)
+
+(set? '(a a b c ) )
