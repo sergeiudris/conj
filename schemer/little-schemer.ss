@@ -993,7 +993,7 @@ The First Commandment:
 (define subset? 
     (lambda (set1 set2)
         (cond 
-            ((and (null? set1) (null? set2) ) #t )
+            ; ((and (null? set1) (null? set2) ) #t )
             ((null? set1) #t)
             (else (and (member? (car set1) set2 ) (subset? (cdr set1) set2) ) )
         )
