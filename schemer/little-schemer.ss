@@ -972,6 +972,14 @@ The First Commandment:
     
 )
 
+(define multirember
+    (lambda (a lat)
+    (cond  
+        ((null? lat) '())
+        ((equal? (car lat) a) (multirember a (cdr lat)))
+        (else ( cons (car lat) (multirember a (cdr lat)) ))
+        ))) 
+
 (define makeset 
         (lambda (lat)
             (cond 
@@ -981,3 +989,4 @@ The First Commandment:
                 )
         )
 )
+
