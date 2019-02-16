@@ -971,3 +971,13 @@ The First Commandment:
     )
     
 )
+
+(define makeset 
+        (lambda (lat)
+            (cond 
+                ((null? lat) '())
+                ( (cons (car lat) (makeset (multirember (car lat) (cdr lat) ) ) ) )
+                
+                )
+        )
+)
