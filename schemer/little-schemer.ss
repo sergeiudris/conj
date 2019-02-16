@@ -819,3 +819,28 @@ The First Commandment:
 
 (value '(1 + 2))
 (value '(2 ^ (1 + (1 * 2))))
+(value '(1 + (3 ^ 4)))
+
+(define no-else 
+    (lambda (a)
+        (cond 
+            ((eq? a 'a) 1)
+            ((eq? a 'b) 2)
+            ((eq? a 'c) 3)
+        )
+    )
+)
+;value-declarative, using (+ 1 1) notatino
+(define value-d
+    (lambda (nexp)
+        (cond 
+            ((atom? nexp) nexp)
+            ((eq? (car nexp) '+ ) (+ (value-d (car (cdr nexp) )) (value-d (car (cdr (cdr nexp)) )  ) ) )
+            ((eq? (car nexp) '* ) (* (value-d (car (cdr nexp) )) (value-d (car (cdr (cdr nexp)) )) ) )
+            ((eq? (car nexp) '^ ) (expt (value-d (car (cdr nexp) )) (value-d (car (cdr (cdr nexp)) )) ) )
+        )
+    )
+)
+(value-d '(+ 1 2))
+(value-d '(+ 1 (^ 3 4)))
+(value-d '(^ 2  (+ 1 (* 1 2))))
