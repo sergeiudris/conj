@@ -1173,9 +1173,33 @@ The First Commandment:
 
 (define fullfun? 
     (lambda (fun)
-        (set? (firsts (revrel fun)))
+        (set? (seconds fun))
     )
 )
 
 (fullfun? '( (1 2) (3 4) (5 6) ))
 (fullfun? '( (1 2) (3 4) (5 2) ))
+
+(define one-to-one? 
+    (lambda (fun)
+        (fun? (revrel fun))
+    )
+    
+)
+
+(one-to-one? '( (1 2) (3 4) (5 2) ))
+
+
+;; Lambda the Ultimate
+
+(define rember-f 
+    (lambda (test? a l)
+        (cond 
+            ((null? l) '())
+            ((test? a (car l)) (cons (car l) (rember-f test? a (cdr l)) ) )
+            (else  (rember-f test? a (cdr l))
+                )
+            )
+    )    
+)
+(rember-f o= 2 '(2 3))
