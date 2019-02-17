@@ -1140,5 +1140,25 @@ The First Commandment:
         )  
     )
 )
-
 (revrel '((1 2) (3 4)))
+
+(define revpair 
+    (lambda (pair)
+        (build (second pair) (first pair) )
+    )
+)
+
+(define revrel 
+    (lambda (rel)
+        (cond 
+            ((null? rel) '())
+            ; (else (cons
+            ;     (cons (second (first rel)) (cons (first (first rel)) '()))
+            ;     (revrel (cdr rel))
+            ; ))
+            (else 
+               (cons  (revpair (car rel))    (revrel (cdr rel)) )
+            )  
+        )  
+    )
+)
