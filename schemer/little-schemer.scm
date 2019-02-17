@@ -1,4 +1,9 @@
 ;; https://github.com/frankitox/the-little-javascripter/blob/master/The%20Little%20Schemer%204th%20Ed.pdf
+;; https://scheme.com/csug8/use.html
+
+;; use (load "path") for loading file
+
+
 
 (define atom?
     (lambda (x)
@@ -33,35 +38,35 @@
 
 ;; S-expression https://en.wikipedia.org/wiki/S-expression
 
-xyz
+'xyz
 
-(x y z)
+'(x y z)
 
-((x y) z)
+'((x y) z)
 
-(how are you doing so far)
+'(how are you doing so far)
 
-(how are you doing so far) ;; 6 S-expressions in an S-expression
+'(how are you doing so far) ;; 6 S-expressions in an S-expression
 
-(((how) are) ((you) (doing so)) far) 
+'(((how) are) ((you) (doing so)) far) 
 
-(((how) are) ((you) (doing so)) far) ;; list has 3 S-expressions
+'(((how) are) ((you) (doing so)) far) ;; list has 3 S-expressions
 
 ;; list & car cdr https://en.wikipedia.org/wiki/CAR_and_CDR
 
-() ; empty list, not an atom
+'() ; empty list, not an atom
 
-(() () () ()) ;; collection of S-expressions
+'(() () () ()) ;; collection of S-expressions
 
-(a b c) ;; a is a 'car' of list, because it is the frist atom
+'(a b c) ;; a is a 'car' of list, because it is the frist atom
 
-((a b c) x y z) ; (a b c) is the car
-
-
-() ; cannot ask for car of an empty list. The Law of Car: the primitive car only for non-empty
+'((a b c) x y z) ; (a b c) is the car
 
 
-(((hotdogs)) (and) (pickle) rel ish)  ; car is ((hotdogs))
+'() ; cannot ask for car of an empty list. The Law of Car: the primitive car only for non-empty
+
+
+'(((hotdogs)) (and) (pickle) rel ish)  ; car is ((hotdogs))
 
 (car '(1 2))
 
@@ -111,13 +116,13 @@ xyz
         (else 
             (cond
             ( ( eq? ( car lat) a) ( cdr lat))
-            (else ( rember a
+            (else ( rember0 a
             ( cdr lat))))
         )
         )
     )) 
 
-(rember 'a '(a b))
+(rember0 'a '(a b))
 
 
 (define rember1
@@ -128,14 +133,14 @@ xyz
             (cond
             (( eq? ( car lat) a) ( cdr lat))
             (else (cons ( car lat)
-                    (rember a
+                    (rember1 a
                     ( cdr lat))))
 ))))) 
 
-(rember 'b '(a b c))
+(rember1 'b '(a b c))
 
 (define a '(x y z))
-(rember 'y a) ; (x z)
+(rember1 'y a) ; (x z)
 a ; (x y z)
 
 (define rember
@@ -287,13 +292,14 @@ a ; (x y z)
 (o- 3 1)
 
 
-(2 11 3 79 47 6) ; tuple (tup)
+'(2 11 3 79 47 6) ; tuple (tup)
 
-(1 2 8 apple 4 3) ; not a tuple (tup), lsit of atoms
+'(1 2 8 apple 4 3) ; not a tuple (tup), lsit of atoms
 
-()  ; tup
+'()  ; tup
 
-((null? '()) 0)
+
+'((null? '()) 0)
 
 (define addtup
     (lambda (tup)
@@ -595,7 +601,7 @@ a ; (x y z)
 
 (insertR* 'N 'a '(b a c (a d  (x y a z)  )))
 
-#_("
+'("
 The First Commandment: 
 - when recurring on a list of atoms, lat, ask two questions about it: (null? lat) and else
 - when recurring on a number, ask two questions: zero? and else
@@ -776,7 +782,7 @@ The First Commandment:
     )
 )
 
-(rember-s* '(a b) '(a b (z (a b)) c ))
+(rember-any '(a b) '(a b (z (a b)) c ))
 
 ;; shadows
 
@@ -1070,3 +1076,41 @@ The First Commandment:
 (intersectall '( (6 p a) (3 pe a 6 pp) (8 p a 6 pl) (a 6 pr w s ap) ))
 
 (intersectall '((1 2 3) (2) (1 2 3)))
+
+
+(define a-pair? 
+    (lambda (x)
+        (cond 
+            ((atom? x) #f)
+            ((or (null? x) (null? (cdr x) ) ) #f)
+            ((null? (cdr (cdr x))) #t)
+            (else #f)
+        )
+    )
+    
+)
+
+(define first 
+    (lambda (p)
+        (car p)
+    )    
+    
+)
+(define second 
+    (lambda (p)
+        (car (cdr p))
+    )    
+    
+)
+
+(define build 
+    (lambda (s1 s2)
+        (cons s1 (cons s2 '()))
+    )    
+)
+
+(define third 
+    (lambda (l)
+        (car (cdr (cdr l)))
+    )
+)
