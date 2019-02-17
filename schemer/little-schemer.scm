@@ -162,6 +162,14 @@ a ; (x y z)
 
 (firsts '((a) (b))) ; (a b)
 
+(define seconds
+    (lambda (l)
+    (cond
+    ( (null? l) '() )
+    (else ( cons (car (cdr (car l))) (seconds ( cdr l))))))) 
+
+(seconds '((a b) (c d)))
+
 (define insertR
     (lambda (new old lat)
     (cond  
