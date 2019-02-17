@@ -1126,3 +1126,16 @@ The First Commandment:
 ; finite function here will be: a list of apirs where firsts are unique
 ; it means, that any input has one output
 
+(define revrel 
+    (lambda (rel)
+        (cond 
+            ((null? rel) '())
+            (else (cons
+                (cons (second (first rel)) (cons (first (first rel)) '()))
+                (revrel (cdr rel))
+            ))  
+        )  
+    )
+)
+
+(revrel '((1 2) (3 4)))
