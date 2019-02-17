@@ -1208,3 +1208,30 @@ The First Commandment:
 
 (rember-f equal?* '(1 2) '(a (1 2) a))
 
+(define eq-c? 
+    (lambda (a)
+    (lambda (x)
+    (eq? x a))))
+
+(define eq-salad? (eq-c? 'salad)) 
+
+(eq-salad? 'salad)
+
+((eq-c? 'salad) 'salad)
+
+(define rember-f
+    (lambda (test?)
+        (lambda (a l)
+            (cond 
+                ((null? l) '())
+                ((test? a (car l)) ( (rember-f test?) a (cdr l)) )
+                (else (cons (car l) ( (rember-f test?) a (cdr l)) ) )
+            )
+       
+        )
+
+    )
+    
+)
+
+(define rember-eq? (rember-f eq?))
