@@ -1130,10 +1130,13 @@ The First Commandment:
     (lambda (rel)
         (cond 
             ((null? rel) '())
-            (else (cons
-                (cons (second (first rel)) (cons (first (first rel)) '()))
-                (revrel (cdr rel))
-            ))  
+            ; (else (cons
+            ;     (cons (second (first rel)) (cons (first (first rel)) '()))
+            ;     (revrel (cdr rel))
+            ; ))
+            (else 
+               (cons (build (second (car rel)) (first (car rel)))     (revrel (cdr rel)) )
+            )  
         )  
     )
 )
