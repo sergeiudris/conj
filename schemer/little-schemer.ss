@@ -1003,9 +1003,6 @@ The First Commandment:
 
 (define eqset? 
     (lambda (set1 set2)
-        (cond
-            ((subset? set1 set2) (subset? set2 set1))
-            (else #f)
-            )
+        ( (and (subset? set1 set2) (subset? set2 set1) ))
     )
 )
