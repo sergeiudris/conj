@@ -1196,10 +1196,15 @@ The First Commandment:
     (lambda (test? a l)
         (cond 
             ((null? l) '())
-            ((test? a (car l)) (cons (car l) (rember-f test? a (cdr l)) ) )
-            (else  (rember-f test? a (cdr l))
+            ((test? a (car l)) (rember-f test? a (cdr l)) )
+            (else (cons (car l) (rember-f test? a (cdr l)) ) 
                 )
             )
     )    
 )
 (rember-f o= 2 '(2 3))
+
+(rember-f eq? 'a '(a b a))
+
+(rember-f equal?* '(1 2) '(a (1 2) a))
+
