@@ -1043,3 +1043,30 @@ The First Commandment:
     
 )
 (union '(a b c) '(x y a))
+
+
+(define set-diff 
+    (lambda (set1 set2)
+        (cond 
+            ((null? set1) '())
+            ((member? (car set1) set2) (set-diff (cdr set1) set2 ) )
+            (else (cons (car set1) (set-diff (cdr set1) set2) ) )
+        )
+    )
+    
+)
+
+(define intersectall 
+    (lambda (l-set)
+        (cond 
+            ((null? l-set) '())
+            ((null? (cdr l-set)) (car l-set))
+            (else (intersect (car l-set)  (intersectall (cdr l-set))  ) )
+        )    
+    )
+    
+)
+
+(intersectall '( (6 p a) (3 pe a 6 pp) (8 p a 6 pl) (a 6 pr w s ap) ))
+
+(intersectall '((1 2 3) (2) (1 2 3)))
