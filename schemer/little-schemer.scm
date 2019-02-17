@@ -1114,3 +1114,15 @@ The First Commandment:
         (car (cdr (cdr l)))
     )
 )
+
+(define fun? 
+    
+    (lambda (rel)
+        (set? (firsts rel))    
+    )
+    
+)
+
+; finite function here will be: a list of apirs where firsts are unique
+; it means, that any input has one output
+
