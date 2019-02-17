@@ -1162,3 +1162,12 @@ The First Commandment:
         )  
     )
 )
+
+(define fullfun? 
+    (lambda (fun)
+        (set? (firsts (revrel fun)))
+    )
+)
+
+(fullfun? '( (1 2) (3 4) (5 6) ))
+(fullfun? '( (1 2) (3 4) (5 2) ))
