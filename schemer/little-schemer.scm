@@ -1235,3 +1235,16 @@ The First Commandment:
 )
 
 (define rember-eq? (rember-f eq?))
+
+(define insertL-f 
+    (lambda (test?)
+        (lambda (new old list)
+            (cond 
+                
+                
+                
+                )
+        )
+    )
+    
+)
