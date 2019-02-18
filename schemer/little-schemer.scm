@@ -1390,3 +1390,19 @@ The First Commandment:
 )
 
 (multiremberT eq?-a '(a b c d a e))
+
+(define a-friend
+    (lambda (x y)
+        (null? y)
+    )    
+)
+
+(define multirember&co 
+    (lambda (a lat col)
+        (cond 
+            ((null? lat)  )    
+            
+        )
+    )    
+    
+)
