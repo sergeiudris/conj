@@ -1238,13 +1238,58 @@ The First Commandment:
 
 (define insertL-f 
     (lambda (test?)
-        (lambda (new old list)
+        (lambda (new old l)
             (cond 
-                
-                
-                
-                )
+                ((null? l) '())
+                ((test? (car l) old) (cons new l))
+                (else ( cons (car l) ((insertL-f test?) new old (cdr l)) ))
+            )
         )
     )
     
 )
+
+
+
+(define insertR-f
+    (lambda (test?)
+        (lambda (new old l)
+            (cond  
+                ((null? l) '())
+                ((test? (car l) old) (cons old (cons new (cdr l))))
+                (else ( cons (car l) ((insertR-f test?) new old (cdr l)) ))
+            )
+        )
+    )
+)
+
+(define seqL 
+    (lambda (new old l)
+        (cons new (cons old l))
+    )
+)
+(define seqR 
+    (lambda (new old l)
+        (cons old (cons new l))
+    )
+)
+(define insert-g 
+    (lambda (test? seq)
+        (lambda (new old l)
+            (cond 
+                ((null? l) '())
+                ((test? (car l) old) (seq new old (cdr l)) )
+                (else ( cons (car l) ((insert-g test? seq) new old (cdr l)) ))
+            )
+        )
+    )
+)
+
+(define insertL 
+    (insert-g equal?* seqL)   
+)
+(define insertR 
+    (insert-g equal?* seqR)   
+)
+
+(insertL 'N 'a '(a b c d a))
