@@ -1328,3 +1328,30 @@ The First Commandment:
 )
 
 (rember 'a '(x a b c))
+
+;; The Ninth Commandment: abstract common patterns w/ a new function
+
+
+(define atom-to-function 
+    (lambda (x)
+        (cond 
+            ((eq? x '+) +)
+            ((eq? x '*) *)    
+            (else expt)    
+        )
+    )    
+    
+)
+
+(atom-to-function (operator '(+ 5 3)))
+
+(define value 
+    (lambda (nexp)
+        (cond 
+            ((atom? nexp) nexp)
+            (else ((atom-to-function (operator nexp)) (1st-sub-exp nexp) (2st-sub-exp nexp)) )    
+        )
+    )    
+)
+
+(value '(* 3 4))
