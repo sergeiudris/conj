@@ -1370,3 +1370,23 @@ The First Commandment:
 )
 
 ((multirember-f eq?) 'a  '(a b c a d e a) )
+
+(define  multirember-eq?
+    (multirember-f eq?)
+)
+
+(define eq?-a 
+    (eq-c? 'a)
+) 
+
+(define multiremberT 
+    (lambda (test? l)
+        (cond 
+            ((null? l) '())
+            ((test? (car l)) (multiremberT test? (cdr l)) )
+            (else (cons (car l) (multiremberT test? (cdr l) )))
+        )
+    )    
+)
+
+(multiremberT eq?-a '(a b c d a e))
