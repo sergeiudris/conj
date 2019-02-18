@@ -1293,3 +1293,24 @@ The First Commandment:
 )
 
 (insertL 'N 'a '(a b c d a))
+
+(define insertL 
+    (insert-g 
+        equal?*
+        (lambda (new old l)
+            (cons new (cons old l))
+        )
+    )    
+)
+
+(define seqS 
+    (lambda (new old l)
+        (cons new l)
+    )    
+)
+
+(define subst 
+    (insert-g equal?* seqS)
+)
+
+(subst 'S 'a '(a b c a d))
