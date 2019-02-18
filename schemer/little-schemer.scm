@@ -1314,3 +1314,17 @@ The First Commandment:
 )
 
 (subst 'S 'a '(a b c a d))
+
+(define seqrem 
+    (lambda (new old l)
+        l
+    )
+)
+
+(define rember 
+    (lambda (a l)
+        ((insert-g equal?* seqrem ) #f a l)
+    )
+)
+
+(rember 'a '(x a b c))
