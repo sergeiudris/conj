@@ -1418,3 +1418,18 @@ The First Commandment:
 )
 
 (multirember&co 'a '(a b c d a e) (lambda (newlat seen) (cons newlat (cons seen '()))) )
+
+(define new-friend 
+    (lambda (newlat seen)
+        (a-friend newlat (cons 'a seen))
+    )
+    
+)
+
+(define latest-friend 
+    (lambda (newlat seen)
+        (a-friend (cons '() newlat) seen)
+    )
+)
+
+; tenth commandment : build functions that collect more than one value at a time
