@@ -1432,4 +1432,10 @@ The First Commandment:
     )
 )
 
+(define last-friend 
+    (lambda (x y)
+        (length x)
+    )
+
+)
 ; tenth commandment : build functions that collect more than one value at a time
