@@ -1439,3 +1439,17 @@ The First Commandment:
 
 )
 ; tenth commandment : build functions that collect more than one value at a time
+
+(define multiinsertLR 
+    (lambda (new oldL oldR lat) 
+        (cond 
+            ((null? lat) '())
+            ; ((equal?* oldL oldR) '())
+            ((equal?* (car lat) oldL) (cons new (cons oldL (multiinsertLR new oldL oldR (cdr lat) ) ) ) )
+            ((equal?* (car lat) oldR) ( cons oldR (cons new (multiinsertLR new oldL oldR (cdr lat) )) ) )
+            (else (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)) ) )    
+        )    
+    )
+)
+
+(multiinsertLR 'N 'a 'b '(a b c d e a f b g a))
