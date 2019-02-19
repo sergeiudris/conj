@@ -1453,3 +1453,34 @@ The First Commandment:
 )
 
 (multiinsertLR 'N 'a 'b '(a b c d e a f b g a))
+
+(define multiinsertLR&co 
+    (lambda (new oldL oldR lat col)
+        (cond 
+            ((null? lat) (col '() 0 0) )
+            ((equal?* (car lat) oldL)  (multiinsertLR&co  new oldL oldR (cdr lat) 
+                (lambda (newlat L R)
+                    (col  (cons new (cons oldL newlat) ) (add1 L) R )
+                ) 
+            )  )
+            ((equal?* (car lat) oldR) (multiinsertLR&co  new oldL oldR (cdr lat) 
+                (lambda (newlat L R)
+                    (col  (cons oldR (cons new newlat) ) L (add1 R) )
+                ) 
+            ) )
+            (else (cons (car lat) (multiinsertLR&co  new oldL oldR (cdr lat) 
+                (lambda (newlat L R)
+                    ; (col (cons (car lat) newlat) L R)
+                    (col newlat L R)
+                )
+                ) ) )    
+        )
+    )    
+)
+
+(multiinsertLR&co 'N 'a 'b '(a b c d e a f b g a) 
+    (lambda (newlat L R)
+        ; (cons newlat (cons L (cons R '())))
+        newlat
+    )
+)
