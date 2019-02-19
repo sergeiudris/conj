@@ -1400,9 +1400,21 @@ The First Commandment:
 (define multirember&co 
     (lambda (a lat col)
         (cond 
-            ((null? lat)  )    
-            
+            ((null? lat) (col '() '()) )    
+            ((eq? (car lat) a) (multirember&co a (cdr lat) 
+                (lambda (newlat seen)
+                    (col newlat (cons (car lat) seen) )
+                ) ))
+            (else  (multirember&co a (cdr lat) 
+                (lambda (newlat seen)
+                    (col (cons (car lat) newlat)
+                        seen
+                    )
+                
+                ) ))
         )
     )    
     
 )
+
+(multirember&co 'a '(a b c d a e) (lambda (newlat seen) (cons newlat (cons seen '()))) )
