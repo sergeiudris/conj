@@ -318,6 +318,8 @@ a ; (x y z)
     )
 )
 
+
+
 (addtup '(1 2 3 ))
 
 (define o* 
@@ -331,6 +333,15 @@ a ; (x y z)
 
     )
     )
+
+(define multup
+    (lambda (tup)
+    (cond 
+        ((null? tup) 1)
+        (else ( o* (car tup) (multup (cdr tup)) ) )        
+        )
+    )
+)
 
     ;; page 68
 
@@ -1504,4 +1515,67 @@ The First Commandment:
         )
 )
 
-(evens-only* '((1 2 3) 2 4 5  (2 3 (7 8 9))))
+(evens-only* '((1 2 3) 2 4 5 (3)  (2 3 (7 8 9))))
+
+
+(define evens-only*&co 
+    (lambda (l col)
+        (cond 
+            ((null? l) (col '() '() '()) )
+            ((and (atom? (car l)) (even? (car l)) (evens-only*&co (cdr l) 
+                (lambda (newl evenl oddl)
+                    (col (cons (car l) newl) (cons (car l) evenl) oddl )
+                )
+                
+            )))
+            ((atom? (car l))  (evens-only*&co (cdr l) 
+                (lambda (newl evenl oddl)
+                    (col  newl evenl (cons (car l) oddl) )
+                )
+            ))
+            ; (else  (evens-only*&co (cdr l) 
+            ;     (lambda (newl evenl oddl)
+            ;         ; (col (cons (evens-only*&co (car l) col) newl ) evenl oddl )
+            ;         (col (cons  (evens-only*&co (car l) col)  )
+            ;         ; (col newl evenl oddl)
+            ;     )
+            ; ))
+            (else  (evens-only*&co (car l) 
+                (lambda (anewl aevenl aoddl) 
+                    (evens-only*&co (cdr l) 
+                        (lambda (dnewl devenl doddl)
+                            (col (cons anewl dnewl) (cons (multup devenl) aevenl) (cons (addtup doddl) aoddl) )
+                        )
+                        )
+                    ; (col (cons newl '()) evenl oddl )
+                )
+            ) )
+        )
+    )   
+)
+
+(evens-only*&co '(1 2 3 4 5 6 7 8) 
+    (lambda (newl evenl oddl)
+        (cons newl (cons (multup evenl) (cons (addtup oddl) '() )) )
+    )  
+)
+
+(evens-only*&co '(1 2 (3 4 (5 6))) 
+    (lambda (newl evenl oddl)
+        (cons newl (cons (multup evenl) (cons (addtup oddl) '() )) )
+    )  
+)
+
+
+(evens-only*&co '(1 2 (3 (2 5))) 
+    (lambda (newl evenl oddl)
+        (cons newl (cons (multup evenl) (cons (addtup oddl) '() )) )
+    )  
+)
+
+
+(evens-only*&co  '((1 2 3) 2 4 5 (3)  (2 3 (7 8 9)))
+    (lambda (newl evenl oddl)
+        (cons newl (cons (multup evenl) (cons (addtup oddl) '() )) )
+    )
+)
