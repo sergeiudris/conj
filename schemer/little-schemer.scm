@@ -1587,7 +1587,7 @@ The First Commandment:
     (lambda (a sorn lat )
         (cond 
             ((number? sorn) 
-                (keep-looking a (pick sorn lat) lat ))
+                (keep-looking a (pick sorn lat) lat )) ;; unnatural recursion
             (else (eq? sorn a))
         )    
     )    
@@ -1602,3 +1602,35 @@ The First Commandment:
 (looking 'b '(6 2 4 b 5 7 3))
 
 (keep-looking 'b 7 '(6 2 4 b 5 7 3))
+
+
+;; functions like 'looking' are called partial functions
+;; other are called total
+
+;; example of a partial function
+(define eternity 
+    (lambda (x)
+        (eternity x) ;; most unnatural recursion possible
+    )
+)
+;; https://en.wikipedia.org/wiki/Partial_function
+
+
+(define shift 
+    (lambda (l)
+        (cond 
+            ((null? l) '() )
+            ((atom? (car l)) l)
+            (else  (cons (car (car l)) (cons (cdr (car l)) (cdr l) ) )  )
+        )
+    )
+)
+
+
+(define shift 
+    (lambda (pair)
+       (build (first (first pair))
+        (build (second (first pair)) (second pair) )
+       )
+    )
+)
