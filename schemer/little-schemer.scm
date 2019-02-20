@@ -1579,3 +1579,8 @@ The First Commandment:
         (cons newl (cons (multup evenl) (cons (addtup oddl) '() )) )
     )
 )
+
+
+;; and again, and again, and again...
+
+
