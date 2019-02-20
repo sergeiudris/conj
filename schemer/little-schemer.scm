@@ -1484,3 +1484,24 @@ The First Commandment:
         ; newlat
     )
 )
+
+
+(define even? 
+    (lambda (n)
+        (= (* (o/ n 2) 2) n)    
+    )
+)
+
+
+(define evens-only*
+        (lambda (l)
+            (cond
+                ((null? l) '())
+                ((and (atom? (car l)) (even? (car l)) ) (cons (car l) (evens-only* (cdr l) ) ) )
+                ((atom? (car l)) (evens-only* (cdr l) ) )
+                (else (cons (evens-only* (car l) )  (evens-only* (cdr l) )  ) )
+            )
+        )
+)
+
+(evens-only* '((1 2 3) 2 4 5  (2 3 (7 8 9))))
