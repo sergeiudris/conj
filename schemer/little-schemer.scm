@@ -465,7 +465,7 @@ a ; (x y z)
 (define pick 
     (lambda (n lat)
         (cond
-            ((zero? n) (car lat))
+            ((zero? (sub1 n)) (car lat))
             ; ((null? lat) #f)
             (else  (pick (sub1 n) (cdr lat) ) )
             )
@@ -1583,4 +1583,22 @@ The First Commandment:
 
 ;; and again, and again, and again...
 
+(define keep-looking
+    (lambda (a sorn lat )
+        (cond 
+            ((number? sorn) 
+                (keep-looking a (pick sorn lat) lat ))
+            (else (eq? sorn a))
+        )    
+    )    
+)
 
+(define looking 
+    (lambda (a lat)
+        (keep-looking a (pick 1 lat) lat)    
+    )
+)
+
+(looking 'b '(6 2 4 b 5 7 3))
+
+(keep-looking 'b 7 '(6 2 4 b 5 7 3))
