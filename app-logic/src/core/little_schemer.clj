@@ -368,4 +368,25 @@
 
 (*d 4 2)
 
+(defn length
+  "count length"
+  [lat]
+  (cond
+    (null? lat) 0
+    :else (add1 (length (cdr lat))) 
+    ) 
+  )
 
+(length '( 1 2 3 4 ))
+
+
+(defn pick
+  "get element by index"
+  [n lat]
+  (cond
+    (zero? (sub1 n)) (car lat)
+    :else (pick (sub1 n) (cdr lat))
+    )
+  )
+
+(pick 3 '(1 2 3))
