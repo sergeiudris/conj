@@ -357,4 +357,15 @@
 
 (*expt 3 4)
 
+(defn *d
+  ""
+  [n m]
+  (cond 
+    (< n m) 0
+    :else (add1 (*d (*- n m) m))
+    )
+  )
+
+(*d 4 2)
+
 
