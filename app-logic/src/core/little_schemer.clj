@@ -390,3 +390,11 @@
   )
 
 (pick 3 '(1 2 3))
+
+(defn rempick
+  "remove by index"
+  []
+  (cond
+    (zero?)
+    )
+  )
