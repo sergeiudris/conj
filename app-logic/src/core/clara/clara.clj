@@ -1,9 +1,9 @@
-(ns exp.clara.clara
+(ns core.clara.clara
   (:require [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             [clara.rules :as cr]
             [clara.rules :as cr]
-            [exp.clara.examples :as examples]
+            [core.clara.examples :as examples]
             ))
 
 
@@ -38,7 +38,7 @@
              ?client "has a new support request")
     )
   
-  (-> (cr/mk-session 'exp.clara.clara)
+  (-> (cr/mk-session 'logic.clara.clara)
       (cr/insert (->ClientRepresentative "Alice" "Acme")
                  (->SupportRequest "Acme" :high))
       (cr/fire-rules)

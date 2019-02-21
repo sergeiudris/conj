@@ -15,14 +15,14 @@
 ; (d/create-database db-uri)
 ; (d/delete-database db-uri)
 
-
-(do
- (def conn (d/connect db-uri))
-(def db (d/db conn))
-(defn cdb [] (d/db conn))
- )
-
-
+(comment 
+  (do
+    (def conn (d/connect db-uri))
+    (def db (d/db conn))
+    (defn cdb [] (d/db conn))
+    )
+  
+)
 
 
 

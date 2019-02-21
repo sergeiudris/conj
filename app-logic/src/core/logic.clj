@@ -1,4 +1,4 @@
-(ns exp.logic
+(ns core.logic
   (:refer-clojure :exclude [==])
   (:require [clojure.repl :refer :all]
             [clojure.core.logic.pldb :refer [db with-db db-rel db-fact]]

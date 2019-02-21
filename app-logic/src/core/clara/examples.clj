@@ -1,10 +1,10 @@
 
-(ns exp.clara.examples
+(ns core.clara.examples
   (:require   [clojure.repl :refer :all]
              [clojure.pprint :as pp]
             ;  [clara.examples.shopping :as shopping]
             ;  [clara.exa/mples.validation :as validation]
-             [exp.clara.examples.sensors :as sensors]
+             [core.clara.examples.sensors :as sensors]
             ;  [clara.examples.java.shopping :as jshopping]
             ;  [clara.examples.booleans :as booleans]
             ;  [clara.examples.fact-type-options :as type-opts]

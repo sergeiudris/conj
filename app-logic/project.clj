@@ -1,4 +1,4 @@
-(defproject app-exp "0.1.0-SNAPSHOT"
+(defproject app-logic "0.1.0-SNAPSHOT"
   ; :main dq.dq
   
    :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo/"
@@ -40,12 +40,12 @@
                  ]
   ; :min-lein-version "2.8.3"
   :resource-paths ["config", "resources"]
-  :repl-options {:init-ns dq.dq
-                 :main dq.dq
+  :repl-options {:init-ns core.core
+                 :main core.core
                 ;  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]
                  }
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "exp.exp/-main"]}
+  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "core.core/-main"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.5"]]}}
-  :main ^{:skip-aot true} exp.exp
+  :main ^{:skip-aot true} core.core
   
   )

@@ -1,4 +1,4 @@
-(ns exp.rabbitmq
+(ns core.rabbitmq
   (:require [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             

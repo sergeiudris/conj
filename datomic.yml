@@ -462,13 +462,13 @@ services:
     #   - base
 
 
-  app-exp:
-    image: app-exp
-    container_name: conj-app-exp
+  app-logic:
+    image: app-logic
+    container_name: conj-app-logic
     volumes:
-      - ./app-exp:/opt/code/app
+      - ./app-logic:/opt/code/app
     build:
-      context: ./app-exp
+      context: ./app-logic
       dockerfile: ./Dockerfile
     ports:
       # - 35544:35543

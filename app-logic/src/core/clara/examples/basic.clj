@@ -1,4 +1,4 @@
-(ns exp.clara.examples.basic
+(ns core.clara.examples.basic
   (:require [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             [clara.rules :as cr]
@@ -34,7 +34,7 @@
     (println "Notify" ?name "that"
              ?client "has a new support request"))
 
-  (-> (cr/mk-session 'exp.clara)
+  (-> (cr/mk-session 'logic.clara)
       (cr/insert (->ClientRepresentative "Alice" "Acme")
                  (->SupportRequest "Acme" :high))
       (cr/fire-rules)))
