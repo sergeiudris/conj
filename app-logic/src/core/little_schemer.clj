@@ -120,3 +120,15 @@
 
 (insertR 'z 'b '(a b c))
 (insertR 'z 'c '(a b c))
+
+(defn insertL
+  "inserts 'new' to the left of 'old'"
+  [new old lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) old ) (cons new (cons old (cdr lat)))
+    :else (cons (car lat) (insertL new old (cdr lat)) )
+    )
+  )
+
+(insertL 'z 'c '(a b c))
