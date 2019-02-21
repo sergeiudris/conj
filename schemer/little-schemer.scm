@@ -1780,3 +1780,131 @@ The First Commandment:
 (lookup-in-table 'z table (lambda (name)
     'nil
 ))
+
+;; types: *const *quote *identifier *lambda *cond *application
+
+(define expression-to-action 
+    (lambda (e)
+        (cond 
+            ((atom? e) (atom-to-action e))
+            (else (list-to-action e))    
+        )
+    )
+)
+
+(define atom-to-action
+    (lambda ( e)
+    (cond
+    ((number? e) *const)
+    ((eq? e #t) *const)
+    ((eq? e #f) *const)
+    ((eq? e (quote cons)) *const)
+    ((eq? e (quote car)) *const)
+    ((eq? e (quote cdr)) *const)
+    ((eq? e (quote null?)) *const)
+    ((eq? e (quote eq?)) *const)
+    ((eq? e (quote atom?)) *const)
+    ((eq? e (quote zero?)) *const)
+    ((eq? e (quote add1)) *const)
+    ((eq? e (quote sub1)) *const)
+    ((eq? e (quote number?)) *const)
+    (else *identifier))))
+
+(define list-to-action
+    (lambda (e)
+    (cond
+    (( atom? ( car e))
+    (cond
+    ((eq? (car e) (quote quote))
+    *quote)
+    ((eq? ( car e) (quote lambda))
+    *lambda)
+    ((eq? ( car e) (quote cond))
+    *cond)
+    (else *application)))
+    (else *application)))) 
+
+(define meaning 
+    (lambda (e table)
+        ((expression-to-action e) e table)
+    
+    )    
+)
+
+(define value 
+    (lambda (e)
+        (meaning e '())
+    )
+)
+
+;; The function value,1
+; together with all the functions it uses, is
+; called an interpreter. 
+
+(define *const
+    (lambda ( e table)
+    (cond
+    ((number? e) e)
+    (( eq? e #t) #t)
+    ((eq? e #f) #f)
+    (else (build (quote primitive) e)))))
+
+(define text-of second)
+
+(define *quote
+    (lambda ( e table)
+    (text-of e))) 
+
+(define *identifier
+    (lambda ( e table)
+    (lookup-in-table e table initial-table)))
+
+(define initial-table
+    (lambda (name)
+    (car (quote ())))) 
+
+(define *lambda
+    (lambda ( e table)
+    ( build (quote non-primitive)
+    ( cons table ( cdr e)))))
+
+(define table-of first) 
+
+(define formals-of second) 
+
+(define body-of third)
+
+(define else?
+    (lambda (x )
+    (cond
+    ((atom? x ) ( eq? x (quote else)))
+    (else #f ) ))) 
+
+(define question-of first) 
+
+(define answer-of second) 
+
+(define evcon
+    (lambda (lines table )
+    (cond
+    ((else? (question-of ( car lines)))
+    (meaning ( answer-of ( car lines))
+    table))
+    ((meaning (question-of ( car lines))
+    table)
+    (meaning ( answer-of ( car lines))
+    table))
+    (else ( evcon ( cdr lines) table))))) 
+
+(define cond-lines-of cdr) 
+
+(define *cond
+    (lambda ( e table)
+    ( evcon ( cond-lines-of e) table))) 
+
+
+(*cond 
+    '(cond (coffee klatsch) (else party)) 
+    '(( (coffee) ( #t ))
+    ((klatsch party) (5 (6))))
+)
