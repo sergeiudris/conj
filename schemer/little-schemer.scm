@@ -1671,6 +1671,7 @@ The First Commandment:
     (else ( build (first pora)
     ( shuffle ( second pora) ) ) ) ) ) )
 
+;; https://en.wikipedia.org/wiki/Collatz_conjecture
 (define C
     (lambda (n)
     (cond
@@ -1680,6 +1681,7 @@ The First Commandment:
     (( even? n) ( C (/ n 2 ) ) )
     (else ( C ( add1 ( * 3 n)))) ) ) ) ) )
 
+;;https://en.wikipedia.org/wiki/Ackermann_function
 (define A
     (lambda (n m)
     (cond
@@ -1704,3 +1706,44 @@ The First Commandment:
 ;     )
     
 ; )
+
+(define length 
+    
+    (lambda (l)
+        (cond 
+            ((null? l) 0)
+            (else (add1 (length (cdr l))))    
+            
+        )
+    )
+    
+)
+
+
+(define lookup-in-entry-help 
+    (lambda (name names values entry-f)
+        (cond 
+            ((null? names) (entry-f name))
+            ((eq? (car names) name) (car values))
+            (else  (lookup-in-entry-help 
+                name
+                (cdr names)
+                (cdr values)
+                entry-f)
+            )
+        )
+    )    
+)
+
+(define lookup-in-entry 
+    (lambda (name entry entry-f)
+        (lookup-in-entry-help 
+            name 
+            (first entry)
+            (second entry)
+            entry-f            
+        ) 
+    )    
+)
+
+(lookup-in-entry 'b '((a b c) (1 2 3)) (lambda (name) 'nil ))
