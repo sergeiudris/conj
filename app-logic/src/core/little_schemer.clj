@@ -145,3 +145,29 @@
 )
 
 (subst 'z 'a '(a b c a))
+
+(defn subst2 
+  "replace the first occurance of either o1 or o2"
+  [new o1 o2 lat]
+  (cond
+    (null? lat) '()
+    (or (eq? (car lat) o1) (eq? (car lat) o2)) (cons new (cdr lat))
+    :else (cons (car lat) (subst2 new o1 o2 (cdr lat)))
+    )
+  )
+
+(subst2 'z 'a 'b '(c a b m))
+
+(defn multirember
+  "remove all occurances of a"
+  [a lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) a) (multirember a (cdr lat))
+    :else (cons (car lat) (multirember a (cdr lat)))
+    )
+  
+  )
+
+(multirember 'z '(a b z c z d))
+
