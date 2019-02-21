@@ -72,14 +72,26 @@
   [a lat]
   (cond
     (null? lat) false
-    (eq? (car lat) a) true
-    :else (member? a (cdr lat))
+    :else (or  
+           (eq? (car lat) a) 
+           (member? a (cdr lat)) 
+           ) 
     )
-  )
+)
 
 (member? 'z '(a b c z))
 
+(defn rember
+  [a lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) a) (cdr lat)
+    :else (cons (car lat) (rember a (cdr lat)))
+  )
+)
 
+
+(rember 'a '(b c a) )
 
 
 
