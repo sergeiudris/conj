@@ -1747,3 +1747,36 @@ The First Commandment:
 )
 
 (lookup-in-entry 'b '((a b c) (1 2 3)) (lambda (name) 'nil ))
+
+
+(define extend-tble 
+    (lambda (entry table)
+        (cond 
+            ((null? table) '())
+            (else (cons entry table))    
+        )
+    )    
+)
+
+(define lookup-in-table 
+    (lambda (name table table-f)
+        (cond 
+            ((null? table) (table-f name))
+            (else (lookup-in-entry name (car table) 
+                (lambda (name)
+                    (lookup-in-table name (cdr table) table-f)
+                ) ) )
+            
+        )
+    )    
+    
+)
+
+(define table '(
+    ((a b c z) (1 2 3 hi))
+    ((d e g) (4 5 6))
+))
+
+(lookup-in-table 'z table (lambda (name)
+    'nil
+))
