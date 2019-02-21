@@ -194,3 +194,16 @@
   )
 
 (multiinsertL 'N 'z '(a b z c z d))
+
+
+(defn multisubst
+  "replace all occurances of atom in lat"
+  [a lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) a ) (multisubst a (cdr lat))
+    :else (cons (car lat) (multisubst a (cdr lat)) )
+    )
+  )
+
+(multisubst 'z '(a b z c z d))
