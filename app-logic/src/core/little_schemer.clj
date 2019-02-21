@@ -182,3 +182,15 @@
   )
 
 (multiinsertR 'N 'z '(a b z c z d))
+
+(defn multiinsertL
+  "insert new to the left of all olds"
+  [new old lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) old) (cons new (cons old  (multiinsertL new old (cdr lat))))
+    :else (cons (car lat) (multiinsertL new old (cdr lat)))
+    )
+  )
+
+(multiinsertL 'N 'z '(a b z c z d))
