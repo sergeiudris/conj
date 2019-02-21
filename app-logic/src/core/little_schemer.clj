@@ -171,3 +171,14 @@
 
 (multirember 'z '(a b z c z d))
 
+(defn multiinsertR
+  "insert new to the right of all olds"
+  [new old lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat))  )) 
+    :else  (cons (car lat) (multiinsertR new old (cdr lat) )) 
+    )
+  )
+
+(multiinsertR 'N 'z '(a b z c z d))
