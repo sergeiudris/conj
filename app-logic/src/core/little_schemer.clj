@@ -344,3 +344,17 @@
   )
 
 (*= 0 1)
+
+(defn *expt
+  "expt"
+  [n m]
+  (cond
+    (zero? n) 0
+    (zero? m) 1
+    :else (** n (*expt n (sub1 m) ) )
+    )
+  )
+
+(*expt 3 4)
+
+
