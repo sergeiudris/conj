@@ -313,3 +313,34 @@
     :else (*< (sub1 n) (sub1 m))))
 
 (*< 1 3)
+
+(defn *=
+  "equal"
+  [n m]
+  (cond 
+    (and (zero? n) (zero? m) ) true
+    (or (zero? n) (zero? m) ) false
+    :else (*= (sub1 n) (sub1 m) )
+    )
+  )
+
+(*= 0 1)
+
+(defn *=
+  "equal"
+  [n m]
+  (cond
+    (zero? n)  (zero? m)
+    (zero? m) false
+    :else (*= (sub1 n) (sub1 m))))
+
+(defn *=
+  "equal"
+  [n m]
+  (cond
+    (or (*< n m) (*> n m) ) false
+    :else true
+    )
+  )
+
+(*= 0 1)
