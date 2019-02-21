@@ -207,3 +207,109 @@
   )
 
 (multisubst 'z '(a b z c z d))
+
+
+(defn add1
+  "increment"
+  [n]
+  (+ n 1)
+  )
+
+(defn sub1
+  "increment"
+  [n]
+  (- n 1))
+
+(sub1 0)
+
+(defn *+
+  "add two numbers"
+  [n m]
+  (cond
+    (zero? m) n
+    :else (add1 (*+ n (sub1 m) ))
+    )
+  )
+
+(*+ 100000 2000)
+
+(defn *-
+  "subtract from a  number"
+  [n m]
+  (cond
+    (zero? m) n
+    :else (sub1  (*- n (sub1 m) ))
+    )
+  )
+
+(*- 3 1)
+
+
+(defn addtup
+  "sum of a tuple"
+  [tup]
+  (cond
+    (null? tup) 0
+    :else (*+ (car tup) (addtup (cdr tup) ) )
+    )
+  )
+
+(addtup '(1 2 3))
+
+(defn ** 
+  "multiply"
+  [n m]
+  (cond
+    (zero? m) 0
+    :else (*+ n (** n (sub1 m)))
+    )
+  )
+
+(** 0 4)
+
+(defn tup+
+  "add two equal tups"
+  [tup1 tup2]
+  (cond
+    (and (null? tup1) (null? tup2)) '()
+    :else (cons (*+ (car tup1) (car tup2) ) (tup+ (cdr tup1) (cdr tup2)))
+    )
+  )
+
+(tup+ '(1 2) '(3 4))
+
+(defn tup+ 
+  "add any two tups"
+  [tup1 tup2]
+  (cond
+    (null? tup1) tup2
+    (null? tup2) tup1
+    :else (cons (*+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2) ) )
+    ) 
+  )
+
+(tup+ '(1 2) '(3 4 6 7))
+
+
+(defn *>
+  "greater"
+  [n m]
+  (cond
+    (zero? n) false
+    (zero? m) true
+    :else (*> (sub1 n) (sub1 m) )
+    )
+  )
+
+(*> 3 2)
+
+
+(defn *<
+  "less"
+  [n m]
+  (cond
+    (zero? m) false
+    (zero? n) true
+    :else (*< (sub1 n) (sub1 m))))
+
+(*< 1 3)
