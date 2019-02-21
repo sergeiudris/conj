@@ -1677,7 +1677,7 @@ The First Commandment:
     ( ( one? n) 1 )
     (else
     (cond
-    (( even? n) ( C (+ n 2 ) ) )
+    (( even? n) ( C (/ n 2 ) ) )
     (else ( C ( add1 ( * 3 n)))) ) ) ) ) )
 
 (define A
@@ -1690,17 +1690,17 @@ The First Commandment:
 
 ;; A is a total function because it always gives an answer
 
-(define will-stop? 
-    (lambda (f)
+; (define will-stop? 
+;     (lambda (f)
 
     
-    )
+;     )
     
-    )
+;     )
 
-(define last-try 
-    (lambda (x)
-        (and (will-stop? last-try) (eternity x))
-    )
+; (define last-try 
+;     (lambda (x)
+;         (and (will-stop? last-try) (eternity x))
+;     )
     
-)
+; )
