@@ -3,6 +3,7 @@
 ;; 1. TOYS
 
 (defn atom? 
+  "is arg not a list"
   [a]
   (not (coll? a)))
 
@@ -31,6 +32,7 @@
 (null? '(1 2))
 
 (defn eq? 
+  "equality only for two non-numeric atoms"
   [a b] 
   (cond
     (or (number? a) (number? b) ) (throw (Exception. "eq? takes two arguments. Both of them must be non-numeric atoms"))
@@ -53,8 +55,8 @@
 
 (null? 'a)
 
-;; is list a list of atoms
 (defn lat? 
+  "is list a list of atoms"
   [l]
   (cond 
     (null? l) true
@@ -69,29 +71,42 @@
 
 
 (defn member?
+  "list contains atom"
   [a lat]
   (cond
     (null? lat) false
     :else (or  
            (eq? (car lat) a) 
            (member? a (cdr lat)) 
-           ) 
+           )
     )
-)
+  )
 
 (member? 'z '(a b c z))
 
 (defn rember
+  "remove first appearance of the atom fro list"
   [a lat]
   (cond
     (null? lat) '()
     (eq? (car lat) a) (cdr lat)
     :else (cons (car lat) (rember a (cdr lat)))
+    )
   )
-)
 
 
 (rember 'a '(b c a) )
+
+(defn firsts [l]
+  (cond
+    (null? l) '()
+    :else (cons (car (car l)) (firsts (cdr l) ) )
+    )
+  )
+
+(firsts '( (1 2) (3 4) (a b) ))
+
+
 
 
 
