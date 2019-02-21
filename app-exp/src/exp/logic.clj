@@ -14,7 +14,22 @@
   (+)
   (doc fresh)
   (doc project)
+  (rest '(1 2 3))
+  (number? 3)
+  (zero? 1)
+  (empty? '())
+  (defn atom? [a]
+    (not (coll? a)))
+  
+  (atom? 3)
+  (atom? false)
+  (atom? "as")
+  (atom? '())
 
+
+  
+  (doc first)
+  
 
   (run* [q]
         (== q true))
@@ -50,8 +65,7 @@
            (fresh [x y]
                   (fun y)
                   (likes x y)
-                  (== q [x y]))))
-   )
+                  (== q [x y])))))
 
 
   ;; a la carte unifier
@@ -158,8 +172,7 @@
   
 
   ;; definite clause grammars
-  (
-   (def-->e verb [v]
+  ((def-->e verb [v]
      ([[:v 'eats]] '[eats]))
 
    (def-->e noun [n]
@@ -180,11 +193,7 @@
      ([[:s np vp]] (noun-phrase np) (verb-phrase vp)))
 
    (run* [parse-tree]
-         (sentence parse-tree '[the bat eats a cat] []))
-   
-   )
-
-  )
+         (sentence parse-tree '[the bat eats a cat] []))))
 
 
 ;; wiki: a core.logic Primer
