@@ -1,4 +1,4 @@
-(ns core.core
+(ns core
   (:require [clojure.repl :refer :all]
             [clojure.pprint :as pp]
             [dev.server]
@@ -6,12 +6,20 @@
             [core.rabbitmq]
             [core.logic]
             [core.datomic]
-            [schemer.little]
-            [schemer.reasoned]
-            [schemer.seasoned]
+            [core.little-schemer]
+            
             [dev.nrepl]))
 
 
 (defn -main []
   (dev.nrepl/-main)
   (dev.server/run-dev))
+
+
+(comment
+  
+  (+)
+  
+  (defn hi [] "hi")
+  
+  )

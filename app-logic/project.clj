@@ -44,7 +44,7 @@
                  :main core.core
                 ;  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]
                  }
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "core.core/-main"]}
+  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "core/-main"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.5"]]}}
   :main ^{:skip-aot true} core.core
   
