@@ -132,3 +132,16 @@
   )
 
 (insertL 'z 'c '(a b c))
+
+
+(defn subst 
+  "replaces first occurance of old int he lat with new"
+  [new old lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) old) (cons new (cdr lat))
+    :else (cons (car lat) (subst new old (cdr lat)) )
+  )
+)
+
+(subst 'z 'a '(a b c a))
