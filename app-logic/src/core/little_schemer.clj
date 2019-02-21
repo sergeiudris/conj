@@ -98,6 +98,7 @@
 (rember 'a '(b c a) )
 
 (defn firsts [l]
+  "list of first elements of list of lists"
   (cond
     (null? l) '()
     :else (cons (car (car l)) (firsts (cdr l) ) )
@@ -107,6 +108,15 @@
 (firsts '( (1 2) (3 4) (a b) ))
 
 
+(defn insertR 
+  "inserts 'new' to the right of 'old'"
+  [new old lat]
+  (cond
+    (null? lat) '()
+    (eq? (car lat) old) (cons old (cons new (cdr lat)))
+    :else (cons (car lat) (insertR new old (cdr lat) ))
+    )
+  )
 
-
-
+(insertR 'z 'b '(a b c))
+(insertR 'z 'c '(a b c))
