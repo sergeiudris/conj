@@ -36,7 +36,7 @@
   [a b] 
   (cond
     (or (number? a) (number? b) ) (throw (Exception. "eq? takes two arguments. Both of them must be non-numeric atoms"))
-    (and (atom? a) (atom? b) (= a b)) true
+    (and (atom? a) (atom? b) ) (= a b)
     :else false
     )
   )
@@ -477,17 +477,18 @@
 (rempick 1 '(1 2 3))
 
 (defn rember*
-  "remove all occurances of a in list"
+  "remove all occurances of a in list or nested lists"
   [a l]
   (cond 
     (null? l) '()
-    (eqan? (car l) a ) (rember* a (cdr l) )
-    :else (cons (car l) (rember* a (cdr l)) )
+    (and (atom? (car l)) (eqan? (car l) a) ) (rember* a (cdr l))
+     (atom? (car l)) (cons (car l) (rember* a (cdr l)) )
+    :else (cons (rember* a (car l))  (rember* a (cdr l)) )
     
     )
   )
 
-(rember* 'a '(a b c a d a e))
+(rember* 'a '(a b c a (d a e)))
 
 (defn insertR*
   "insert new to the right of every occurance of old in list of nested lists"
@@ -502,3 +503,156 @@
   )
 
 (insertR* 'N 'z '(a z b z c (d z e)))
+
+
+(defn occur*
+  [a l]
+  "count occurances in list of lists"
+  (cond
+    (null? l) 0
+    (and (atom (car l)) (eqan? (car l) a) ) (add1 (occur* a (cdr l) ) )
+    (atom? (car l)) (occur* a (cdr l))
+    :else (*+ (occur* a (car l)) (occur* a (cdr l)) )
+    )
+  )
+
+(occur* 'z '(a b z ( c d z (e z) )))
+
+(defn subst* 
+ "replce olds with new in LofL"
+ [new old l]
+ (cond
+   (null? l) '()
+   (and (atom? (car l)) (eqan? (car l) old ))  (cons new (subst* new old (cdr l) ))
+   (atom? (car l)) (cons (car l) (subst* new old (cdr l)) )
+   :else (cons (subst* new old (car l)) (subst* new old (cdr l)))
+   )
+ 
+ )
+
+(subst* 'N 'z  '(a b z ( c d z (e z) )))
+
+(defn insertL*
+  "insert new to the right of every occurance of old in list of nested lists"
+  [new old l]
+  (cond
+    (null? l) '()
+    (and (atom? (car l)) (eqan? (car l) old)) (cons new (cons old (insertL* new old (cdr l))))
+    (atom? (car l)) (cons (car l)   (insertL* new old (cdr l)))
+    :else (cons (insertL* new old (car l)) (insertL* new old (cdr l)))))
+
+(insertL* 'N 'z '(a z b z c (d z e)))
+
+(defn member*
+  "returns true if atom occurs in LofL"
+  [a l]
+  (cond
+    (null? l) false
+    (and (atom? (car l)) (eqan? (car l) a)) true
+    (atom? (car l)) (member* a (cdr l))
+    :else (or (member* a (car l)) (member* a (cdr l)) )
+    
+    ))
+
+(member* 'N  '(a z b z c (d z e (N))))
+
+(defn leftmost
+  "finds the leftmost atom in a non-empty list of S-expressions
+that does not contain an empty list"
+  [l]
+  (cond
+    (atom? (car l)) (car l)
+    :else (leftmost (car l))
+    
+    ))
+
+(leftmost '(((a) b) c) )
+
+(defn eqlist?
+  "returns true if two LofL are same"
+  [l1 l2]
+  (cond
+    (and (null? l1) (null? l2)) true
+    (or (null? l1) (null? l2)) false
+    (and (atom? (car l1) ) (atom?  (car l2))) (and (eqan? (car l1) (car l2)) (eqlist? (cdr l1) (cdr l2)))
+    (or (atom? (car l1)) (atom?  (car l2))) false
+    :else (and (eqlist? (car l1) (car l2)) (eqlist? (cdr l1) (cdr l2)))
+    )
+  )
+
+(eqlist? '(a b (c d (e f))) '(a b (c d (e f))) )
+
+(eqlist? '(a b (c d (e f))) '(a b (c d (e f g))))
+
+(defn equal? 
+  "returns true if two S-expressions are equal"
+  [s1 s2]
+  (cond
+    (and (atom? s1) (atom? s2)) (eqan? s1 s2)
+    (or (atom? s1) (atom? s2) ) false
+     :else (eqlist? s1 s2)
+    )
+  )
+
+(defn rember
+  "remove any S-expression from the list"
+  [s l]
+  (cond
+    (null? l) '()
+    (equal? (car l) s) (cdr l)
+    :else (cons (car l) (cdr l) )
+    
+    )
+  
+  )
+
+(defn atom-to-operator
+  "atom to op"
+  [a]
+  (cond
+    (equal? a '+) *+
+    (equal? a '*) **
+    (equal? a 'expt) *expt
+    )
+  )
+(def a '+)
+(atom-to-operator a)
+
+
+(defn operator?
+  "returns true if op"
+  [a]
+  (cond
+    (equal? a '+) true
+    (equal? a '*) true
+    (equal? a 'expt) true
+    :else false
+    )
+  )
+
+(defn numbered?
+  "returs true if the representaion of an arithmetic expression contains only numbers besides + * expt"
+  [aexp]
+  (cond
+    (atom? aexp) (number? aexp)
+    (null? aexp) false
+    ( and (operator? (car (cdr aexp)) ) (numbered? (car aexp) ) (numbered? (car (cdr (cdr aexp)))) ) true
+    :else false
+    )
+  )
+
+(numbered? '(1 expt 1))
+
+
+(defn value
+  "returns the natural value of a numbered arithmetic expression"
+  [nexp]
+  (cond
+    (atom? nexp) nexp
+    (operator?  (car (cdr nexp)) ) ((atom-to-operator (car (cdr nexp)) ) (car nexp) (car (cdr (cdr nexp))) )
+    :else false
+    )
+  )
+
+(value '(1 + 1))
+
