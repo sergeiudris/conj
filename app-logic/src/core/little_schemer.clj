@@ -45,15 +45,15 @@
 
 (eq? 'ab 'ab)
 
-(eq? 1 1)
+; (eq? 1 1)
 
 (number? 1)
 
-(eq? '() '())
+; (eq? '() '())
 
 ;; 2. Do It, Do It Again
 
-(null? 'a)
+; (null? 'a)
 
 (defn lat? 
   "is list a list of atoms"
@@ -393,8 +393,99 @@
 
 (defn rempick
   "remove by index"
-  []
+  [n lat]
   (cond
-    (zero?)
+    (null? lat) '()
+    (zero? (sub1 n)) (cdr lat)
+    :else (cons (car lat) (rempick (sub1 n) (cdr lat)))
     )
   )
+
+(rempick 3 '(a b c d))
+
+(defn no-nums
+  "remove all numbers from lat"
+  [lat]
+  (cond
+    (null? lat) '()
+    (number? (car lat)) (no-nums (cdr lat))
+    :else (cons (car lat) (no-nums (cdr lat)))
+    
+    )
+  )
+
+(no-nums '(a 1 b 2 c 3))
+
+(defn all-nums
+  "extract all numbers inot a tup"
+  [lat]
+  (cond
+    (null? lat) '()
+    (number? (car lat)) (cons (car lat) (all-nums (cdr lat)) )
+    :else (all-nums (cdr lat))
+    )
+  )
+
+(all-nums '(a 1 b 2 c 3))
+
+
+(defn eqan? 
+  "true of atoms(inlcuding numbers) are equal"
+  [a1 a2]
+  (cond
+    (and (number? a1) (number? a2)) (*= a1 a2)
+    (or (number? a1) (number? a2)) false
+    :else (eq? a1 a2))
+  
+  )
+
+(eqan? 3 'a)
+
+
+(defn occur
+  "count the number of times atom appears in list"
+  [a lat]
+  (cond
+    (null? lat) 0
+    (eqan? (car lat) a) ( add1 (occur a (cdr lat)) ) 
+    :else (occur a (cdr lat))
+    )
+  )
+
+(occur 3 '(1 2 3 4 3))
+
+(defn one?
+  "returns true if number is one"
+  [n]
+  (*= n 1)
+  )
+
+(one? 1)
+
+
+(defn rempick
+  "remove nth element from list"
+  [n lat]
+  (cond
+    (null? lat) '()
+    (one? n) (cdr lat)
+    :else (cons (car lat) (rempick (sub1 n) (cdr lat) ))
+    
+    )
+  )
+
+(rempick 1 '(1 2 3))
+
+(defn rember*
+  "remove all occurances of a in list"
+  [a l]
+  (cond 
+    (null? l) '()
+    (eqan? (car l) a ) (rember* a (cdr l) )
+    :else (cons (car l) (rember* a (cdr l)) )
+    
+    )
+  )
+
+(rember* 'a '(a b c a d a e))
+
