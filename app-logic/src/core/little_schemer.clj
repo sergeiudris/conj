@@ -649,10 +649,10 @@ that does not contain an empty list"
   [nexp]
   (cond
     (atom? nexp) nexp
-    (operator?  (car (cdr nexp)) ) ((atom-to-operator (car (cdr nexp)) ) (car nexp) (car (cdr (cdr nexp))) )
+    (operator?  (car (cdr nexp)) ) ((atom-to-operator (car (cdr nexp)) ) (value (car nexp)) (value (car (cdr (cdr nexp)))) )
     :else false
     )
   )
 
-(value '(1 + 1))
+(value '(2 expt (1 + 2)))
 
