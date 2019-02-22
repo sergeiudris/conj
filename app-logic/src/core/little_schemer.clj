@@ -682,3 +682,5 @@ that does not contain an empty list"
   )
 
 (value '(expt 2 (+ 1 2)))
+
+;; p 105
