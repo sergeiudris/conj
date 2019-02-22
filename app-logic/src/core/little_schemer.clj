@@ -489,3 +489,16 @@
 
 (rember* 'a '(a b c a d a e))
 
+(defn insertR*
+  "insert new to the right of every occurance of old in list of nested lists"
+  [new old l]
+  (cond
+    (null? l) '()
+    (and (atom? (car l)) (eqan? (car l) old)) (cons old (cons new (insertR* new old (cdr l) )))
+    (atom? (car l)) (cons (car l)   (insertR* new old (cdr l)))
+    :else (cons (insertR* new old (car l)) (insertR* new old (cdr l) ) )
+    )
+  
+  )
+
+(insertR* 'N 'z '(a z b z c (d z e)))
