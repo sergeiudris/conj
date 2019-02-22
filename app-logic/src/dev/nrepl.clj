@@ -22,6 +22,12 @@
   (doc ->>)
   
   (doc ->)
+  
+  (doc number?)
+  (doc empty?)
+  (doc one?)
+
+  
 
   
   )
