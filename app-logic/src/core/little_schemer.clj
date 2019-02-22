@@ -649,10 +649,36 @@ that does not contain an empty list"
   [nexp]
   (cond
     (atom? nexp) nexp
-    (operator?  (car (cdr nexp)) ) ((atom-to-operator (car (cdr nexp)) ) (value (car nexp)) (value (car (cdr (cdr nexp)))) )
-    :else false
+    :else ((atom-to-operator (car (cdr nexp)) ) (value (car nexp)) (value (car (cdr (cdr nexp)))) )
     )
   )
 
 (value '(2 expt (1 + 2)))
 
+(defn fst-sub-exp
+  "first of aexp"
+  [aexp]
+  (car (cdr aexp))
+  )
+
+(defn snd-sub-exp
+  "snd of aexp"
+  [aexp]
+  (car (cdr (cdr aexp))))
+
+(defn operator
+  "arithmeic expression operator"
+  [aexp]
+  (car aexp)
+  )
+
+(defn value
+  "returns the value of aexp"
+  [nexp]
+  (cond
+    (atom? nexp) nexp
+    :else ( (atom-to-operator (operator nexp)) (value (fst-sub-exp nexp)) (value (snd-sub-exp nexp)) )
+    )
+  )
+
+(value '(expt 2 (+ 1 2)))
