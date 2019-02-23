@@ -684,3 +684,347 @@ that does not contain an empty list"
 (value '(expt 2 (+ 1 2)))
 
 ;; p 105
+
+(defn sero?
+  "returns true if number represented by () is zero"
+  [n]
+  (null? n)
+  )
+
+(sero? '())
+
+(defn edd1
+  "edd () to ()"
+  [n]
+  (cons '() n)
+  )
+
+(edd1 '(() ()))
+
+(defn zub1
+  "decrement by one"
+  [n]
+  (cdr n)
+  )
+
+(defn blus
+  [n m]
+  (cond
+    (sero? m) n
+    ; :else (blus (cons (car m) n) (cdr m) ) 
+    :else (edd1 (blus n (zub1 m) ) )
+    )
+  )
+
+(blus '(()) '(() () ()))
+
+
+(defn member?
+  "list contains atom"
+  [a lat]
+  (cond
+    (null? lat) false
+    :else (or
+           (equal? (car lat) a)
+           (member? a (cdr lat)))))
+
+
+(defn set??
+  [l]
+  (cond 
+    (null? l) true
+    (member? (car l) (cdr l) ) false
+    :else (set?? (cdr l) )
+    )
+  )
+
+(set?? '(1 2 3 3))
+
+(defn multirember
+  "remove all occurances of a"
+  [a lat]
+  (cond
+    (null? lat) '()
+    (equal? (car lat) a) (multirember a (cdr lat))
+    :else (cons (car lat) (multirember a (cdr lat)))))
+
+(defn makeset
+  [l]
+  (cond 
+    (null? l) '()
+    :else (cons (car l) (makeset (multirember (car l) (cdr l))))
+    )
+  )
+
+(makeset '(apple peach pear peach plum apple lemon peach 1 1))
+
+(defn subset??
+  "returns true if subset"
+  [set1 set2]
+  (cond
+    (null? set1) true
+    :else (and (member? (car set1) set2 ) (subset?? (cdr set1) (cdr set2) ) )
+    )
+  
+  )
+
+(subset?? '(1 2) '(a b 0 2 3))
+
+(defn eqset?
+  "returns true of sets are same"
+  [set1 set2]
+  (cond
+    (and (null? set1) (null? set2)) true
+    (or (null? set1) (null? set2)) false
+    :else (and (equal? (car set1) (car set2) ) (eqset? (cdr set1) (cdr set2) ) )
+    )
+  )
+
+(eqset? '(a 1 b 2) '(a 1 b 2) )
+(eqset? '(a 1 b 2) '(a 1 b 2 3))
+
+
+
+(defn eqset?
+  "returns true of sets are same"
+  [set1 set2]
+  (and (subset?? set1 set2) (subset?? set2 set1))
+  )
+
+
+(eqset? '(a 1 b 2) '(a 1 b 2))
+(eqset? '(a 1 b 2) '(a 1 b 2 3))
+
+(defn intersect?
+  "returns true if at least one atom in set1 is in set2"
+  [set1 set2]
+  (cond
+    (or (null? set1) (null? set2)) false
+    :else (or (member? (car set1) set2) (intersect? (cdr set1) set2) )
+    
+    )
+  )
+
+(intersect? '(a b c)  '(d e f a) )
+
+(defn intersect 
+  "return list of set1 and set2 intersection"
+  [set1 set2]
+  (cond
+    (or (null? set1) (null? set2)) '()
+    (member? (car set1) set2) (cons (car set1) (intersect (cdr set1) set2 ) )
+    :else (intersect (cdr set1) set2)
+    )
+  )
+
+(intersect '(1 2) '(3 4 1 1 2  2))
+
+
+(clojure.set/union #{1 2} #{3})
+
+(defn union
+  "union of two sets"
+  [set1 set2]
+  (cond
+    (null? set1) set2
+    (null? set2) set1
+    :else (cons (car set1) (union (cdr set1) (multirember (car set1) set2)  ) )
+    
+    )
+  
+  )
+
+(union '(1 2 a b) '(3 4 1 2))
+
+
+(defn union
+  "union of set1 and set2"
+  [set1 set2]
+  (cond
+    (null? set1) set2
+    (member? (car set1) set2) (union (cdr set1) set2 )
+    :else (cons (car set1) (union (cdr set1) set2) )
+    
+    )
+  
+  )
+
+(union '(1 2) '(3 4 1) )
+
+(defn intersectall 
+  "intersect all sublists-sets of a l-set"
+  [l-set]
+  (cond 
+    (null? l-set) '()
+    (null? (cdr l-set)) (car l-set)
+    :else (intersect (car l-set) (intersectall (cdr l-set) ))
+    )
+  )
+
+(intersectall '( (a b c f g) (d e f a) (g f) ))
+
+(defn a-pair?
+  "returns true if pair"
+  [x]
+  (cond 
+    (or (atom? x) (null? x) (null? (cdr x))) false
+    :else (null? (cdr (cdr x)) )
+    )
+  )
+
+(a-pair? '( 3))
+
+(defn first 
+  "first element"
+  [p]
+  (car p)
+  )
+
+(first '(2))
+
+(defn second
+  "first element"
+  [p]
+  (car (cdr p)))
+
+(defn build
+  "build a pair"
+  [s1 s2]
+  (cons s1 (cons s2 '()) )
+  )
+
+(build 1 2)
+
+(defn third 
+  "third element"
+  [l]
+  (second (cdr l))
+  )
+
+(third '(a b c))
+
+(defn fun?
+  "returns true if relation is a fucntion"
+  [rel]
+      (set?? (firsts rel))
+  )
+
+(fun? '((1 2) (3 4) (5 6)) )
+
+(defn revrel
+  "reverse pairs in rel"
+  [rel]
+  (cond 
+    (null? rel) '()
+    :else (cons (build (second (car rel)) (first (car rel))) (revrel (cdr rel)))
+    )
+  )
+
+(revrel '((1 2) (3 4) (5 6)))
+
+(defn revpair
+  "reverse a pair"
+  [p]
+  (build (second p) (first p) )
+  )
+
+(defn revrel
+  "reverse pairs in rel"
+  [rel]
+  (cond
+    (null? rel) '()
+    :else (cons (revpair (car rel)) (revrel (cdr rel)))))
+
+(revrel '((1 2) (3 4) (5 6) (7 6)))
+
+(defn fullfun?
+  "one input, one output"
+  [fun]
+  (set?? (firsts  (revrel fun)))
+  )
+
+(fullfun? '((1 2) (3 4) (5 6) (7 6) ))
+
+(defn one-to-one?
+  "is fun full"
+  [fun]
+  (fun? (revrel fun))
+  )
+
+(one-to-one? '((1 2) (3 4) (5 6) (7 6)))
+
+
+(defn rember-f
+  "remove meber w/ lambda"
+  [test? a l]
+  (cond
+    (null? l) '()
+    (test? a (car l)) (cdr l)
+    :else (cons (car l) (rember-f test? a (cdr l) ))
+    )
+  )
+
+(rember-f equal? 'a '(b c a d) )
+
+(defn equal?-c
+  "curried equal?"
+  [a]
+  (fn [x] (equal? a x ) )
+  )
+((equal?-c 'a) (car '(a)))
+
+(defn rember-f
+  "remove meber w/ lambda"
+  [test?]
+    (fn [a l]
+      (cond
+        (null? l) '()
+        (test? a (car l)) (cdr l)
+        :else (cons (car l) ((rember-f test?) a (cdr l))))
+      )
+  )
+
+((rember-f equal?) 'a '(b a c) )
+
+(defn insertL-f
+  "curried insertleft"
+  [test?]
+  (fn [new old l]
+    (cond
+      (null? l) '()
+      (test? (car l) old) (cons new (cons old ((insertL-f test?) new old (cdr l) ) ))
+      :else (cons (car l) ((insertL-f test?) new old (cdr l)))
+      )
+    )
+  )
+
+((insertL-f equal?) 'N 'a '(b a c))
+
+(defn seqR
+  [new old l]
+  (cons old (cons new l))
+  )
+
+(defn seqL
+  [new old l]
+  (cons new (cons old l)))
+
+(defn insert-g
+  "iether left or right"
+  [seq]
+  (fn [new old l]
+    (cond
+      (null? l) '()
+      (equal? (car l) old ) ( seq new old ((insert-g seq) new old (cdr l) ) ) 
+      :else (cons (car l)  ((insert-g seq) new old (cdr l)))
+      
+      )
+    
+    )
+  )
+
+((insert-g seqR) 'N 'a '(b a c))
+((insert-g seqL) 'N 'a '(b a c))
+
+
+

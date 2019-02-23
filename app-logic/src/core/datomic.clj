@@ -23,6 +23,8 @@
 
   (+)
 
+  (d/squuid)
+
   (d/q '{:find [(count ?e) .]
          :where [[?e :artist/name]]}
        (cdb))
