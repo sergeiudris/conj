@@ -1026,5 +1026,82 @@ that does not contain an empty list"
 ((insert-g seqR) 'N 'a '(b a c))
 ((insert-g seqL) 'N 'a '(b a c))
 
+(def insertL (insert-g seqL) )
+(def insertR (insert-g seqR))
+
+(insertL 'N 'a '(b a c))
+
+(defn seqS
+  [new old l]
+  (cons new l)
+  )
+
+(def subst (insert-g seqS) )
+
+(subst 'N 'a '(b a c))
+
+(defn seqrem
+  [new old l]
+  l
+  )
+
+(defn rember
+  [old l]
+  ((insert-g seqrem) false old l )
+  )
+
+(rember  'a '(b a c))
 
 
+(defn multirember&co
+  [a l col]
+  (cond
+    (null? l) (col '() '())
+    (equal? (car l) a) (multirember&co a (cdr l) (fn [newl seen]
+                                      (col newl (cons (car l) seen ))
+                                                   ))
+    :else (multirember&co a (cdr l) (fn [newl seen]
+                                      (col (cons (car l) newl) seen)
+                                      )
+                          )
+    )
+  )
+
+(multirember&co 'a '(b c a d e) (fn [newl seen]
+                                  (cons newl (cons seen '()))
+                                  ) )
+
+
+(defn multiinsertLR
+  "insert either to the left or right"
+  [new oldL oldR l]
+  (cond
+    (null? l) '()
+    (equal? (car l) oldL) (cons new (cons oldL (multiinsertLR new oldL oldR (cdr l))))
+    (equal? (car l) oldR) (cons oldR (cons new (multiinsertLR new oldL oldR (cdr l))))
+    :else (cons (car l) (multiinsertLR new oldL oldR (cdr l)))
+    )
+  )
+
+(multiinsertLR 'N 'a 'b '(c d e f a g b e) )
+
+(defn multiinsertLR&co
+  "use collectors to implement multiinsertLR"
+  [new oldL oldR l col]
+  (cond
+    (null? l) (col '() 0 0)
+    (equal? (car l) oldL) (multiinsertLR&co new oldL oldR (cdr l) (fn [newl L R]
+                                                                 (col (cons new (cons oldL newl)) (add1 L) R )
+                                                                 ))
+    (equal? (car l) oldR) (multiinsertLR&co new oldL oldR (cdr l) (fn [newl L R]
+                                                                 (col (cons oldR (cons new newl)) L (add1 R))))
+    :else (multiinsertLR&co new oldL oldR (cdr l) (fn [newl L R]
+                                                 (col (cons (car l) newl) L R )
+                                                 ))
+    
+    )
+  )
+
+(multiinsertLR&co  'N 'a 'b '(c d e f a g b e) (fn [newl L R]
+                                                 (cons newl (cons L (cons R '())) )
+                                                 ))
