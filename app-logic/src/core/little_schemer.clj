@@ -1105,3 +1105,46 @@ that does not contain an empty list"
 (multiinsertLR&co  'N 'a 'b '(c d e f a g b e) (fn [newl L R]
                                                  (cons newl (cons L (cons R '())) )
                                                  ))
+
+
+(defn even??
+  [n]
+  (*= n (** (*d n 2) 2 ))
+  )
+
+(defn evens-only*
+  "evens only"
+  [l]
+  (cond
+    (null? l) '()
+    (and (atom? (car l) ) (even?? (car l)) ) (cons (car l) (evens-only* (cdr l)))
+    (atom? (car l)) (evens-only* (cdr l))
+    :else (cons (evens-only* (car l)) (evens-only* (cdr l)))
+    )
+  )
+
+(evens-only*  '( 1 2 3 4 (5 6 7 8 (9 10))) )
+
+(defn evens-only*&co
+  "builds a nested list of even numbers, multiplies even numbers and sums odd"
+  [l col]
+  (cond
+    (null? l) (col '() 0 0)
+    (and (atom? (car l)) (even?? (car l)) ) (evens-only*&co (cdr l) (fn [newl even odd]
+                                                                      (col (cons (car l) newl) (*+ even (car l)) odd )
+                                                                      ))
+    (atom? (car l)) (evens-only*&co (cdr l) (fn [newl even odd]
+                                              newl even  (*+ odd (car l)) ))
+    
+    :else      (evens-only*&co (cdr l) (fn [newl even odd]
+                                         (evens-only*&co (car l)  col
+                                                        ;  (fn [newl even odd] (col newl even odd) )
+                                                         ))) 
+    
+    )
+  )
+
+(evens-only*&co  '(1 2 3 4 (5 6 7 8 (9 10)))  (fn [newl even odd]
+                                                (cons newl (cons even (cons odd '())))
+                                                
+                                                ) )
