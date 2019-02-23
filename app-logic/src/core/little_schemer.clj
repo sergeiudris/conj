@@ -1134,11 +1134,12 @@ that does not contain an empty list"
                                                                       (col (cons (car l) newl) (*+ even (car l)) odd )
                                                                       ))
     (atom? (car l)) (evens-only*&co (cdr l) (fn [newl even odd]
-                                              newl even  (*+ odd (car l)) ))
+                                              (col newl even  (*+ odd (car l))) ))
     
-    :else      (evens-only*&co (cdr l) (fn [newl even odd]
-                                         (evens-only*&co (car l)  col
-                                                        ;  (fn [newl even odd] (col newl even odd) )
+    :else      (evens-only*&co (car l) (fn [newl2 even2 odd2]
+                                         (evens-only*&co (cdr l)  
+                                                         (fn [newl even odd] 
+                                                           (col (cons newl2 newl) (*+ even even2) (*+ odd odd2) ) )
                                                          ))) 
     
     )
@@ -1148,3 +1149,4 @@ that does not contain an empty list"
                                                 (cons newl (cons even (cons odd '())))
                                                 
                                                 ) )
+
