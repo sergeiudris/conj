@@ -1650,7 +1650,7 @@ that does not contain an empty list"
 (def question-of first)
 (def answer-of second)
 
-(defn meaning [] "empty")
+(defn meaning [e table] "empty")
 
 (defn evcon
   [lines table]
