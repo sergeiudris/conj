@@ -1635,7 +1635,7 @@ that does not contain an empty list"
 
 (first (car (cdr '(fn [a b] (prn a b)))))
 
-(defn *fn
+(defn *lambda
   [e table]
   (build 'non-primitive (cons table (cdr e)) )
   )
@@ -1643,26 +1643,19 @@ that does not contain an empty list"
 (defn else?
   [x]
   (cond
-    (atom? x) (equal? x :else)
+    (atom? x) (equal? x 'else)
     :else false))
-(defn question-of
-  [e]
-  (cond
-    (atom? e) e
-    :else (first e)))
-(defn answer-of
-  [e]
-  (cond
-    (atom? e) e
-    :else (second e)))
+
+(def question-of first)
+(def answer-of second)
 
 (defn meaning [] "empty")
 
 (defn evcon
   [lines table]
   (cond
-    (else? (question-of (car lines))) (meaning (car (cdr lines)) table)
-    (meaning (car (cdr lines)) table) ((meaning (answer-of (car lines)) table))
+    (else? (question-of (car lines))) (meaning (answer-of (car lines)) table) ; else runs true or false
+    (meaning  (question-of (car lines)) table) (meaning (answer-of (car lines)) table)
     :else (evcon (cdr lines) table)))
 (defn cond-lines-of
   [e]
@@ -1671,6 +1664,21 @@ that does not contain an empty list"
 (defn *cond
   [e table]
   (evcon (cond-lines-of e) table))
+
+
+(*cond 
+ '(cond
+    (coffee z)
+    (coffee klatsch)
+    (else party)
+    )
+ 
+ '(
+   ((coffee) (true))
+   ((klatsch party z) (5 (6) (7) ) )
+   )
+ 
+ )
 
 
 (defn evlis
@@ -1755,8 +1763,8 @@ that does not contain an empty list"
   [e]
   (cond 
     (number? e) *const
-    (equal? e true) *const
-    (equal? e false) *const
+    (equal? e 'true) *const
+    (equal? e 'false) *const
     (equal? e 'cons) *const
     (equal? e 'cons) *const
     (equal? e 'cdr) *const
@@ -1775,7 +1783,7 @@ that does not contain an empty list"
   [e]
   (cond 
     (equal? (car e) 'quote ) *quote
-    (equal? (car e) 'fn) *fn
+    (equal? (car e) 'lambda) *lambda
     (equal? (car e) 'cond) *cond
     :else *application
     )
@@ -1805,8 +1813,5 @@ that does not contain an empty list"
   (meaning e '())
   )
 
-(meaning '(fn [x] (cons x y) )  '(((y z) ((8) 9) )  ))
-
-
-
+(meaning '(fn [x] (cons x y) )  '(((y z) ((8) 9)))   )
 
