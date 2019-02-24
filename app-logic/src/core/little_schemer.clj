@@ -1754,6 +1754,7 @@ that does not contain an empty list"
 
 (defn *apply
   [fun vals]
+  (prn fun)
   (cond
     (primitive? fun) (apply-primitive (second fun) vals)
     (non-primitive? fun) (apply-closure (second fun) vals)
@@ -1774,7 +1775,7 @@ that does not contain an empty list"
   ;                          (meaning (function-of e) table)
   ;                          (evlis (arguments-of e) table)))
   
-  
+  (prn "application of e " e)
   (*apply
    (meaning (function-of e) table)
    (evlis (arguments-of e) table )
@@ -1803,6 +1804,7 @@ that does not contain an empty list"
 
 (defn list-to-action
   [e]
+  (prn "list ot action e" e)
   (cond 
     (equal? (car e) 'quote ) *quote
     (equal? (car e) 'lambda) *lambda
@@ -1866,6 +1868,10 @@ that does not contain an empty list"
   
   (meaning '(cons (quote a) (quote ()))  '(((y z x) ((8) 9 true)))) ; (a)
   
+  (meaning '((lambda (x) (add1 x ) ))  '(
+                                       ( (x) (3) )
+                                       ( (y) (5))
+                                       ) )
   
   
   )
