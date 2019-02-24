@@ -1150,3 +1150,389 @@ that does not contain an empty list"
                                                 
                                                 ) )
 
+
+;; and again, and again..
+
+(defn keep-looking
+  "keep looking for a in lat"
+  [a sorn lat]
+  (cond
+    (number? sorn) (keep-looking a (pick sorn lat) lat )
+    :else (equal? a sorn)
+    )
+  
+  )
+
+
+(defn lokking 
+  "look for a using breadcrumbs"
+  [a lat]
+  (keep-looking a (pick 1 lat) lat)
+  )
+
+(defn eternity
+  [x]
+  (eternity x)
+  )
+
+
+(defn shift
+  "shift pair"
+  [pair]
+  (build (first (first pair) ) (build (second (first pair)) (second pair) ) )
+  )
+
+(shift '((a b) (c d) ))
+(shift '((a b) c))
+
+(defn align
+  "keep shifting pora "
+  [pora]
+  (cond 
+    (atom? pora) pora
+    (a-pair? (first pora)) (align (shift pora))
+    :else (build (first pora)
+                 (align (second pora))
+                 )
+    
+    )
+  
+  )
+
+(defn length*
+  "length of pora"
+  [pora]
+  (cond
+    (atom? pora) 1
+    :else (*+  (length* (first pora)) (length* (second pora)) )
+    )
+  )
+
+
+(length* '((a b) (c d) ))
+
+(defn weight* 
+  "weight of pora"
+  [pora]
+  (atom? pora) 1
+  :else (*+ (** (weight* (first pora) ) 2 ) (weight* (second pora)) )
+  )
+
+(defn shuffle
+  "keep shifting pora "
+  [pora]
+  (cond
+    (atom? pora) pora
+    (a-pair? (first pora)) (shuffle (revpair pora))
+    :else (build (first pora)
+                 (shuffle (second pora)))))
+
+(shuffle '((a b) (c d)))
+
+
+(defn C
+  [n]
+  (cond 
+    (one? n) 1
+    (even? n) (C (/ n 2))
+    :else (C (add1 (* 3 n)))
+    )
+  )
+
+(defn A
+  [n m]
+  (cond 
+    (zero? n) (add1 m)
+    (zero? m) (A (sub1 n) 1)
+    :else (A (sub1 n) (A n (sub1 m)) )
+    
+    
+    )
+  
+  )
+
+(A 1 0)
+(A 2 2)
+
+
+(defn length
+  "length of a list"
+  [l]
+  (cond
+    (null? l) 0
+    :else (add1 (length (cdr l) ))
+    
+    )
+  )
+
+(length '(1 2 3))
+
+(def length<=1
+  (fn [l] 
+    (cond 
+      (null? l) 0
+      :else (add1 
+             ((fn [l]
+                (cond
+                  (null? l) 0
+                  :else (add1 (eternity (cdr l)) )
+                  )
+                
+                )(cdr l))
+              
+             )
+      )
+    )
+  )
+
+(length<=1 '())
+
+(def length<=2
+  (fn [l]
+    (cond
+      (null? l) 0
+      :else (add1
+             ((fn [l]
+                (cond
+                  (null? l) 0
+                  :else (add1 ((fn [l]
+                                 (cond
+                                   (null? l) 0
+                                   :else (add1 (eternity (cdr l))))) (cdr l))
+                              ))) (cdr l)))
+      
+      )))
+
+(length<=2 '(1 2))
+
+(def length0-c
+  (fn [length]
+    (fn [l]
+      (cond 
+        (null? l) 0
+        :else (add1 (length (cdr l)))
+        
+        )
+      )
+    )
+  )
+
+(length0-c eternity)
+
+(def length<=1-c
+  ((fn [f]
+     (fn [l]
+       (cond 
+         (null? l) 0
+         :else (add1 (f (cdr l)))
+         )
+       )
+     )
+   ((fn [g]
+      (fn [l]
+        (cond
+          (null? l) 0
+          :else (add1 (g (cdr l)))))) 
+    eternity)
+   )
+  )
+
+(length<=1-c '(1))
+
+(def length<=2-c
+  ((fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l))))))
+   ((fn [length]
+      (fn [l]
+        (cond
+          (null? l) 0
+          :else (add1 (length (cdr l))))))
+    ((fn [length]
+       (fn [l]
+         (cond
+           (null? l) 0
+           :else (add1 (length (cdr l))))))
+     eternity
+     )
+    
+    )))
+
+(length<=2-c '(1 2))
+
+
+(def length0-c
+  ((fn [mk-length]
+     (mk-length eternity)
+     )
+   (fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l))))))
+   )
+  )
+
+(length0-c '())
+
+
+
+(def length<=1-c
+  ((fn [mk-length]
+     (mk-length (mk-length eternity)))
+   (fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l)))))))
+  )
+
+(length<=1-c '(1))
+
+
+(def length<=2-c
+  ((fn [mk-length]
+     (mk-length (mk-length (mk-length eternity))))
+   (fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l))))))))
+
+(length<=2-c '(1 2))
+
+(def length<=3-c
+  ((fn [mk-length]
+     (mk-length (mk-length (mk-length (mk-length eternity)))))
+   (fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l))))))))
+
+(defn eternity
+  [l]
+  Double/NaN
+  )
+
+(length<=3-c '(1 2 3 4))
+
+;; https://stackoverflow.com/questions/310974/what-is-tail-call-optimization
+
+;; not tail recursive because of tracking multiply
+(defn fact 
+  [x]
+  (cond 
+    (= x 0) 1
+    :else (* x (fact (- x 1)))
+    )
+  )
+
+(fact 20)
+
+;; tail recursive
+(defn fact
+  [x]
+  (defn fact-tail
+    [x accum]
+    (cond
+      (= x 0) accum
+      :else (fact-tail (- x 1) (* x accum))))
+  (fact-tail x 1)
+  )
+(fact 20)
+
+
+
+(def length
+  ((fn [mk-length]
+     (mk-length mk-length))
+   (fn [mk-length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 ((mk-length mk-length) (cdr l)))))))
+  )
+
+(length '(1 2 3))
+
+;; infinite loop, stackoverflow
+(def len
+  ((fn [mk-length]
+     (mk-length mk-length))
+   (fn [mk-length]
+     ((fn [length]
+        (fn [l]
+          (cond
+            (null? l) 0
+            :else (add1 (length (cdr l))))))
+      (mk-length mk-length)))))
+
+;; now works
+(def len
+  ((fn [mk-length]
+     (mk-length mk-length))
+   (fn [mk-length]
+     ((fn [length]
+        (fn [l]
+          (cond
+            (null? l) 0
+            :else (add1 (length (cdr l))))))
+      (fn [x]
+        ((mk-length mk-length) x))))))
+
+(len '(1 2 3))
+
+(def len
+  "one more level of separation"
+  ((fn [le]
+     ((fn [mk-length]
+          (mk-length mk-length))
+        (fn [mk-length] 
+          (le (fn [x]
+                 ((mk-length mk-length) x))
+                ))
+          )
+     )
+   (fn [length]
+     (fn [l]
+       (cond
+         (null? l) 0
+         :else (add1 (length (cdr l))))))
+   )
+  )
+
+(len '(1 2 3))
+
+(def mk-length
+  (fn [le]
+    ((fn [mk-length]
+       (mk-length mk-length))
+     (fn [mk-length]
+       (le (fn [x]
+             ((mk-length mk-length) x)
+             ) )
+       )
+     )
+    )
+  )
+
+(def applicative-order-Y-combinator
+  (fn [le]
+    ((fn [f]
+       (f f)
+       )
+     (fn [f]
+       (le (fn [x]
+             ((f f) x)
+             ))
+       )
+     )
+    )
+  )
+
+
+
+
