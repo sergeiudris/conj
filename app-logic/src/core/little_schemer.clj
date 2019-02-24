@@ -1227,7 +1227,7 @@ that does not contain an empty list"
     :else (build (first pora)
                  (shuffle (second pora)))))
 
-(shuffle '((a b) (c d)))
+; (shuffle '((a b) (c d)))  ; infinite loop
 
 
 (defn C
@@ -1459,16 +1459,16 @@ that does not contain an empty list"
 (length '(1 2 3))
 
 ;; infinite loop, stackoverflow
-(def len
-  ((fn [mk-length]
-     (mk-length mk-length))
-   (fn [mk-length]
-     ((fn [length]
-        (fn [l]
-          (cond
-            (null? l) 0
-            :else (add1 (length (cdr l))))))
-      (mk-length mk-length)))))
+; (def len
+;   ((fn [mk-length]
+;      (mk-length mk-length))
+;    (fn [mk-length]
+;      ((fn [length]
+;         (fn [l]
+;           (cond
+;             (null? l) 0
+;             :else (add1 (length (cdr l))))))
+;       (mk-length mk-length)))))
 
 ;; now works
 (def len
@@ -1532,6 +1532,280 @@ that does not contain an empty list"
      )
     )
   )
+
+
+
+
+;; what's the value of all of this
+
+(def new-entry build)
+
+
+(defn lookup-in-entry
+  [name entry]
+  (cond
+    (equal? name (first (first entry))) (first (second entry))
+    :else (lookup-in-entry name (new-entry (cdr (first entry)) (cdr (second entry ))))
+    )
+  )
+
+(lookup-in-entry 'b '( (a b c) (1 2 3) ) )
+(lookup-in-entry 'c '((a b c) (1 2 3)))
+
+(defn lookup-in-entry-help
+  [name names values entry-f]
+  (cond
+    (null? names) (entry-f name)
+    (equal? (car names) name) (car values)
+    :else (lookup-in-entry-help name (cdr names) (cdr values) entry-f)
+    )
+  )
+
+(defn lookup-in-entry
+  [name entry entry-f]
+  (lookup-in-entry-help name (first entry) (second entry) entry-f )
+  )
+
+
+(lookup-in-entry 'c '((a b c) (1 2 3))
+                 (fn [name]
+                   "no answer"
+                   )
+                 )
+
+(def extend-table cons)
+
+(defn lookup-in-table
+  [name table table-f]
+  (cond
+    (null? table) (table-f name)
+    :else (lookup-in-entry name (car table) (fn [name] 
+                                              (lookup-in-table name (cdr table) table-f )
+                                              ) )
+    )
+  
+  )
+
+(def table
+  '(
+    ((a b c)
+     (1 2 3)
+     )
+    ((d e f)
+     (4 5 6)
+     )
+    (
+     (g i h)
+     (7 8 9)
+     )
+    )
+  )
+
+(lookup-in-table 'h table (fn [name] "not found") )
+
+
+(defn *const
+  [e table]
+  (cond
+    (number? e) e
+    (equal? e true) true
+    (equal? e false) false
+    :else (build 'primitive e )
+    )
+  )
+
+(*const :else '())
+
+(def text-of second)
+
+(defn *quote
+  [e table]
+  (text-of e)
+  )
+
+(defn initial-table
+  [name]
+  (car '())
+  )
+
+(defn *identifier
+  [e table]
+  (lookup-in-table e table initial-table)
+  )
+
+(first (car (cdr '(fn [a b] (prn a b)))))
+
+(defn *fn
+  [e table]
+  (build 'non-primitive (cons table (cdr e)) )
+  )
+
+(defn else?
+  [x]
+  (cond
+    (atom? x) (equal? x :else)
+    :else false))
+(defn question-of
+  [e]
+  (cond
+    (atom? e) e
+    :else (first e)))
+(defn answer-of
+  [e]
+  (cond
+    (atom? e) e
+    :else (second e)))
+
+(defn meaning [] "empty")
+
+(defn evcon
+  [lines table]
+  (cond
+    (else? (question-of (car lines))) (meaning (car (cdr lines)) table)
+    (meaning (car (cdr lines)) table) ((meaning (answer-of (car lines)) table))
+    :else (evcon (cdr lines) table)))
+(defn cond-lines-of
+  [e]
+  (cdr e))
+
+(defn *cond
+  [e table]
+  (evcon (cond-lines-of e) table))
+
+
+(defn evlis
+  [args table]
+  (cond 
+    (null? args) '()
+    :else (cons (meaning (car args) table ) (evlis (cdr args) table) )
+    )
+  )
+
+(def table-of first)
+(def formals-of second)
+(def body-of third)
+
+
+
+(def fucntion-of car)
+(def argumnets-of cdr)
+(defn primitive?
+  [l]
+  (equal? (first l) 'primitive )
+  )
+(defn non-primitive?
+  [l]
+  (equal? (first l) 'non-primitive?))
+
+(defn *atom?
+  [x]
+  (cond
+    (atom? x) true
+    (null? x) false
+    (equal? (car x) 'primitive ) true
+    (equal? (car x) 'non-primitive) true
+    :else false
+    )
+  )
+
+(defn apply-primitive
+  [name vals]
+  (cond
+    (equal? name '()) (cons (first vals) (second vals) )
+    (equal? name 'car) (car (first vals) )
+    (equal? name 'cdr) (cdr (first vals))
+    (equal? name 'null?) (null? (first vals))
+    (equal? name 'eq) (equal? (first vals) (second vals) )
+    
+    (equal? name 'atom?) (*atom? (first vals))
+    (equal? name 'zero?) (zero? (first vals))
+    (equal? name 'add1) (add1 (first vals))
+    (equal? name 'sub1) (sub1 (first vals))
+    (equal? name 'number?) (number? (first vals))
+    
+    )
+  )
+
+(defn apply-closure
+  [closure vals]
+  (meaning (body-of closure) (extend-table (new-entry (formals-of closure) vals ) (table-of closure)  ) )
+  
+  )
+
+(defn apply
+  [fun vals]
+  (cond
+    (primitive? fun) (apply-primitive (second fun) vals)
+    (non-primitive? fun) (apply-closure (second fun) vals)
+    )
+  )
+(def function-of car)
+(def arguments-of cdr)
+
+
+(defn *application
+  [e table]
+  (apply
+   (meaning (function-of e) table)
+   (evlis (arguments-of e) table )
+   )
+  )
+
+(defn atom-to-action
+  [e]
+  (cond 
+    (number? e) *const
+    (equal? e true) *const
+    (equal? e false) *const
+    (equal? e 'cons) *const
+    (equal? e 'cons) *const
+    (equal? e 'cdr) *const
+    (equal? e 'null?) *const
+    (equal? e 'eq?) *const
+    (equal? e 'atom?) *const
+    (equal? e 'zero?) *const
+    (equal? e 'add1) *const
+    (equal? e 'sub1) *const
+    (equal? e 'number?) *const
+    :else *identifier
+    )
+  )
+
+(defn list-to-action
+  [e]
+  (cond 
+    (equal? (car e) 'quote ) *quote
+    (equal? (car e) 'fn) *fn
+    (equal? (car e) 'cond) *cond
+    :else *application
+    )
+  )
+
+(equal? :else :else)
+
+
+
+
+
+(defn expression-to-action
+  [e]
+  (cond
+    (atom? e) (atom-to-action e)
+    :else (list-to-action e)
+    )
+  )
+
+(defn meaning
+  [e table]
+  ((expression-to-action e) e table))
+
+;; interpreter, approximates to eval
+(defn value
+  [e]
+  (meaning e '())
+  )
+
+(meaning '(fn [x] (cons x y) )  '(((y z) ((8) 9) )  ))
 
 
 
