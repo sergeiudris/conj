@@ -1606,15 +1606,16 @@ that does not contain an empty list"
 
 (defn *const
   [e table]
+  (prn "e is " e)
   (cond
     (number? e) e
-    (equal? e true) true
-    (equal? e false) false
+    (equal? e 'true) true
+    (equal? e 'false) false
     :else (build 'primitive e )
     )
   )
 
-(*const :else '())
+(*const 'cons '())
 
 (def text-of second)
 
@@ -1718,12 +1719,14 @@ that does not contain an empty list"
 
 (defn apply-primitive
   [name vals]
+  (prn "apply prim " name vals)
   (cond
-    (equal? name '()) (cons (first vals) (second vals) )
+    (equal? name 'cons) (cons (first vals) (second vals) )
     (equal? name 'car) (car (first vals) )
     (equal? name 'cdr) (cdr (first vals))
     (equal? name 'null?) (null? (first vals))
     (equal? name 'eq) (equal? (first vals) (second vals) )
+    
     
     (equal? name 'atom?) (*atom? (first vals))
     (equal? name 'zero?) (zero? (first vals))
@@ -1740,7 +1743,16 @@ that does not contain an empty list"
   
   )
 
-(defn apply
+(apply-closure 
+ 
+ '((  ((u v w)(1 2 3)) ((x y z) (4 5 6))  ) (x y) (cons z x) ) 
+ 
+ '((a b c) (d e f))
+ 
+ )
+
+
+(defn *apply
   [fun vals]
   (cond
     (primitive? fun) (apply-primitive (second fun) vals)
@@ -1753,7 +1765,17 @@ that does not contain an empty list"
 
 (defn *application
   [e table]
-  (apply
+  ; (prn "applying " (str e))
+  ; (prn (evlis (arguments-of e) table))
+  ; (prn "meaning of functionof e" (meaning (function-of e) table))
+  ; (prn "evlis of arguments-of e" (evlis (arguments-of e) table))
+  
+  ; (prn "result of apply " (*apply
+  ;                          (meaning (function-of e) table)
+  ;                          (evlis (arguments-of e) table)))
+  
+  
+  (*apply
    (meaning (function-of e) table)
    (evlis (arguments-of e) table )
    )
@@ -1813,5 +1835,38 @@ that does not contain an empty list"
   (meaning e '())
   )
 
-(meaning '(fn [x] (cons x y) )  '(((y z) ((8) 9)))   )
+(comment
+  
+  
+  (meaning '(lambda (x) (cons x y))  '(((y z) ((8) 9))))
+
+  (meaning
+
+   '(cons z x)
+
+   '(((x y)
+      ((a b c) (d e f)))
+     ((u v w)
+      (1 2 3))
+     ((x y z)
+      (4 5 6))))
+
+  (meaning 'x  '(((y z x) ((8) 9 true))))
+
+
+
+  (meaning
+   '(cond
+      (coffee z)
+      (coffee klatsch)
+      (else party))
+
+   '(((coffee) (true))
+     ((klatsch party z) (5 (6) (7)))))
+  
+  (meaning '(cons (quote a) (quote ()))  '(((y z x) ((8) 9 true)))) ; (a)
+  
+  
+  
+  )
 
