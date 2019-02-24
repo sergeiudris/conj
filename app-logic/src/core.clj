@@ -7,6 +7,8 @@
             [core.logic]
             [core.datomic]
             [core.little-schemer]
+            [core.seasoned-schemer]
+            
             
             [dev.nrepl]))
 
