@@ -6,9 +6,10 @@
             [core.rabbitmq]
             [core.logic]
             [core.datomic]
+            
             [core.little-schemer]
             [core.seasoned-schemer]
-            
+            [core.reasoned-schemer]
             
             [dev.nrepl]))
 

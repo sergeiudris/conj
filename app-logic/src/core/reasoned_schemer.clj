@@ -1,4 +1,4 @@
-(ns core.seasoned-schemer
+(ns core.reasoned-schemer
   (:use core.little-schemer)
   )
 
