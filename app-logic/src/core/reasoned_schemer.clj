@@ -61,6 +61,32 @@
                )
         ))
 
+(run* [r]
+      (fresh [x y]
+             (== [x y] r )
+             ))
+
+(run* [r]
+      (fresh [x]
+             (let [y x]
+               (fresh [x]
+                      (== [y x y] r)
+                      )
+               )
+             )
+      )
+
+(run* [q]
+      (== false q)
+      (== true q)
+      )
+
+(run* [q]
+      (let [x q]
+        (== true x)
+        )
+      )
+
 
 
 
