@@ -201,6 +201,12 @@
              )
       )
 
+; conde will succeed when any cluase succeeds
+; below, the first cluase succeeds, if y is associated with false and z is associated with fresh
+; the second cluase succeeds, if y is associated with fresh and z is associated with false
+; so r is a list of possible solutions to query: ( (false _.0) (0._ false) )
+
+
 (run* [r]
       (fresh (x y z)
              (conde
@@ -212,4 +218,6 @@
              (== [y z] r)
              )
       )
+
+
 
