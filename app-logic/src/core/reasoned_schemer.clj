@@ -88,5 +88,128 @@
       )
 
 
+(run* [r]
+      (fresh [x]
+             (== x r)))
 
+(run* [q]
+      (fresh [x]
+             (== true x)
+             (== x q)))
+
+
+
+(run* [q]
+      (fresh [x]
+             (== x q)
+             (== true x)
+             ))
+
+;; x and q are diff vars
+
+(run* [q]
+      (fresh [x]
+             (== (= q x) q)))
+
+(run* [q]
+      (let [x q]
+        (fresh [q]
+               (== (= x q) x))))
+
+(run* [q]
+      (conde
+       [succeed fail (== q true)]
+       [succeed (== q true)]
+       ))
+
+(source run)
+; (source bind-conde-clauses)
+
+; condi looks and feels like conde . condi
+; does not, however, wait until all the
+; successful goals on a line are exhausted
+; before it tries the next line.
+
+(def anyo
+  (fn [g]
+    (conde
+     [g succeed]
+     [succeed g]
+     )
+    ))
+
+(def alwayso (anyo succeed))
+(def nevero (anyo fail))
+
+
+(run 5 [q]
+     (conde 
+      [(== false q) alwayso]
+      [(== true q) alwayso]
+      [fail (== q fail)]
+      ))
+
+
+(run 2 [x]
+     (conde
+      [(== :extra x) succeed]
+      [(== :virgin x) fail]
+      [(== :olive x) succeed]
+      [(== :oil x) succeed]
+      [succeed nevero]))
+
+(run* [r]
+      (fresh [x y]
+             (conde
+              [(== :split x) (== :pea y)]
+              [(== :navy x) (== :bean y)]
+              [fail nevero]
+              )
+             (== [x y] r)
+             )
+      )
+
+(run* [r]
+      (fresh [x y]
+             (conde
+              [(== :split x) (== :pea y)]
+              [(== :navy x) (== :bean y)]
+              [fail nevero])
+             (== [x y :soup] r)))
+
+(def teacupo
+  (fn [x]
+    (conde 
+     [(== :tea x) succeed]
+     [(== :cup x) succeed]
+     [succeed nevero]
+     )
+    ))
+
+(run* [x]
+      (teacupo x)
+      )
+
+(run* [r]
+      (fresh [x y]
+             (conde 
+              [(teacupo x) (== true y) succeed]
+              [(== false x) (== true y)]
+              [succeed nevero]
+              )
+             (== [x y] r)
+             )
+      )
+
+(run* [r]
+      (fresh (x y z)
+             (conde
+              [(== y x) (fresh [x] (== z x))]
+              [(fresh [x] (== z x)) (== z x)]
+              [succeed nevero]
+              )
+             (== false x)
+             (== [y z] r)
+             )
+      )
 
