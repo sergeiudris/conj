@@ -219,5 +219,109 @@
              )
       )
 
+(run* [q]
+      (let [a (== true q)
+            b (== false q)
+            ]
+        b
+        ))
 
+(run* [q]
+      (let [a (== true q)
+            b (fresh [x]
+                     (== x q)
+                     (== false x)
+                     )
+            c (conde
+               [(== true q) succeed]
+               [succeed (== false q)]
+               )
+            ]
+        b
+        )
+      )
+
+(let [x (fn [a] a)
+      y :c]
+  (x y))
+
+
+(run* [r]
+      (fresh (y x)
+             (== [x y] r)
+             )
+      )
+
+(run* [r]
+      (firsto '(a c o r n) r)
+      )
+
+(run* [q]
+     (firsto '(a c o r n) 'a)
+     (== true q)
+     )
+
+(run* [r]
+      (fresh [x y]
+             (firsto [r y] x)
+             (== 'pear x)
+             )
+      )
+
+(run* [r]
+      (fresh [x y]
+             (== (lcons x (lcons y 'salad)) r)))
+
+(def caro
+  (fn [p a]
+    (fresh [d]
+           (== (lcons a d) p)
+           )
+    ))
+
+
+(run* [r]
+      (caro '(a c o r n) r))
+
+
+(run* [r]
+      (fresh [x y]
+             (caro '(grape raisin pear) x)
+             (caro '((a) (b) (c)) y)
+             (== (lcons x y) r)
+             )
+      )
+
+(run* [r]
+      (fresh (v)
+             (resto '(a c o r n) v)
+             (caro v r)
+             )
+      )
+
+(def cdro
+  (fn [p d]
+    (fresh [a]
+           (== (lcons a d ) p )
+           )
+    
+    )
+  )
+
+(run* [r]
+      (fresh (v)
+             (cdro '(a c o r n) v)
+             (caro v r)))
+
+(run* [x]
+      (cdro '(c o r n) [x 'r 'n])
+      )
+
+(run* [l]
+      (fresh [x]
+             (cdro l '(c o r n))
+             (caro l x)
+             (== 'a x)
+             )
+      )
 
