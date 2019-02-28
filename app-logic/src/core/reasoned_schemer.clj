@@ -325,3 +325,16 @@
              )
       )
 
+(run* [l]
+      (conso '(a b c ) '(d e) l )
+      )
+
+(run* [r]
+      (fresh [x y z]
+       ;       (== (list 'e 'a 'd x) r)
+             (conso x '(e a d) r)
+             
+             (conso 3 '(a z c) r)
+             )
+      )
+
