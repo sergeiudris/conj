@@ -1,7 +1,7 @@
 (ns reference.core
   (:require [nrepl-server]
             [clojure.repl :refer :all]
-            []
+            [clojure.pprint :as pp]
             ))
 
 
@@ -81,5 +81,47 @@
   
   (xfrom->> [1 2 3])
   
+  
+  (defn step1
+    [ins]
+    (let [{xs :xs} ins]
+      (merge ins {:xs (mapv inc xs)})
+      )
+    )
+  
+  (defn step2
+    [ins]
+    (let [{xs :xs} ins]
+      (merge ins {
+                  :xs (filterv even? xs) 
+                  })
+      
+      )
+    
+    )
+
+  (defn log
+    [ins]
+    (pp/pprint ins)
+    ins
+    )
+  
+  (defn xsteps
+    [ins]
+    (->>
+     ins
+     log
+     step1
+     log
+     step2
+     log
+     )
+    )
+
+  (xsteps {
+           :xs  [1 2 3 4]
+           })
+  
+  (into [] (mapv inc [1 2 3 4]))
   
   )
