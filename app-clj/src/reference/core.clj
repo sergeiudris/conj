@@ -122,6 +122,8 @@
            :xs  [1 2 3 4]
            })
   
-  (into [] (mapv inc [1 2 3 4]))
+  (into [] (map inc [1 2 3 4]))
+  (mapv inc [1 2 3 4])
+  
   
   )
