@@ -329,12 +329,31 @@
       (conso '(a b c ) '(d e) l )
       )
 
+
+(run* [x]
+      (conso x '(a b c) '(d a b c)))
+
+
+(llist 'a 'b)
+
+(doc ==)
+(doc conso)
+(doc lcons)
+
+;; does not work
 (run* [r]
       (fresh [x y z]
-       ;       (== (list 'e 'a 'd x) r)
-             (conso x '(e a d) r)
-             
-             (conso 3 '(a z c) r)
-             )
-      )
+             (== (list 'e 'a 'd x) r)
+             (conso y (list 'a 'z 'c) r)))
 
+;; works https://github.com/philoskim/reasoned-schemer-for-clojure/blob/master/src/rs/ch2.clj#L173
+(run* [r]
+      (fresh [x y z]
+             (== (list 'e 'a 'd x) r)
+             (conso y (list 'a z 'c) r)))
+
+
+
+(run* [r]
+      (fresh [x y z]
+             (== (list 'e 'a 'd x) r)
