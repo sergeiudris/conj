@@ -1,5 +1,5 @@
 (ns core.reasoned-schemer
-  (:require [ core.little-schemer :as lscm]
+  (:require [ core.little-schemer :refer [car null? atom? cdr ]]
              [clojure.core.logic :refer :all]
              [clojure.repl :refer :all]
               )
@@ -340,13 +340,16 @@
 (doc conso)
 (doc lcons)
 
+;; 2.14
+
 ;; does not work
 (run* [r]
       (fresh [x y z]
              (== (list 'e 'a 'd x) r)
              (conso y (list 'a 'z 'c) r)))
 
-;; works https://github.com/philoskim/reasoned-schemer-for-clojure/blob/master/src/rs/ch2.clj#L173
+;; works 
+;; https://github.com/philoskim/reasoned-schemer-for-clojure/blob/master/src/rs/ch2.clj#L173
 (run* [r]
       (fresh [x y z]
              (== (list 'e 'a 'd x) r)
@@ -356,4 +359,201 @@
 
 (run* [r]
       (fresh [x y z]
-             (== (list 'e 'a 'd x) r)
+             (== (list 'e 'a 'd x) r)))
+
+;; 2.25
+(run* [x]
+      (conso x (list 'a x 'c) (list 'd 'a x 'c) ))
+
+
+;; 2.26
+(run* [l]
+      (fresh [x]
+             (== (list 'd 'a x 'c) l)
+             (conso x (list 'a x 'c) l)
+             ))
+
+;; 2.27
+(run* [l]
+      (fresh [x]
+             (conso x (list 'a x 'c) l)
+             (== (list 'd 'a x 'c) l)
+             ))
+
+;; 2.28
+; (defn conso [a d l]
+;   (== (lcons a d) l)
+;   )
+; (doc conso)
+; (source conso)
+
+
+;; 2.29
+
+(run* [l]
+      (fresh [d x y w s]
+             (conso w (list 'a 'n 's) s)
+             (cdro l s)
+             (caro l x)
+             (== 'b x)
+             (cdro l d)
+             (caro d y)
+             (== 'e y)
+             ))
+
+(def nullo emptyo)
+;; 2.32
+(run* [q]
+      (nullo (list 'grape))
+      (== true q)
+      )
+
+;; 2.33
+(run* [q]
+      (nullo (list))
+      (== true q))
+
+;; 2.34
+(run* [q]
+      (nullo q))
+
+;; 2.35
+
+; (defn nullo [l]
+;   (== l '())
+;   )
+
+
+(doc eqo)
+
+;; 2.52
+
+(run* [r]
+      (fresh [x y]
+             (== (lcons x (lcons y 'salad)) r )
+             )
+      )
+
+;; 2.53
+(doc pairo)
+(defn pairo [p]
+  (fresh [a d]
+         (conso a d p)
+         )
+  )
+
+;; 2.54
+(run* [q]
+      (pairo (lcons q q))
+      (== true q)
+      )
+
+
+;; 2.55
+
+
+(run* [q]
+      (pairo '())
+      (== true q)
+      )
+
+(run* [x]
+      (pairo x)
+      )
+
+;; seeing old friends in new ways
+
+;; 3.1
+
+; (defn list? [l]
+;   (cond
+;     (lscm/null? l) true
+;     (lscm/a-pair? l) (list? (cdr l))
+;     :else false
+;     ) 
+;   )
+
+
+(doc listo)
+
+;; 3.5
+
+(defn listo [l]
+  (conde
+   [(nullo l) succeed]
+   [(pairo l) (fresh 
+               [d]
+               (cdro l d)
+               (listo d)
+               )]
+   [succeed fail]
+   
+   )
+  )
+
+(run* [q]
+      (listo (llist 'a 'b))
+      (== q true)
+      )
+
+
+;; 3.10
+(run 1 [x]
+     (listo (llist 'a 'b 'c x)))
+
+;; 3.13
+;; infine loop , don't run
+; (run* [x]
+;      (listo (llist 'a 'b 'c x)))
+
+;; 3.14
+(run 5 [x]
+     (listo (llist 'a 'b 'c x)))
+
+
+
+;; 3.16
+
+(defn lol? [l]
+  (cond 
+    (null? l) true
+    (seq? (car l)) (lol? (cdr l))
+    :else false
+    )
+  )
+
+;; 3.17
+
+(defn lolo [l]
+  (conde
+   [(nullo l)  succeed]
+   [(fresh [a]
+           (caro l a)
+           (listo a))
+    (fresh [d]
+           (cdro l d)
+           (lolo d)
+           )
+    
+    ]
+   [succeed fail]
+   )
+  )
+
+;; 3.20
+(run 1 [l]
+     (lolo l)
+     )
+
+
+
+;; 3.21
+(run* [q]
+      (fresh [x y]
+             (lolo (list (list 'a 'b) (list x 'c) (list 'd y) ))
+             (== true q)
+             )
+      )
+
+
+
