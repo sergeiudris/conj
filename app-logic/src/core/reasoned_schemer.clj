@@ -861,3 +861,101 @@
         )
   )
 
+;; chapter 4: members only
+
+
+;; 4.7
+
+(defn memo 
+  [x l out]
+  (conde 
+   [(nullo l) fail]
+   [(eq-caro l x) (== l out)]
+   [succeed (fresh [d]
+                   (cdro l d)
+                   (memo x d out)
+                   )]
+   )
+  )
+
+;; 4.9
+
+(run 1 [out]
+     (memo 'tofu '(a b tofu d tofu e) out))
+
+
+;; 4.11
+
+(run 1 [out]
+     (fresh [x]
+            (memo 'tofu (list 'a 'b x 'd 'tofu 'e) out)
+            )
+     )
+
+;; 4.15
+
+(run* [x]
+      (memo 'tofu '(tofu e) (list x 'e) )
+      )
+
+
+;; 4.17
+
+(run* [out]
+      (fresh [x]
+             (memo 'tofu (list 'a 'b x 'd 'tofu 'e) out)
+             )
+      )
+
+;; 4.18
+
+(run 12 [z]
+     (fresh [u]
+            (memo 'tofu (llist 'a 'b 'tofu 'd 'tofu 'e z) u)
+            )
+     )
+
+
+;; 4.21
+
+(defn memo
+  [x l out]
+  (conde 
+   [(eq-caro l x) (== l out)]
+   [succeed (fresh [d]
+                   (cdro l d)
+                   (memo x d out)
+                   )]
+   )
+  )
+
+(run* [out]
+      (fresh [x]
+             (memo 'tofu (list 'a 'b x 'd 'tofu 'e) out)))
+
+
+;; 4.24
+
+(doc rembero)
+
+(defn -rembero
+  [x l out]
+  (conde 
+   [(emptyo l) '() ]
+   [(eq-caro l x) (fresh [d]
+                         (cdro l d)
+                         (== d out)
+                         )]
+   [succeed  (fresh [a d]
+                    (caro l a)
+                    (cdro l d)
+                    (conso a (-rembero x d out ) out )
+                    
+                    )  ]
+   )
+  )
+
+(run* [q]
+      (-rembero q '(1 2 3) '(1 3) )
+      )
+
