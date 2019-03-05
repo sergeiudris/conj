@@ -1,5 +1,5 @@
 (ns core.reasoned-schemer
-  (:require [ core.little-schemer :refer [car null? atom? cdr ]]
+  (:require [ core.little-schemer :refer [car null? atom? cdr equal? ]]
              [clojure.core.logic :refer :all]
              [clojure.repl :refer :all]
               )
@@ -453,7 +453,13 @@
 
 
 (run* [q]
-      (pairo '())
+      (pairo (llist 1 2 3))
+      (== true q)
+      )
+
+;; 2.56
+(run* [q]
+      (pairo 'pair)
       (== true q)
       )
 
@@ -555,5 +561,303 @@
              )
       )
 
+;; 3.22
+(run 1 [q]
+     (fresh [x]
+            (lolo (llist (list 'a 'b) x ))
+            (== true q)
+            )
+     )
 
+;; 3.23
+(run 1 [x]
+     (lolo (llist '(a b) '(c d) x)))
+
+
+;; 3.24
+(run 5 [x]
+     (lolo (llist '(a b) '(c d) x))
+     )
+
+
+(run* [q]
+     (conso 'x () q))
+
+(run* [q]
+      (conso 'x 'x q))
+
+
+;; 3.31
+(defn twinso
+  [s]
+  (fresh [x y]
+         (conso x y s)
+         (conso x '() y)
+         )
+  )
+
+(run* [q]
+      (twinso '(a a))
+      (== q true)
+      )
+
+;; 3.32
+
+(run* [q]
+      (twinso '(tofu tofu))
+      (== true q)
+      )
+
+;; 3.36
+
+(defn twinso [s]
+  (fresh [x]
+         (== (list x x) s)
+         )
+  )
+
+(run* [q]
+      (twinso  (list 'a 'c) )
+      (== q true)
+      )
+
+
+(run* [q]
+      (twinso  (list 'a 'a))
+      (== q true))
+
+;; 3.37
+
+(defn loto [l]
+  (conde 
+   [ (nullo l) succeed ]
+   [ (fresh [a]
+            (caro l a)
+            (twinso a)) 
+    (fresh [d]
+           (cdro l d)
+           (loto d)
+           )]
+   [succeed fail]
+   )
+  )
+
+;; 3.38
+
+(run 1 [z]
+     (loto (llist '(g g) z) )
+     )
+
+
+
+;; 3.42
+
+(run 5 [z]
+     (loto (llist '(g g) z ))
+     )
+
+(run 5 [r]
+     (fresh [w x y z]
+            (loto (llist '(g g) (list 'e w ) (list x y) z ))
+            (== (list w (list x y) z ) r)
+            )
+     )
+
+;; 3.47
+
+(run 3 [out]
+     (fresh [w x y z]
+            (== (llist '(g g) (list 'e w) (list x y) z ) out )
+            (loto out)
+            )
+     )
+
+;; 3.48
+
+(defn listofo 
+  [predo l]
+  (conde
+   [(nullo l) succeed]
+   [(fresh [a]
+           (caro l a)
+           (predo a)
+           )
+    (fresh [d]
+           (cdro l d)
+           (listofo predo d)
+           )
+    ]
+   [succeed fail]
+   
+   )
+  )
+
+;; 3.49
+
+(run 3 [out]
+     (fresh [w x y z]
+            (== (llist '(g g) (list 'e w) (list x y) z ) out)
+            (listofo twinso out)
+            )
+     )
+
+
+;; 3.50
+
+(defn loto [l]
+  (listofo twinso l)
+  )
+
+(defn eq-car?
+  [l a]
+  (equal? (car l) a)
+  )
+
+(defn eq-caro
+  [l x]
+  (caro l x)
+  )
+
+;; 3.54
+
+(defn -membero
+  [x l]
+  (conde 
+   [(nullo l) fail] ;; unnecessary ?
+   [(eq-caro l x) succeed]
+   [succeed  (fresh [d]
+                    (cdro l d)
+                    (membero x d)
+                    ) ]
+   )
+  )
+
+
+(run* [q]
+     (-membero q (list 1 2 3))
+     )
+
+(doc membero)
+
+;; 3.57
+
+(run* [q]
+      (-membero 'olive (list 'virgin 'olive 'oil))
+      (== true q)
+      )
+
+(run* [y]
+      (-membero y '(hummus with pita))
+      )
+
+;; 3.65
+
+(defn -identity
+  [l]
+  (run* [q]
+         (-membero  q l)
+        )
+  )
+
+(-identity '(1 2 3))
+
+;; 3.69
+
+(run 1 [x]
+     (-membero 'e (list 'pasta 'e x 'fagioli))
+     )
+
+
+
+;; 3.70
+
+
+(run 1 [x]
+     (-membero 'e (list 'pasta x 'e 'fagioli)))
+
+
+;; 3.71
+
+(run* [r]
+      (fresh [x y]
+             (-membero 'e (list 'pasta x 'fagioli y))
+             (== (list x y) r)
+             
+             )
+      )
+
+;; 3.73
+
+(run 1 [l]
+     (-membero 'tofu l)
+     )
+
+
+;; 3.76
+
+(run 5 [l]
+     (-membero 'tofu l))
+
+
+;; 3.93
+
+(doc pmembero)
+
+(defn pmembero
+  [x l]
+  (conde
+   [(eq-caro l x) (fresh [a d]
+                         (cdro l (llist a d))
+                         )]
+   [(eq-caro l x) (cdro l '()) ]
+   [succeed (fresh [d]
+                   (cdro l d)
+                   (pmembero x d)
+                   )]
+   )
+  )
+
+;; 3.94
+
+(run 12 [l]
+     (pmembero 'tofu l)
+     )
+
+;; 3.95
+
+(defn first-value
+  [l]
+  (run 1 [y]
+      (-membero y l) 
+       )
+  )
+
+(first-value '( 2 3 4 ))
+
+;; 3.98 3.101 not working, maybe lack of else statement
+
+(defn memberrevo
+  [x l]
+  (conde
+   [(nullo l) fail]
+   [succeed  (fresh [d]
+                    (cdro l d)
+                    (memberrevo x d)
+                    ) ]
+   [succeed (eq-caro l x)  ]
+   )
+  )
+
+(run* [q]
+      (memberrevo q '(1 2 3)))
+
+(run* [x]
+      (memberrevo x '(pasta e fagioli)))
+
+;; 3.101 not working
+(defn reverse-list [l]
+  (run* [y]
+        (memberrevo y l)
+        )
+  )
 
