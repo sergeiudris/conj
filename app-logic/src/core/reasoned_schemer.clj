@@ -1384,4 +1384,73 @@
  )
 
 
-; 
+; chapter 6 the fun never ends
+
+
+(doc anyo)
+
+; 6.1
+
+(defn anyo
+  [g]
+  (conde 
+   [g succeed]
+   [succeed (anyo g)]
+   )
+  )
+
+; 6.4
+
+(def nevero (anyo fail))
+
+
+; (run 1 [q]
+;      nevero
+;      (== true q)
+;      )
+
+(doc alwayso)
+
+(def alwayso (anyo succeed))
+
+(run 1 [q]
+    alwayso
+    (== true q)
+    )
+
+(run 5 [q]
+     alwayso
+     (== true q))
+
+; 6.12
+
+(defn salo ;; succeed at least once
+  [g]
+  (conde 
+   [succeed succeed]
+   [succeed g]
+   )
+  )
+
+; 6.13
+
+(run 1 [q]
+     (salo alwayso)
+     (== true q))
+
+
+(run 1 [q]
+     (salo nevero)
+     (== true q))
+
+
+(run 5 [q]
+     (conde
+      [(== false q) alwayso]
+      [(== true q) alwayso]
+      [succeed fail ]
+      )
+     (== true q))
+
+
+;; condi alli - i stands for interleave
