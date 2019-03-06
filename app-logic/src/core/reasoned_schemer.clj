@@ -1,8 +1,9 @@
 (ns core.reasoned-schemer
   (:require [ core.little-schemer :refer [car null? atom? cdr equal? ]]
-             [clojure.core.logic :refer :all]
-             [clojure.repl :refer :all]
-              )
+            [clojure.core.logic :refer :all]
+            [clojure.repl :refer :all]
+            [clojure.pprint :as pp]
+            )
   )
 
 (defn hey [] "hey")
@@ -966,10 +967,21 @@
                     (cdro l d)
                     (-rembero x d res)
                     (caro l a)
-                    (conso a res out)
+                    (conso a res out))
     ]
    )
   )
+
+
+(defn -rembero
+  [x l out]
+  (conde
+   [(emptyo l) (== '() out)]
+   [(eq-caro l x) (cdro l out)]
+   [succeed  (fresh [res d a]
+                    (conso a d l)
+                    (-rembero x d res)
+                    (conso a res out))]))
 
 
 (run* [q]
@@ -981,3 +993,77 @@
 
 (run* [q]
       (-rembero 1 '(1 2 3) q))
+
+;; 4.30
+
+(run 1 [out]
+     (fresh [y]
+        (-rembero 'peas (list 'a 'b y 'd 'peas 'e) out)    
+            )
+     )
+
+(run 2 [out]
+     (fresh [y]
+            (-rembero 'peas (list 'a 'b y 'd 'peas 'e) out)))
+
+;; 4.31
+
+(run* [out]
+      (fresh [y z]
+             (-rembero y (list 'a 'b y 'd z 'e) out)
+             )
+      )
+
+
+;; 4.38
+
+(run* [r]
+      (fresh [y z]
+             (-rembero y (list y 'd z 'e) (list y 'd 'e) )
+             (== (list y z) r)
+             )
+      )
+
+;; 4.57
+
+(->>
+ (run 13 [w]
+      (fresh [y z out]
+             (-rembero y (llist 'a 'b y 'd z w) out)))
+ pp/pprint
+ )
+
+;; 4.68 
+
+(defn surpriso [s]
+  (-rembero s '(a b c) '(a b c) )
+  )
+
+;; 4.69
+
+(run* [r]
+      (== 'd r)
+      (surpriso r)
+      )
+
+;; 4.70
+
+(run* [r]
+      (surpriso r)
+      )
+
+;; 4.72
+
+(run* [r]
+      (== 'b r)
+      (surpriso r)
+      )
+
+(run* [r]
+      (surpriso r)
+      (== 'b r)
+      )
+
+(run* [q]
+  (-rembero 'b '(a b c) '(a b c))
+)
