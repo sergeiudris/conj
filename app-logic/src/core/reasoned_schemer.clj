@@ -941,21 +941,36 @@
 (defn -rembero
   [x l out]
   (conde 
-   [(emptyo l) '() ]
-   [(eq-caro l x) (fresh [d]
-                         (cdro l d)
-                        ;  (== d out)
-                         )]
-   [succeed  (fresh [a d ]
-                    (caro l a)
-                    (cdro l d)
-                    (conso a (fresh [r]
-                                    (-rembero x d r) 
-                                    ) out)
+   [(emptyo l) (== '() out) ]
+   [(eq-caro l x) (cdro l out)]
+   [succeed  (fresh [res]
+                    (fresh [d]
+                           (cdro l d)
+                           (-rembero x d res)
+                           )
+                    (fresh [a]
+                           (caro l a)
+                           (conso a res out)
+                           )
                     
                     )  ]
    )
   )
+
+(defn -rembero
+  [x l out]
+  (conde
+   [(emptyo l) (== '() out)]
+   [(eq-caro l x) (cdro l out)]
+   [succeed  (fresh [res d a]
+                    (cdro l d)
+                    (-rembero x d res)
+                    (caro l a)
+                    (conso a res out)
+    ]
+   )
+  )
+
 
 (run* [q]
       (-rembero 3 '(1 2 3) q )
