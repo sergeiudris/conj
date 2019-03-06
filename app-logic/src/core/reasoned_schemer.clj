@@ -1312,6 +1312,7 @@
     :else false
     )
   )
+(coll? 'x)
 
 (defn append
   [l s]
@@ -1323,9 +1324,32 @@
   (cond 
     (-null? s) '()
     (a-pair? s) (append (flatten (car s)) (flatten (cdr s)) )
-    :else (cons s '())
+    (atom? s) (cons s '())
+    :else (cons (car s) '())
     )
   )
-(a-pair? '((a b) c))
+; (a-pair? '((a b) c))
 
 (flatten '((a b) c) )
+
+; 5.59 
+
+(defn flatteno
+  [s out]
+  (conde
+   [ (nullo s) (== '() out) ]
+   [ (pairo s) (fresh [a d res-a res-d]
+                      (conso a d s)
+                      (flatteno a res-a)
+                      (flatteno d res-d)
+                      (appendo res-a res-d out)
+                      ) ]
+   [succeed (conso s '() out) ]
+   )
+)
+
+; 5.60
+
+(run 1 [x]
+     (flatteno (list (list 'a 'b) 'c) x)
+     )
