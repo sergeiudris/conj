@@ -1,5 +1,5 @@
 (ns core.reasoned-schemer
-  (:require [ core.little-schemer :refer [car null? atom? cdr equal? ]]
+  (:require [ core.little-schemer :refer [car null? atom? cdr equal? a-pair? ]]
             [clojure.core.logic :refer :all]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
@@ -1067,3 +1067,265 @@
 (run* [q]
   (-rembero 'b '(a b c) '(a b c))
 )
+
+
+;; chapter 5 duble your fun
+
+(doc append)
+
+(defn append
+  [l s]
+  (cond
+    (null? l) s
+    :else (lcons (car l) (append (cdr l) s) )
+    )
+  )
+
+(append '(1 2) '(3 4))
+
+;; 5.6
+
+(append '(d e ) 'a)
+
+;; 5.9
+
+(defn -appendo [l s out]
+  (conde 
+   [(emptyo l) (== s out) ]
+   [succeed (fresh [a dl ds r]
+                   (conso a dl l)
+                   (conso a s ds)
+                   (-appendo dl ds r)
+                   (== r out)
+                   )]
+   )
+  )
+
+(run* [q]
+      (-appendo '(1 2 3) '(4 5) q)
+      )
+
+(defn -appendo [l s out]
+  (conde
+   [(emptyo l) (== s out)]
+   [succeed (fresh [a d res]
+                   (conso a d l)
+                   (-appendo d s res)
+                   (conso a res out)
+                   )]))
+
+(run* [q]
+      (-appendo '(1 2 3) '(4 5) q))
+
+;; 5.12
+
+(run* [x]
+      (fresh [y]
+             (-appendo '(a b c d) y x )
+             )
+      )
+
+;; 5.13
+
+(run 1 [x]
+     (fresh [y]
+            (-appendo (llist 'cake 'with 'ice y) '( d t) x )
+            )
+     )
+
+;; 5.14
+
+
+(run 1 [y]
+     (fresh [x]
+            (-appendo (llist 'cake 'with 'ice y) '(d t) x)))
+
+
+;; 5.16
+
+(->>
+ (run 5 [x]
+      (fresh [y]
+             (-appendo (llist 'a 'b 'c y) '(d t) x)))
+ pp/pprint
+ )
+
+;; 5.20
+
+(->>
+ (run 5 [x]
+      (fresh [y]
+             (-appendo (llist 'a 'b 'c y) (llist 'd 't y) x)))
+ pp/pprint)
+
+
+
+; 5.23
+
+(->>
+ (run 6 [x]
+      (fresh [y]
+             (appendo x y (list 'a 'b 'c 'd 'e) )))
+ pp/pprint
+ )
+
+; 5.25
+
+(->>
+ (run 6 [y]
+      (fresh [x]
+             (appendo x y (list 'a 'b 'c 'd 'e))))
+ pp/pprint)
+
+; 5.27
+
+(->>
+ (run 6 [r]
+      (fresh [x y]
+             (appendo x y (list 'a 'b 'c 'd 'e))
+             (== (list x y) r)
+             )
+      )
+ pp/pprint)
+
+; 5.31
+
+(defn -appendo [l s out]
+  (conde
+   [(emptyo l) (== s out)]
+   [succeed (fresh [a d res]
+                   (conso a d l)
+                   (conso a res out)
+                   (-appendo d s res)
+                   )]))
+
+
+; 5.32
+; works because we redefined -appedo, swapping last two goals
+(run 7 [r]
+     (fresh [x y]
+            (-appendo x y '(a b c d e) )
+            (== (list x y) r)
+            )
+     )
+
+; 5.37
+
+(->>
+ (run 7 [r]
+      (fresh [x y z]
+             (-appendo x y z)
+             (== (list x y z) r)))
+ pp/pprint
+ )
+
+; 5.38 
+
+(defn -swappendo 
+  [l s out]
+  (conde
+   [succeed (fresh [a d res]
+                   (conso a d l)
+                   (conso a res out)
+                   (-swappendo d s res))]
+   [succeed (emptyo l) (== s out)]
+
+   
+   ))
+
+; 5.39 - does have a value...
+
+(run 1 [z]
+     (fresh [x y]
+            (-swappendo x y z )
+            )
+     )
+
+
+; 5.41
+
+(defn unwrap
+  [x]
+  (cond
+    (a-pair? x) (unwrap (car x) )
+    :else x
+    ) 
+  )
+
+(unwrap '(((x))))
+
+
+; 5.45
+
+(defn unwrapo
+  [x out]
+  (conde 
+   [(pairo x) (fresh [a]
+                     (caro x a)
+                     (unwrapo a out)
+                     )]
+   [succeed (== x out) ]
+   
+   )
+  )
+
+; 5.46
+
+(run* [x]
+      (unwrapo '((((P)))) x)
+      )
+
+; 5.48
+
+(run 1 [x]
+      (unwrapo x 'z))
+
+
+; 5.52
+
+(defn unwrapo
+  [x out]
+  (conde
+   [succeed (== x out)]
+   [succeed (fresh [a]
+                     (caro x a)
+                     (unwrapo a out))]
+   
+   ))
+
+; 5.53
+
+(run 5 [x]
+     (unwrapo x 'z))
+
+; 5.54
+
+(run 5 [x]
+     (unwrapo (list (list x)) 'z))
+
+
+; 5.58 
+
+(defn -null? [l]
+  (cond
+    ( and (coll? l) (empty? l) ) true
+    :else false
+    )
+  )
+
+(defn append
+  [l s]
+  (cond
+    (-null? l) s
+    :else (cons (car l) (append (cdr l) s))))
+
+(defn flatten [s]
+  (cond 
+    (-null? s) '()
+    (a-pair? s) (append (flatten (car s)) (flatten (cdr s)) )
+    :else (cons s '())
+    )
+  )
+(a-pair? '((a b) c))
+
+(flatten '((a b) c) )
