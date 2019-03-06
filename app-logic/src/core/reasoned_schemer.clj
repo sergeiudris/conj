@@ -944,18 +944,25 @@
    [(emptyo l) '() ]
    [(eq-caro l x) (fresh [d]
                          (cdro l d)
-                         (== d out)
+                        ;  (== d out)
                          )]
-   [succeed  (fresh [a d]
+   [succeed  (fresh [a d ]
                     (caro l a)
                     (cdro l d)
-                    (conso a (-rembero x d out ) out )
+                    (conso a (fresh [r]
+                                    (-rembero x d r) 
+                                    ) out)
                     
                     )  ]
    )
   )
 
 (run* [q]
-      (-rembero q '(1 2 3) '(1 3) )
+      (-rembero 3 '(1 2 3) q )
       )
 
+(run* [q]
+      (-rembero q '(1 2 3) '(1 3)))
+
+(run* [q]
+      (-rembero 1 '(1 2 3) q))
