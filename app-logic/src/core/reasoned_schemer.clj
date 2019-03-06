@@ -1,5 +1,5 @@
 (ns core.reasoned-schemer
-  (:require [ core.little-schemer :refer [car null? atom? cdr equal? a-pair? ]]
+  (:require [ core.little-schemer :refer [car null? atom? cdr equal? a-pair? sub1 add1 length *expt one? ]]
             [clojure.core.logic :refer :all]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
@@ -1513,5 +1513,96 @@
       (fresh [x y r]
              (bit-xoro x y r)
              (== (list x y r) s)))
+
+
+; 7.10
+
+(defn bit-ando
+  [x y r]
+  (conde 
+   [(== 0 x) (== 0 y) (== 0 r)]
+   [(== 1 x) (== 0 y) (== 0 r)]
+   [(== 0 x) (== 1 y) (== 0 r)]
+   [(== 1 x) (== 1 y) (== 1 r)]
+   [succeed fail]
+   )
+  )
+
+(run* [s]
+      (fresh [x y]
+             (bit-ando x y 1)
+             (== (list x y) s)
+             )
+      )
+
+; 7.12 
+
+(doc all)
+
+(defn half-addero
+  [x y r c]
+  (all
+   (bit-xoro x y r)
+   (bit-ando x y c)
+   )
+  )
+
+(run* [r]
+      (half-addero 1 1 r 1))
+
+; 7.13
+
+(run* [s]
+      (fresh [x y r c]
+             (half-addero x y r c)
+             (== (list x y r c) s)
+             )
+      )
+
+
+; 7.15
+
+(defn full-addero
+  [b x y r c]
+  (fresh [w xy wz]
+         (half-addero x y w xy)
+         (half-addero w b r wz)
+         (bit-xoro xy wz c)
+         )
+  )
+
+(run* [s]
+      (fresh [r c]
+             (full-addero 0 1 1 r c)
+             (== (list r c) s)
+             )
+      )
+
+;; 19 as a list: (1 1 0 0 1)
+
+; 7.43 fun fun fun
+
+(defn build-num 
+  [n]
+  (cond
+    (zero? n) '()
+    
+    (one? n) (cons 1  (build-num (sub1 n)))
+    :else 
+    )
+  
+  )
+
+; 9  (1 0 0 1)
+
+(dec 2)
+
+(length '(1 2 3))
+
+(*expt 2 3)
+
+(long (/ 11 12))
+
+(long  (/ 9 2))
 
 
