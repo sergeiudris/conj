@@ -1454,3 +1454,64 @@
 
 
 ;; condi alli - i stands for interleave
+
+
+;; chapter 7 a bit too much
+
+; 7.5
+
+(defn bit-xoro
+  [x y r]
+  (conde
+   [(== 0 x) (== 0 y) (== 0 r)]
+   [(== 1 x) (== 0 y) (== 1 r)]
+   [(== 0 x) (== 1 y) (== 1 r)]
+   [(== 1 x) (== 1 y) (== 0 r)]
+   [succeed fail]
+   
+   )
+  )
+
+(defn bit-nando
+  [x y r]
+  (conde 
+   [(== 0 x) (== 0 y) (== 0 r)]
+   [(== 1 x) (== 0 y) (== 1 r)]
+   [(== 0 x) (== 1 y) (== 1 r)]
+   [(== 1 x) (== 1 y) (== 0 r)]
+   [succeed fail]
+   )
+  )
+
+(defn bit-xoro
+  [x y r]
+  (fresh [s t u]
+         (bit-nando x y s)
+         (bit-nando x s t)
+         (bit-nando s y u)
+         (bit-nando t u r)
+         )
+  )
+
+; 7.6
+
+(run* [s]
+      (fresh [x y]
+             (bit-xoro x y 0)
+             (== (list x y) s)
+             ))
+
+
+; 7.8
+
+(run* [s]
+      (fresh [x y]
+             (bit-xoro x y 1)
+             (== (list x y) s)))
+
+(run* [s]
+      (fresh [x y r]
+             (bit-xoro x y r)
+             (== (list x y r) s)))
+
+
