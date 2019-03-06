@@ -1353,3 +1353,35 @@
 (run 1 [x]
      (flatteno (list (list 'a 'b) 'c) x)
      )
+
+; 5.62
+
+(run* [x]
+     (flatteno '(a) x))
+
+; 5.73
+
+(defn flattenrevo
+  [s out]
+  (conde 
+   [succeed (conso s '() out) ]
+   [(nullo s) (== '() out) ]
+   [succeed (fresh [a d res-a res-d]
+                   (conso a d s)
+                   (flattenrevo a res-a)
+                   (flattenrevo d res-d)
+                   (appendo res-a res-d out)
+                   ) ]
+   )
+  
+  )
+
+(->>
+ (run* [x]
+       (flattenrevo '((a b) c) x)
+       )
+ pp/pprint
+ )
+
+
+; 
