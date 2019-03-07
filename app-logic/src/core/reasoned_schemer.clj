@@ -1586,13 +1586,13 @@
   [n]
   (cond
     (zero? n) '()
-    (and (not (zero? n)) (even? n)) (cons 0 (build-num (/ n 2)) )
+    (and (not (zero? n) ) (even? n)) (cons 0 (build-num (/ n 2)))
     (odd? n) (cons 1 (build-num (/ (- n 1) 2)))
     )
   
   )
 
-; 
+; 9 (1)  4 
 
 ; 3 (11)  4 (001) 5 (101) 6 (011) 7 (111) 8 (0001) 9 (1001) 10 (0101) 11 (1101) 12 (0011) 13 (1011) 14 (0111) 15 (1111) 16 (00001) ...
 
@@ -1609,4 +1609,67 @@
 (build-num 9)
 (build-num 16)
 
+; 7.44
+
+(defn build-num
+  [n]
+  (cond
+    (odd? n) (cons 1 (build-num (/ (- n 1) 2)))
+    (and (not (zero? n)) (even? n)) (cons 0 (build-num (/ n 2)))
+    (zero? n) '()))
+
+
+; 7.80
+
+(doc poso)
+
+(defn poso
+  [n]
+  (fresh [a d]
+         (== (llist a d) n)
+         )
+  )
+
+(run* [q]
+      (poso '(0 1 1))
+      (== true q))
+
+; 7.81
+
+(run* [q]
+      (poso '(1))
+      (== true q)
+      )
+
+; 7.82
+
+(run* [r]
+      (poso r)
+      )
+
+; 7.86
+
+(defn >1o
+  [n]
+  (fresh [a ad dd] ; car cadr cddr
+         (== (llist a ad dd) n )
+         )
+  )
+
+(run* [q]
+      (>1o '(0 1 1))
+      (== true q)
+      )
+
+; 7.90
+
+(run* [r]
+      (>1o r)
+      )
+
+
+
+; chapter 9 under the hood
+
+(doc rhs)
 
