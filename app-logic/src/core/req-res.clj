@@ -16,6 +16,12 @@
   
   (doc fd/==)
   
+  (doc fd/in)
+  
+  (doc fd/interval)
+  
+
+  
   ; https://spin.atomicobject.com/2015/12/07/logic-programming-clojure-palindromes/
   ; https://spin.atomicobject.com/2015/12/14/logic-programming-clojure-finite-domain-constraints/
   
@@ -58,6 +64,26 @@
   
   
   (find-palindromes-totalling 20 10)
+  
+  (run 10 [q]
+       (palindromo q)
+       )
+  
+  (run 1 [q]
+       (palindromo '(1 2 8 3 7 3 8 2 1))
+       (== q "hooray!"))
+  
+
+  (defn find-palindromes-totalling-2 [interval sum results]
+    (let [domain (fd/interval 1 interval)]
+      (run results [q]
+           (palindromo q)
+           (everyo q #(fd/in % domain))
+           (sumo q sum))))
+
+
+  (find-palindromes-totalling-2 1000 20 10)
+  
   )
 
 
