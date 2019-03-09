@@ -2,10 +2,10 @@
   (:require [nrepl-server]
             [clojure.repl :refer :all]
             [clojure.pprint :as pp]
-            [reference.sample :as sample ]
-            [reference.sample.b.c :as sample.b.c]
-            [reference.sample-c.d :as sample-c.d]
-            [reference.sample_d.e :as sample_d.e]
+            ; [reference.sample :as sample ]
+            ; [reference.sample.b.c :as sample.b.c]
+            ; [reference.sample-c.d :as sample-c.d]
+            ; [reference.sample_d.e :as sample_d.e]
             ; [reference.sample-d.e :as sample-d.e]
             
             ))

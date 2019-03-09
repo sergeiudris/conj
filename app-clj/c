@@ -13,7 +13,7 @@ nrepl_cljs(){
 }
 
 init(){
-  clojure -m reference.core
+  clojure -m core
 }
 
 "$@"
