@@ -10,6 +10,8 @@
             [core.little-schemer]
             [core.seasoned-schemer]
             [core.reasoned-schemer]
+            [core.req-res]
+            
             
             [dev.nrepl]))
 
@@ -24,5 +26,7 @@
   (+)
   
   (defn hi [] "hi")
+  
+  (core.req-res/hi)
   
   )
