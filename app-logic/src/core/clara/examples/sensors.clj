@@ -91,7 +91,7 @@
   []
   ;; Create a session with our location and device information.
   (let [session
-        (-> (mk-session 'logic.clara.examples.sensors)
+        (-> (mk-session 'core.clara.examples.sensors)
             (insert (->Location :room-1 :sector-5)
                     (->Location :room-2 :sector-5)
                     (->Device 123 :room-1)
