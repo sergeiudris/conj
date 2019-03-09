@@ -521,7 +521,7 @@
   (stest/unstrument `ranged-rand)
 
   ; (stest/check `ranged-rand)
-
+  
   (defn ranged-rand  ;; BROKEN!
     "Returns random int in range start <= rand < end"
     [start end]
@@ -561,9 +561,9 @@
   (stest/instrument `invoke-service {:stub #{`invoke-service}})
 
   ; (invoke-service nil {::query "test"})
-
+  
   ; (invoke-service nil {::query "test"})
-
+  
   ; (stest/summarize-results (stest/check `run-query))
-
+  
   )
