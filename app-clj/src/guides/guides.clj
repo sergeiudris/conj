@@ -310,8 +310,82 @@
 
   
   (destructure '[[x & remaining :as all] numbers])
-  
 
-  
+  )
 
+
+(comment
+  
+  ;;https://clojure.org/guides/threading_macros
+  
+  (defn transform [person]
+    (update (assoc person :hair-color :gray) :age inc))
+  
+  
+  
+  (transform {:name "Socrates", :age 39})
+  
+  
+  (defn transform* [person]
+    (-> person
+        (assoc :hair-color :gray)
+        (update :age inc)))
+
+  (def person {:name "Socrates", :age 39})
+  
+  (-> person :hair-color name clojure.string/upper-case)
+
+
+  (-> person (:hair-color) (name) (clojure.string/upper-case))
+
+  (defn calculate []
+    (reduce + (map #(* % %) (filter odd? (range 10)))))
+  
+  (defn calculate* []
+    (->> (range 10)
+         (filter odd?)
+         (map #(* % %))
+         (reduce +)))
+  
+  (-> "hello" clojure.string/lower-case (.startsWith "prefix"))
+  
+  (as-> [:foo :bar] v
+    (map name v)
+    (first v)
+    (.substring v 1))
+  
+  (defn some-fn [] (vector :foo :bar))
+  
+  (some-fn)
+  
+  (as-> (some-fn) v
+    (map name v)
+    (first v)
+    (.substring v 1))
+  
+  (when-let [counter (:counter a-map)]
+    (inc (Long/parseLong counter)))
+  
+  (some-> a-map :counter Long/parseLong inc)
+  
+  
+  
+  (some-> (compute) Long/parseLong)
+
+;; equivalent to
+  
+  (when-let [a-str (compute)]
+    (Long/parseLong a-str))
+  
+  (defn describe-number [n]
+    (cond-> []
+      (odd? n) (conj "odd")
+      (even? n) (conj "even")
+      (zero? n) (conj "zero")
+      (pos? n) (conj "positive")))
+  
+  (describe-number 3)
+  
+  (describe-number 4)
+  
   )
