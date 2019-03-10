@@ -389,3 +389,13 @@
   (describe-number 4)
   
   )
+
+
+(comment
+  
+  ;; equality
+  
+  
+  
+  
+  )
