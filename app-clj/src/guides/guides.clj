@@ -574,6 +574,116 @@
 
 (comment
   
+  (sort [22/7 2.71828 ##-Inf 1 55 3N])
   
+  (sorted-set "aardvark" "boo" "a" "Antelope" "bar")
+  
+  (sorted-set 'clojure.core/pprint 'bar 'clojure.core/apply 'user/zz)
+  (sorted-map :map-key 10 :amp [3 2 1] :blammo "kaboom")
+  (sort [[-8 2 5] [-5 -1 20] [1 2] [1 -5] [100000]])
+  
+  (import '(java.util UUID))
+  
+  (sort [(UUID. 0xa 0) (UUID. 5 0x11) (UUID. 5 0xb)])
+  
+  (sort [:ns2/kw1 :ns2/kw2 :ns1/kw2 :kw2 nil])
+  
+  (sort [4 2 3 1])
+  
+  (defn reverse-cmp [a b]
+    (compare b a)
+    )
+  
+  (sort reverse-cmp [4 2 3 1 ])
+  
+  (sort #(compare %2 %1) [4 11 5 1] )
+  
+  
+  (def john1 {:name "John" :salary 35000.00 :company "Acme"})
+  (def mary {:name "Mary" :salary 35000.00 :company "Mars Inc"})
+  (def john2 {:name "John" :salary 40000.00 :company "Venus Co"})
+  (def john3 {:name "John" :salary 30000.00 :company "Asteroids-R-Us"})
+  (def people [john1 mary john2 john3])
+  
+  (defn by-salary-name-co [x y]
+    (let [c (compare (:salary y) (:salary x) ) ]
+      (if (not= c 0)
+        c
+        (let [c (compare (:name x) (:name y) )]
+          (if (not= c 0)
+            c
+            (let [c (compare (:company x) (:company y))]
+              c
+              )
+            )
+          )
+        )
+      ))
+  
+  ; (defn by-salary-name-co [x y]
+  ; ;; :salary values sorted in decreasing order because x and y
+  ; ;; swapped in this compare.
+  ;   (let [c (compare (:salary y) (:salary x))]
+  ;     (if (not= c 0)
+  ;       c
+  ;     ;; :name and :company are sorted in increasing order
+  ;       (let [c (compare (:name x) (:name y))]
+  ;         (if (not= c 0)
+  ;           c
+  ;           (let [c (compare (:company x) (:company y))]
+  ;             c))))))
+  
+  (pp/pprint (sort by-salary-name-co people))
+  
+  (defn by-salary-name-co2 [x y]
+    (compare [(:salary y) (:name x) (:company x) ]
+             [(:salary x) (:name y) (:company y)]
+             )
+    )
+
+  (pp/pprint (sort by-salary-name-co2 people))
+  
+  (defn my-< [a b]
+    (println "(my-<" a b ") returns " (< a b))
+    (< a b)
+    )
+  
+  (. my-< (compare 1 2))
+
+  (. my-< (compare 2 1 ))
+
+  (. my-< (compare 1 1 ))
+
+  (. my-< (invoke 2 1))
+  
+  
+  
+  (defn by-2nd [a b]
+    (compare (second a) (second b)))
+  
+  (sorted-set-by by-2nd ["a" 1] ["b" 1] ["c" 1])
+  
+  (defn by-2nd-<= [a b]
+    (<= (second a) (second b)))
+  
+  (def sset (sorted-set-by by-2nd-<= ["a" 1] ["b" 1] ["c" 1]))
+  
+  sset
+  
+  (sset ["c" 1])  
+  (sset ["b" 1])
+  (sset ["a" 1])
+  
+  (defn by-number-then-string [[a-str a-num] [b-str b-num]]
+    (compare [a-num a-str]
+             [b-num b-str]))
+  
+  (defn by-number-then-whatever [a-vec b-vec]
+    (compare [(second a-vec) a-vec]
+             [(second b-vec) b-vec]))
+  
+  (sort by-number-then-whatever [["a" 2] ["c" 3] [:b 2]])
+
+  (doc cc-cmp)
   
   )
