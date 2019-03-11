@@ -692,7 +692,69 @@
 (comment 
   ;; https://clojure.org/guides/higher_order_functions
   
+  (defn what-is-a-higher-order-function []
+    "a higher order function is a function that either:
+1. Takes one or more functions as arguments
+2. returns a function as its result
+")
   
+  (what-is-a-higher-order-function)
   
+  (defn double-+
+    [a b]
+    (* 2 (+ a b))
+    )
+  
+  (defn double-*
+    [a b]
+    (* 2 (* a b)))
+  
+  (defn double-op
+    [f a b]
+    (* 2 (f a b))
+    )
+  
+  (def bands [{:name "Brown Beaters"   :genre :rock}
+              {:name "Sunday Sunshine" :genre :blues}
+              {:name "Foolish Beaters" :genre :rock}
+              {:name "Monday Blues"    :genre :blues}
+              {:name "Friday Fewer"    :genre :blues}
+              {:name "Saturday Stars"  :genre :jazz}
+              {:name "Sunday Brunch"   :genre :jazz}])
+  
+  (def rock-bands
+    (filter
+     (fn [band] (= :rock (:genre band)))
+     bands))
+  
+  (defn adder [x]
+    (fn [a] (+ x a)))
+  
+  (def add-five (adder 5))
+  
+  (add-five 100)
+  
+  (def pets [{:name "Fluffykins" :type :cat}
+             {:name "Sparky" :type :dog}
+             {:name "Tibby" :type :dog}
+             {:name "Al" :type :fish}
+             {:name "Victor" :type :bear}])
+  
+  (defn loop-dogs [pets]
+    (loop [pets pets
+           dogs []]
+      (if (first pets)
+        (recur (rest pets)
+               (if (= :dog (:type (first pets)))
+                 (conj dogs (first pets))
+                 dogs))
+        dogs)))
+  
+  (defn filter-dogs [pets]
+    (filter #(= :dog (:type %)) pets))
+  
+  (defn dog? [pet] (= :dog (:type pet)))
+  
+  (defn filter-dogs [pets] (filter dog? pets))
   
   )
