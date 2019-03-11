@@ -688,3 +688,11 @@
   
   )
 
+
+(comment 
+  ;; https://clojure.org/guides/higher_order_functions
+  
+  
+  
+  
+  )
