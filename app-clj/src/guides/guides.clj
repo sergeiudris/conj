@@ -395,6 +395,184 @@
   
   ;; equality
   
+  (= (float 314.0) (double 314.0))
+  
+  (= 3 3N)
+  
+  (= 2 2.0)
+  
+  (range 3)
+  
+  (= [0 1 2] (range 3))
+  
+  (= [0 1 2] '(0 1 2))
+  
+  (= [0 1 2] [0 2 1])
+  
+  (= [0 1] [0 1 2])
+  
+  (= '(0 1 2) '(0 1 2.0))
+  
+  
+  (def s1 #{1999 2001 3001})
+  
+  (def s2 (sorted-set 1999 2001 3001))
+  
+  (= s1 s2)
+  
+  (def m1 (sorted-map-by > 3 -7 5 10 15 20))
+  
+  (def m2 {3 -7 5 10 15 20})
+  
+  (= m1 m2)
+  
+  (def v1 ["a" "b" "c"])
+  
+  (def m1 {0 "a" 1 "b" 2 "c"})
+  
+  (v1 0)
+  
+  (m1 0)
+  
+  (= m1 v1)
+  
+  (def s1 (with-meta #{1 2 3} {:key1 "set 1"}))
+  
+  (def s2 (with-meta #{1 2 3} {:key1 "set 2 here"}))
+  
+  (binding [*print-meta* true] (pr-str s1) )
+  
+  (binding [*print-meta* true] (pr-str s2))
+  
+  (= s1 s2)
+  
+  (= (meta s1) (meta s2))
+  
+  (defrecord MyRec1 [a b])
+  
+  (def r1 (->MyRec1 1 2))
+  
+  r1
+  
+  (defrecord MyRec2 [a b])
+  
+  (def r2 (->MyRec2 1 2))
+  
+  r2
+  
+  (def m1 {:a 1 :b 2})
+  
+  (= r1 r2)
+  
+  (= r1 m1)
+  
+  (into {} r1)
+  
+  (= (into {} r1) m1)
+  
+  (= 1 1.0)
+  
+  (== 1 1.0)
+  
+  (def d1 (apply + (repeat 100 0.1)))
+  
+  d1
+  
+  (== d1 10.0)
+  (Math/sqrt -1)
+
+  ; (= ##NaN ##NaN)
+  
+  ; (== ##NaN ##NaN)
+  
+
+  ; (def s1 #{1.0 2.0 ##NaN})
+  
+  ; (s1 1.0)
+  
+  ; (s1 1.5)
+  
+  ; (s1 ##NaN)
+  
+  ; (disj s1 2.0)
+  
+  ; (disj s1 ##NaN)
+  
+  ; (= [1 ##NaN] [2 ##NaN])
+  
+
+  ; (def s2 #{ ##NaN 2.0 1.0})
+  
+  ; (= s1 s2)
+  
+  ; (identical? ##NaN ##NaN)
+  
+  ; (.equals ##NaN ##NaN)
+  
+
+  (hash ["a" 5 :c])
+
+  (hash (seq ["a" 5 :c]))
+
+  (hash '("a" 5 :c))
+  
+  (hash (conj clojure.lang.PersistentQueue/EMPTY "a" 5 :c))
+
+  (def java-list (java.util.ArrayList. [1 2 3]))
+
+  (def clj-vec [1 2 3])
+  
+  (= java-list clj-vec)
+
+  (class java-list)
+
+  (class clj-vec)
+  
+  (hash java-list)
+  
+  (hash clj-vec)
+  
+  (= [java-list] [clj-vec])
+  
+  (class {java-list 5})
+  
+  (= {java-list 5} {clj-vec 5})
+
+  (assoc {} java-list 5 clj-vec 3)
+
+  (class (hash-map java-list 5))
+  
+  (= (hash-map java-list 5) (hash-map clj-vec 5) )
+
+  (= (hash-set java-list) (hash-set clj-vec))
+  
+  (get (hash-map java-list 5) java-list)
+  (get (hash-map java-list 5) clj-vec)
+
+  (conj #{} java-list clj-vec)
+
+  (hash-map java-list 5 clj-vec 3)
+  
+  (def grid-keys (for [x (range 100), y (range 100)] [x y] ))
+
+  (count grid-keys)
+  
+  (take 5 grid-keys)
+  
+  (take-last 5 grid-keys)
+  
+  (count (group-by #(.hashCode %) grid-keys ))
+
+  (= (float 1.0e9) (double 1.0e9))
+  
+  (map hash [(float 1.0e9) (double 1.0e9)])
+
+  (hash-map (float 1.0e9) :float-one (double 1.0e9) :oops )
+  
+  )
+
+
+(comment
   
   
   
