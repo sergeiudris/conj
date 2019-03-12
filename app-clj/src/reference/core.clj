@@ -191,7 +191,120 @@
   ;; https://clojure.org/reference/data_structures
   
 
-      
+  (defstruct desilu :fred :ricky)
+  
+  (def x (map (fn [n]
+                (struct-map desilu
+                  :fred n
+                  :ricky 2
+                  :lucy 3
+                  :ethel 4
+                  )
+                )
+              (range 100000)
+              ))
+  
+  (def fred (accessor desilu :fred))
+  
+  (reduce (fn [n y] (+ n (:fred y)) ) 0 x )
+  
+  (reduce (fn [n y] (+ n (fred y))) 0 x)
+  
+  
+  
+  )
+
+(comment
+  
+  ;; https://clojure.org/reference/multimethods
+  
+  ::rect
+  
+  (derive ::rect ::shape)
+  
+  (derive ::square ::rect)
+  
+  (parents ::rect)
+  
+  (ancestors ::square)
+  
+  (descendants ::shape)
+  
+  (isa? 42 42)
+  
+  (isa? ::square ::shape)
+  
+  (isa?  ::shape ::square)
+  
+  (derive java.util.Map ::collection)
+  (derive java.util.Collection ::collection)
+  
+  (isa? java.util.HashMap ::collection)
+  
+  (isa? String Object)
+  
+  (ancestors java.util.ArrayList)
+  
+  
+  (isa? [::square ::rect] [::shape ::shape])
+  
+  (defmulti foo class)
+  
+  (defmethod foo ::collection [c] :a-collection )
+  
+  (defmethod foo String [s] :a-string )
+  
+  (foo [])
+  
+  (foo (java.util.HashMap. ))
+  
+  (foo "bar")
+  
+  
+  
+  (defmulti bar (fn [x y] [x y] ))
+  (defmethod bar [::rect ::shape] [x y] :rect-shape)
+  (defmethod bar [ ::shape ::rect] [x y] :shape-rect)
+
+  (bar ::rect ::rect)
+  
+  (prefer-method bar [::rect ::shape] [::shape ::rect] )
+  
+  (bar ::rect ::rect)
+  
+  
+  
+  (defmulti area :Shape)
+  
+  (defn rect [wd ht] {:Shape :Rect :wd wd :ht ht} )
+  
+  (defn circle [radius] {:Shape :Circle :radius radius }  )
+  
+  (defmethod area :Rect [r]
+    (* (:wd r) (:ht r) ) 
+    )
+
+  (defmethod area :Circle [c]
+    (* (. Math PI) (* (:radius c) (:radius c) ) ))
+
+  (defmethod area :default [x] :oops )
+  
+  (def r (rect 4 13) )
+
+  (def c (circle 12))
+  
+  (area r)
+  
+  (area c)
+  
+  (area {})
+  
+  
+  
+  
+  
+  
+  
   
   
   )
