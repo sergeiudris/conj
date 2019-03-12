@@ -140,3 +140,58 @@
 
 
   )
+
+
+(comment
+  
+  ;; https://clojure.org/reference/special_forms
+  
+  (defn constrained-sqr [x]
+    {
+     :pre [(pos? x)]
+     :post [(> % 16) (< % 225)]
+     }
+    (* x x)
+    )
+  
+  (constrained-sqr 14)
+  
+  (def factorial
+    (fn [n]
+      (loop [cnt n acc 1]
+        (if (zero? cnt)
+          acc
+          (recur (dec cnt) (* acc cnt) )
+          )
+        )
+      )
+    )
+  
+  
+  )
+
+
+(comment
+  
+  ;;   https://clojure.org/reference/macros
+  
+  
+  (doc macroexpand)
+  
+  (macroexpand '(when (pos? a) (println "positive") (/ b a) ))
+  
+  (macroexpand '(-> {} (assoc :a 1) (assoc :b 2) ) )
+  
+  
+  
+  )
+
+(comment 
+  
+  ;; https://clojure.org/reference/data_structures
+  
+
+      
+  
+  
+  )
