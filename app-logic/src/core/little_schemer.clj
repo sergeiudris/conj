@@ -820,7 +820,7 @@ that does not contain an empty list"
 (intersect '(1 2) '(3 4 1 1 2  2))
 
 
-(clojure.set/union #{1 2} #{3})
+; (clojure.set/union #{1 2} #{3})
 
 (defn union
   "union of two sets"
