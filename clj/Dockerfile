@@ -23,7 +23,8 @@ RUN apt-get update && \
     # apt install -y oracle-java10-set-default
     # apt install default-jre
 
-RUN apt-get install -y openjdk-11-jdk
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk
 
 RUN curl -O https://download.clojure.org/install/linux-install-1.10.0.411.sh && \
     chmod +x linux-install-1.10.0.411.sh && \
