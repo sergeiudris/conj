@@ -1,5 +1,4 @@
-// Copyright (c) Cognitect, Inc.
-// All rights reserved.
+
 
 /*
  * This file contains code examples for getting-started.html. They are

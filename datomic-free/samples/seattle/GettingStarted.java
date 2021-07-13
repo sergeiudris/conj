@@ -1,5 +1,4 @@
-// Copyright (c) Cognitect, Inc.
-// All rights reserved.
+
 
 /*
  * To compile, from the top-level project directory
